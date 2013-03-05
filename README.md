@@ -1,4 +1,8 @@
-taggle.js
+Taggle.js
 =========
 
-Delicious style tagging jquery plugin
+jQuery Plugin for Delicious style tagging
+
+Will update soon.
+
+[Demo](http://seancoker.com/projects/tagglejs/)
