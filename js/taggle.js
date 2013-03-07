@@ -19,7 +19,7 @@
  * Taggle is a simple delicious style tagging plugin for jQuery
  *
  * @author Sean Coker <sean@seancoker.com>
- * @url http://seancoker.com/projects/tagglejs/
+ * @url http://seancoker.com/projects/tagglejs
  *
  */
 
@@ -30,7 +30,7 @@
 		var defaults = {
 
 			/**
-			 * Classe names to be added on each tag entered
+			 * Class names to be added on each tag entered
 			 * @type {String}
 			 */
 			additionalTagClasses:	'',
@@ -46,18 +46,6 @@
 			 * @type {String}
 			 */
 			duplicateTagClass:		'',
-
-			/**
-			 * Class name for the list container of tags
-			 * @type {String}
-			 */
-			tagListClass:			'taggle_list',
-
-			/**
-			 * Class name added on invisible input field where user types
-			 * @type {String}
-			 */
-			inputClass:				'taggle_input',
 
 			/**
 			 * Class added to the container div when focused
@@ -115,9 +103,9 @@
 			 * @return {[type]}
 			 */
 			function setupEl() {
-				tag_list.className = settings.tagListClass;
+				tag_list.className = 'taggle_list';
 				tag_input.type = 'text';
-				tag_input.className = settings.inputClass;
+				tag_input.className = 'taggle_input';
 				tag_input.tabIndex = settings.tabIndex;
 
 				if (settings.tags !== null) {
