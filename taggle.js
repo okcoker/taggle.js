@@ -136,7 +136,9 @@
                 }
                 if (!!settings.placeholder) {
                     placeholder.text(settings.placeholder);
-                    placeholder.fadeIn('fast');
+                    if (!settings.tags.length) {
+                        placeholder.fadeIn('fast');
+                    }
                 }
 
                 tag_input_li.appendChild(tag_input);
