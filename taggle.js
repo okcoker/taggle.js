@@ -113,7 +113,10 @@
 						tag_list.innerHTML += '<li class="taggle ' +
 						settings.additionalTagClasses + '">' +
 						settings.tags[i] +
-						'<a href="javascript:void(0)" class="close">&times;</a></li>';
+						'<a href="javascript:void(0)" class="close">&times;</a>' +
+						'<input type="hidden" value="' +
+						settings.tags[i] + '" name="' +
+						settings.hiddenInputName +'"></li>';
 						the_tags.push(settings.tags[i].toLowerCase());
 					}
 				}
@@ -199,8 +202,7 @@
 			}
 
 			/**
-			 * Activated when backspace key is pressed, removes last tag if
-			 * it has already been probed
+			 * Removes last tag if it has already been probed
 			 * @param  {Event}  e
 			 * @return {void}
 			 */
@@ -324,11 +326,7 @@
 				if (isConfirmKey(e) && tag_input.value !== '') {
 					listenForTagConfirm(e);
 				}
-				//backspace
-				if (e.keyCode === 8) {
-
-					chargeLastTag(e);
-				}
+				chargeLastTag(e);
 			}
 
 			/**
@@ -346,6 +344,8 @@
 			 * @return {Boolean}
 			 */
 			function listenForTagConfirm(e) {
+				e = e || window.event;
+
 				var code = e.keyCode,
 					last_taggle = container.find('.taggle:last'),
 					dupes;
@@ -358,7 +358,6 @@
 				if (!dupes || settings.allowDuplicates) {
 					confirmTag();
 				}
-
 				e.preventDefault();
 				return false;
 
