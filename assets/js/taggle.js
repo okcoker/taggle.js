@@ -1,4 +1,3 @@
-/*global $, jQuery */
 /*jshint scripturl:true, smarttabs:true */
 
 /**
@@ -23,398 +22,522 @@
  *
  */
 
-(function($) {
+;(function(window, document, undefined) {
 
-    $.fn.taggle = function(options) {
+    var defaults = {
 
-        var defaults = {
+        /**
+         * Class names to be added on each tag entered
+         * @type {String}
+         */
+        additionalTagClasses:   '',
 
-            /**
-             * Class names to be added on each tag entered
-             * @type {String}
-             */
-            additionalTagClasses:   '',
+        /**
+         * Allow duplicate tags to be entered in the field?
+         * @type {Boolean}
+         */
+        allowDuplicates:        false,
 
-            /**
-             * Allow duplicate tags to be entered in the field?
-             * @type {Boolean}
-             */
-            allowDuplicates:        false,
+        /**
+         * Class name that will be added onto duplicate existant tag
+         * @type {String}
+         */
+        duplicateTagClass:      '',
 
-            /**
-             * Class name that will be added onto duplicate existant tag
-             * @type {String}
-             */
-            duplicateTagClass:      '',
+        /**
+         * Class added to the container div when focused
+         * @type {String}
+         */
+        containerFocusClass:    'active',
 
-            /**
-             * Class added to the container div when focused
-             * @type {String}
-             */
-            containerFocusClass:    'active',
+        /**
+         * Name added to the hidden inputs within each tag
+         * @type {String}
+         */
+        hiddenInputName:        'taggles[]',
 
-            /**
-             * Name added to the hidden inputs within each tag
-             * @type {String}
-             */
-            hiddenInputName:        'taggles[]',
+        /**
+         * Tags that should be preloaded in the div on load
+         * @type {Array}
+         */
+        tags:                   null,
 
-            /**
-             * Tags that should be preloaded in the div on load
-             * @type {Array}
-             */
-            tags:                   null,
+        /**
+         * Approximate font size (px) of the tags. Used to estimate where
+         * to break when typing
+         * @type {Number}
+         */
+        fontSize:               11,
 
-            /**
-             * Approximate font size (px) of the tags. Used to estimate where
-             * to break when typing
-             * @type {Number}
-             */
-            fontSize:               11,
+        /**
+         * If within a form, you can specify the tab index flow
+         * @type {Number}
+         */
+        tabIndex:               1,
 
-            /**
-             * If within a form, you can specify the tab index flow
-             * @type {Number}
-             */
-            tabIndex:               1,
+        /**
+         * Placeholder string to be placed in an empty taggle field
+         * @type {String}
+         */
+        placeholder:            ''
+    },
 
-            /**
-             * Placeholder string to be placed in an empty taggle field
-             * @type {String}
-             */
-            placeholder:            ''
-        };
-
-        var settings = $.extend({}, defaults, options);
-
-        return this.each(function() {
-            var container = $(this),
-
-                the_tags = [],
-                tag_list = document.createElement('ul'),
-                tag_input_li = document.createElement('li'),
-                tag_input = document.createElement('input'),
-                placeholder = $('<span>');
-
-
-            /**
-             * Fire off initializers
-             */
-            function init() {
-                setupEl();
-                attachEvents();
-            }
-
-            /**
-             * Setup the div container for tags to be entered
-             * @return {[type]}
-             */
-            function setupEl() {
-                tag_list.className = 'taggle_list';
-                tag_input.type = 'text';
-                tag_input.className = 'taggle_input';
-                tag_input.tabIndex = settings.tabIndex;
-                placeholder.css('display', 'none').addClass('taggle_placeholder');
-                container.append(placeholder);
-
-                if (settings.tags !== null) {
-                    for (var i = 0; i < settings.tags.length; i++) {
-                        tag_list.innerHTML += '<li class="taggle ' +
-                        settings.additionalTagClasses + '">' +
-                        settings.tags[i] +
-                        '<a href="javascript:void(0)" class="close">&times;</a>' +
-                        '<input type="hidden" value="' +
-                        settings.tags[i] + '" name="' +
-                        settings.hiddenInputName +'"></li>';
-                        the_tags.push(settings.tags[i].toLowerCase());
-                    }
-                }
-                if (!!settings.placeholder) {
-                    placeholder.text(settings.placeholder);
-                    if (!settings.tags.length) {
-                        placeholder.fadeIn('fast');
-                    }
-                }
-
-                tag_input_li.appendChild(tag_input);
-                tag_list.appendChild(tag_input_li);
-                container.append(tag_list);
-            }
-
-            /**
-             * Attaches events, duh
-             * @return {void}
-             */
-            function attachEvents() {
-                container.on('click', function() {
-                    tag_input.focus();
-                });
-
-                tag_input.onfocus = inputFocused;
-                tag_input.onblur = inputBlurred;
-
-                if (tag_input.addEventListener) {
-                    tag_input.addEventListener('keydown', keydownEvents, false);
-                    tag_input.addEventListener('keyup', keyupEvents, false);
-                } else if (tag_input.attachEvent) {
-                    tag_input.attachEvent('onkeydown', keydownEvents);
-                    tag_input.attachEvent('onkeyup', keyupEvents);
-                }
-
-                container.find('.close').one('click', removeTag);
-            }
-
-            /**
-             * Resizes the hidden input where user types to fill in the
-             * width of the div
-             * @return {void}
-             */
-            function fixInputWidth() {
-                //reset width incase we've broken to the next line on a backspace erase
-                setInputWidth();
-
-                var width = ~~container.width(),
-                    left_pos = ~~container.find('.taggle_input').offset().left - ~~container.offset().left,
-                    padding = container.outerWidth() - width;
-
-                    setInputWidth(width - left_pos - padding);
-            }
-
-            /**
-             * Appends tag with its corresponding input to the list
-             * @param  {String} tag
-             * @return {void}
-             */
-            function confirmTag(tag) {
-                var li = document.createElement('li'),
-                    a = document.createElement('a'),
-                    hidden = document.createElement('input'),
-                    tag_input_value = tag ? tag.toLowerCase() : $.trim(tag_input.value.toLowerCase());
-
-                a.href = 'javascript:void(0)';
-                a.innerHTML = '&times;';
-                a.className = 'close';
-                a.onclick = removeTag;
-                li.innerHTML = tag_input_value;
-                li.className = 'taggle ' + settings.additionalTagClasses;
-                hidden.type = 'hidden';
-                hidden.value = tag_input_value;
-                if (settings.hiddenInputName) {
-                    hidden.name = settings.hiddenInputName;
-                }
-
-                the_tags.push(tag_input_value);
-
-                li.appendChild(a);
-                li.appendChild(hidden);
-
-                $(tag_list).find('li:last').before(li);
-                $(li).find('.close:last').on('click', removeTag);
-
-                tag_input.value = '';
-                setInputWidth();
-                fixInputWidth();
-            }
-
-            /**
-             * Removes last tag if it has already been probed
-             * @param  {Event}  e
-             * @return {void}
-             */
-            function chargeLastTag(e) {
-                e = e || window.event;
-
-                var last_taggle = container.find('.taggle:last'),
-                    hot_class = 'hot';
-
-                //8 - backspace
-                if (tag_input.value === '' && e.keyCode === 8) {
-                    if (last_taggle.hasClass(hot_class)) {
-                        removeFromTheTags(last_taggle[0]);
-                        last_taggle.remove();
-                        fixInputWidth();
-                    }
-                    else {
-                        last_taggle.addClass(hot_class);
-                    }
-                } else if (last_taggle.hasClass(hot_class)) {
-                    last_taggle.removeClass(hot_class);
-                }
-            }
-
-            /**
-             * Grabs the text from the li item and removes it from global array
-             * @param  {Element} el
-             * @return {void}
-             */
-            function removeFromTheTags(el) {
-                var elm = el.tagName === 'A' ? el.parentNode : el;
-                    text = elm.textContent || elm.innerText;
-
-                text = text.slice(0, -1);
-
-                the_tags.splice(the_tags.indexOf(text), 1);
-            }
-
-            /**
-             * Setter for the hidden input.
-             * @param {Number} width
-             * @return {void}
-             */
-            function setInputWidth(width) {
-                tag_input.style.width = (width || 10) + 'px';
-            }
-
-            /**
-             * Checks global tags array if provided tag exists
-             * @param  {String} tag
-             * @return {void}
-             */
-            function checkForDupes(tag) {
-                var tag_input_value = tag ? tag.toLowerCase() : $.trim(tag_input.value.toLowerCase()),
-                    needle = $.inArray(tag_input_value.toLowerCase(), the_tags),
-                    taggle_list = container.find('.taggle_list');
-
-                if (!!settings.duplicateTagClass && taggle_list.find('.' + settings.duplicateTagClass).length) {
-                    taggle_list.find('.' + settings.duplicateTagClass).removeClass(settings.duplicateTagClass);
-                }
-
-                //if found
-                if (needle > -1) {
-                    taggle_list.children()[needle].className += ' ' + settings.duplicateTagClass;
-                    return true;
-                }
-                return false;
-            }
-
-            /**
-             * Checks whether or not the key pressed is acceptable
-             * @param  {Event}  e
-             * @return {Boolean}
-             */
-            function isConfirmKey(e) {
-                var code = e.keyCode,
-                    isConfirm = false;
-                // comma or tab or enter
-                if (code === 188 || code === 9 || code === 13) {
-                    isConfirm = true;
-                }
-
-                return isConfirm;
-            }
-
-            //event handlers
-
-            /**
-             * Handles focus state of div container.
-             * @return {void}
-             */
-            function inputFocused() {
-                fixInputWidth();
-                if (!container.hasClass(settings.containerFocusClass)) {
-                    container.addClass(settings.containerFocusClass);
-                }
-                if (!!settings.placeholder) {
-                    placeholder.fadeOut('fast');
-                }
-            }
-
-            /**
-             * Sets state of container when blurred
-             * @return {void}
-             */
-            function inputBlurred() {
-                tag_input.value = '';
-                setInputWidth();
-                if (container.hasClass(settings.containerFocusClass)) {
-                    container.removeClass(settings.containerFocusClass);
-                }
-                if (!the_tags.length && settings.placeholder) {
-                    placeholder.fadeIn('fast');
-                }
-            }
-
-            /**
-             * Runs all the events that need to run on keydown
-             * @param  {Event} e
-             * @return {void}
-             */
-            function keydownEvents(e) {
-                e = e || window.event;
-
-                listenForEndOfContainer();
-                // comma or tab or enter
-                if (isConfirmKey(e) && tag_input.value !== '') {
-                    listenForTagConfirm(e);
-                }
-                chargeLastTag(e);
-            }
-
-            /**
-             * Runs all the events that need to run on keyup
-             * @param  {Event} e
-             * @return {void}
-             */
-            function keyupEvents(e) {
-                e = e || window.event;
-            }
-
-            /**
-             * Confirms the inputted value to be converted to a tag
-             * @param  {Event} e
-             * @return {Boolean}
-             */
-            function listenForTagConfirm(e) {
-                e = e || window.event;
-
-                var code = e.keyCode,
-                    last_taggle = container.find('.taggle:last'),
-                    dupes;
-
-
-                //tab, enter
-                if (code === 9 || code === 13) {
-                    dupes = checkForDupes();
-                }
-                if (!dupes || settings.allowDuplicates) {
-                    confirmTag();
-                }
-                e.preventDefault();
-                return false;
-
-            }
-
-            /**
-             * Approximates when the hidden input should break to the next line
-             * @return {void}
-             */
-            function listenForEndOfContainer() {
-                var apx_width = (settings.fontSize / 8) * 4.5 * tag_input.value.length, //32px wide input = 5chars = 11px font
-                    padding = container.outerWidth() - container.width(),
-                    max = container.outerWidth() - padding;
-
-                if (apx_width + 5 > parseInt(tag_input.style.width, 10)) {
-                    tag_input.style.width = max + 'px';
-                }
-            }
-
-            /**
-             * Removes tag from the list and global tags array
-             * @param  {Event} e
-             * @return {void}
-             */
-            function removeTag(e) {
-                e = e || window.event;
-                var li = $(e.target).parent('li');
-
-                li.remove();
-                inputFocused();
-                removeFromTheTags(e.target);
-            }
-
-
-            // Bang bang bang skeet skeet
-            init();
-        });
+    measurements = {
+        container: {
+            rect: null,
+            style: null,
+            side_padding: null
+        }
     };
-})(jQuery);
+
+    function on(element, eventName, handler) {
+        if (element.addEventListener) {
+            element.addEventListener(eventName, handler, false);
+        }
+        else if (element.attachEvent) {
+            element.attachEvent('on' + eventName, handler);
+        }
+        else {
+            element['on' + eventName] = handler;
+        }
+    }
+
+    function off(element, eventName, handler) {
+        if (element.addEventListener) {
+            element.removeEventListener(eventName, handler, false);
+        }
+        else if (element.detachEvent) {
+            element.detachEvent('on' + eventName, handler);
+        }
+        else {
+            element['on' + eventName] = null;
+        }
+    }
+
+    function one(element, eventName, handler) {
+        on(element, eventName, function() {
+            handler();
+            off(element, eventName, handler);
+        });
+    }
+
+    function trim(str) {
+        return str.replace(/^\s+|\s+$/g, '');
+    }
+
+    function bind(object, method, args) {
+        return function() {
+            return method.apply(object, args);
+        };
+    }
+
+    var Taggle = function(el, options) {
+        var self = this;
+        self.container = el;
+        self.options = self.extend(defaults, options);
+        self.the_tags = [];
+        self.tag_list = document.createElement('ul');
+        self.tag_input_li = document.createElement('li');
+        self.tag_input = document.createElement('input');
+        self.placeholder = document.createElement('span');
+
+        if (typeof el === 'string') {
+            self.container = document.getElementById(el);
+        }
+
+        // Bang bang bang skeet skeet
+        self.getMeasurements();
+        self.setupTextarea();
+        self.attachEvents();
+    };
+
+    Taggle.prototype.extend = function() {
+        if (arguments.length < 2) {
+            return;
+        }
+        var master = arguments[0];
+        for (var i = 1, l = arguments.length; i < l; i++) {
+            var object = arguments[i];
+            for (var key in object) {
+                if (object.hasOwnProperty(key)) {
+                    master[key] = object[key];
+                }
+            }
+        }
+
+        return master;
+    };
+
+    /**
+     * Gets all the layout measurements up front
+     */
+    Taggle.prototype.getMeasurements = function() {
+        var self = this,
+            style;
+
+        measurements.container.rect = self.container.getBoundingClientRect();
+        measurements.container.style = window.getComputedStyle(self.container);
+
+        style = measurements.container.style;
+        measurements.container.side_padding = parseInt(style['padding-left'], 10) + parseInt(style['padding-right'], 10);
+    };
+
+    /**
+     * Setup the div container for tags to be entered
+     */
+    Taggle.prototype.setupTextarea = function() {
+        var self = this;
+        self.tag_list.className = 'taggle_list';
+        self.tag_input.type = 'text';
+        self.tag_input.className = 'taggle_input';
+        self.tag_input.tabIndex = self.options.tabIndex;
+        self.placeholder.style.display = 'none';
+        self.placeholder.classList.add('taggle_placeholder');
+        self.container.appendChild(self.placeholder);
+
+        if (self.options.tags !== null) {
+            for (var i = 0; i < self.options.tags.length; i++) {
+                self.tag_list.innerHTML += '<li class="taggle ' +
+                self.options.additionalTagClasses + '">' +
+                self.options.tags[i] +
+                '<a href="javascript:void(0)" class="close">&times;</a>' +
+                '<input type="hidden" value="' +
+                self.options.tags[i] + '" name="' +
+                self.options.hiddenInputName +'"></li>';
+                self.the_tags.push(self.options.tags[i].toLowerCase());
+            }
+        }
+
+        if (!!self.options.placeholder) {
+            self.placeholder.textContent = self.options.placeholder;
+            if (!self.options.tags.length) {
+                self.placeholder.style.opacity = 1;
+            }
+        }
+
+        self.tag_input_li.appendChild(self.tag_input);
+        self.tag_list.appendChild(self.tag_input_li);
+        self.container.appendChild(self.tag_list);
+    };
+
+    /**
+     * Attaches events, duh
+     * @return {void}
+     */
+    Taggle.prototype.attachEvents = function() {
+        var self = this,
+            closes;
+
+        on(self.container, 'click', function() {
+            self.tag_input.focus();
+        });
+
+        self.tag_input.onfocus = bind(self, self.inputFocused);
+        self.tag_input.onblur = bind(self, self.inputBlurred);
+
+        on(self.tag_input, 'keydown', bind(self, self.keydownEvents));
+        on(self.tag_input, 'keyup', bind(self, self.keyupEvents));
+
+        closes = self.container.querySelectorAll('.close');
+
+        for (var i = 0, len = closes.length; i < len; i++) {
+            one(closes[i], 'click', bind(self, self.removeTag, [closes[i]]));
+        }
+    };
+
+    /**
+     * Resizes the hidden input where user types to fill in the
+     * width of the div
+     * @return {void}
+     */
+    Taggle.prototype.fixInputWidth = function() {
+        var self = this,
+            width,
+            input_rect,
+            left_pos,
+            padding;
+        //reset width incase we've broken to the next line on a backspace erase
+        self.setInputWidth();
+
+        input_rect = self.tag_input.getBoundingClientRect();
+        width = ~~measurements.container.rect.width;
+        left_pos = ~~input_rect.left - ~~measurements.container.rect.left;
+        padding = measurements.container.side_padding;
+
+        self.setInputWidth(width - left_pos - padding);
+    };
+
+    /**
+     * Appends tag with its corresponding input to the list
+     * @param  {String} tag
+     * @return {void}
+     */
+    Taggle.prototype.confirmTag = function(tag) {
+        var self = this,
+            li = document.createElement('li'),
+            a = document.createElement('a'),
+            hidden = document.createElement('input'),
+            val = self.tag_input.value,
+            tag_input_value = tag ? tag.toLowerCase() : trim(val.toLowerCase()),
+            last_li, close;
+
+        a.href = 'javascript:void(0)';
+        a.innerHTML = '&times;';
+        a.className = 'close';
+        a.onclick = bind(self, self.removeTag, [a]);
+
+        li.innerHTML = tag_input_value;
+        li.className = 'taggle ' + self.options.additionalTagClasses;
+
+        hidden.type = 'hidden';
+        hidden.value = tag_input_value;
+        hidden.name = self.options.hiddenInputName;
+
+        self.the_tags.push(tag_input_value);
+
+        li.appendChild(a);
+        li.appendChild(hidden);
+
+        last_li = self.tag_list.querySelector('li:last-child');
+        self.tag_list.insertBefore(li, last_li);
+        close = li.querySelector('.close');
+
+        one(close, 'click', bind(self, self.removeTag, [close]));
+
+        self.tag_input.value = '';
+        self.setInputWidth();
+        self.fixInputWidth();
+    };
+
+    /**
+     * Removes last tag if it has already been probed
+     * @param  {Event}  e
+     * @return {void}
+     */
+    Taggle.prototype.chargeLastTag = function(e) {
+        e = e || window.event;
+
+        var self = this,
+            taggles = self.container.querySelectorAll('.taggle'),
+            last_taggle = taggles[taggles.length - 1],
+            hot_class = 'hot';
+
+        //8 - backspace
+        if (self.tag_input.value === '' && e.keyCode === 8) {
+            if (last_taggle.classList.contains(hot_class)) {
+                self.removeFromTheTags(last_taggle);
+                last_taggle.remove();
+                self.fixInputWidth();
+            }
+            else {
+                last_taggle.classList.add(hot_class);
+            }
+        }
+        else if (last_taggle.classList.contains(hot_class)) {
+            last_taggle.classList.remove(hot_class);
+        }
+    };
+
+    /**
+     * Grabs the text from the li item and removes it from global array
+     * @param  {Element} el
+     * @return {void}
+     */
+    Taggle.prototype.removeFromTheTags = function(el) {
+        var self = this,
+            elem = (el.tagName.toLowerCase() === 'a') ? el.parentNode : el,
+            text = elem.textContent || elem.innerText;
+
+        text = text.slice(0, -1);
+
+        self.the_tags.splice(self.the_tags.indexOf(text), 1);
+    };
+
+    /**
+     * Setter for the hidden input.
+     * @param {Number} width
+     * @return {void}
+     */
+    Taggle.prototype.setInputWidth = function(width) {
+        this.tag_input.style.width = (width || 10) + 'px';
+    };
+
+    /**
+     * Checks global tags array if provided tag exists
+     * @param  {String} tag
+     * @return {void}
+     */
+    Taggle.prototype.checkForDupes = function(tag) {
+        var self = this,
+            val = self.tag_input.value,
+            tag_input_value = tag ? tag.toLowerCase() : trim(val.toLowerCase()),
+            needle = self.the_tags.indexOf(tag_input_value),
+            taggle_list = self.container.querySelector('.taggle_list'),
+            dupes = taggle_list.querySelectorAll('.' + self.options.duplicateTagClass);
+
+        if (!!self.options.duplicateTagClass && dupes.length) {
+            for (var i = 0, len = dupes.length; i < len; i++) {
+                dupes[i].classList.remove(self.options.duplicateTagClass);
+            }
+        }
+
+        //if found
+        if (needle > -1) {
+            if (self.options.duplicateTagClass) {
+                taggle_list.childNodes[needle].classList.add(self.options.duplicateTagClass);
+            }
+            return true;
+        }
+
+        return false;
+    };
+
+    /**
+     * Checks whether or not the key pressed is acceptable
+     * @param  {Event}  e
+     * @return {Boolean}
+     */
+    Taggle.prototype.isConfirmKey = function(e) {
+        var code = e.keyCode,
+            confirm_key = false;
+        // comma or tab or enter
+        if (code === 188 || code === 9 || code === 13) {
+            confirm_key = true;
+        }
+
+        return confirm_key;
+    };
+
+    //event handlers
+
+    /**
+     * Handles focus state of div container.
+     * @return {void}
+     */
+    Taggle.prototype.inputFocused = function() {
+        var self = this;
+
+        self.fixInputWidth();
+
+        if (!self.container.classList.contains(self.options.containerFocusClass)) {
+            self.container.classList.add(self.options.containerFocusClass);
+        }
+
+        if (!!self.options.placeholder) {
+            self.placeholder.style.opacity = 0;
+        }
+    };
+
+    /**
+     * Sets state of container when blurred
+     * @return {void}
+     */
+    Taggle.prototype.inputBlurred = function() {
+        var self = this;
+
+        self.tag_input.value = '';
+        self.setInputWidth();
+
+        if (self.container.classList.contains(self.options.containerFocusClass)) {
+            self.container.classList.remove(self.options.containerFocusClass);
+        }
+
+        if (!self.the_tags.length && self.options.placeholder) {
+            self.placeholder.style.opacity = 1;
+        }
+    };
+
+    /**
+     * Runs all the events that need to run on keydown
+     * @param  {Event} e
+     * @return {void}
+     */
+    Taggle.prototype.keydownEvents = function(e) {
+        e = e || window.event;
+
+        var self = this;
+
+        self.listenForEndOfContainer();
+
+        if (self.isConfirmKey(e) && self.tag_input.value !== '') {
+            self.listenForTagConfirm(e);
+        }
+
+        self.chargeLastTag(e);
+    };
+
+    /**
+     * Runs all the events that need to run on keyup
+     * @param  {Event} e
+     * @return {void}
+     */
+    Taggle.prototype.keyupEvents = function(e) {
+        e = e || window.event;
+    };
+
+    /**
+     * Confirms the inputted value to be converted to a tag
+     * @param  {Event} e
+     * @return {Boolean}
+     */
+    Taggle.prototype.listenForTagConfirm = function(e) {
+        e = e || window.event;
+
+        var self = this,
+            code = e.keyCode,
+            dupes;
+
+
+        //tab, enter
+        if (code === 9 || code === 13) {
+            dupes = self.checkForDupes();
+        }
+
+        if (!dupes || self.options.allowDuplicates) {
+            self.confirmTag();
+        }
+
+        if (e.preventDefault) {
+            e.preventDefault();
+        }
+        else {
+            e.returnValue = false;
+        }
+    };
+
+    /**
+     * Approximates when the hidden input should break to the next line
+     * @return {void}
+     */
+    Taggle.prototype.listenForEndOfContainer = function() {
+        // apx_width: 32px wide input = 5chars = 11px font
+        // alternative would be to make an invisible div and measure its width
+        // eh. maybe eventually.
+        var self = this,
+            apx_width = (self.options.fontSize / 8) * 4.5 * self.tag_input.value.length,
+            max = measurements.container.width - measurements.container.side_padding;
+
+        if (apx_width + 5 > parseInt(self.tag_input.style.width, 10)) {
+            self.tag_input.style.width = max + 'px';
+        }
+    };
+
+    /**
+     * Removes tag from the list and global tags array
+     * @param  {Event} e
+     * @return {void}
+     */
+    Taggle.prototype.removeTag = function(e) {
+        e = e || window.event;
+        var self = this,
+            targ = e.target || e,
+            li = targ.parentNode;
+
+        li.parentNode.removeChild(li);
+        self.inputFocused();
+        self.removeFromTheTags(targ);
+    };
+
+    window.Taggle = Taggle;
+
+}(window, document));
