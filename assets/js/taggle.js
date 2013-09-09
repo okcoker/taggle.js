@@ -1,8 +1,3 @@
-// ==ClosureCompiler==
-// @output_file_name default.js
-// @compilation_level SIMPLE_OPTIMIZATIONS
-// ==/ClosureCompiler==
-
 /*global $, jQuery */
 /*jshint scripturl:true, smarttabs:true */
 
