@@ -15,11 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Taggle is a simple delicious style tagging plugin for jQuery
- *
+ */
+ /*!
  * @author Sean Coker <sean@seancoker.com>
- * @url http://seancoker.com/projects/tagglejs
- *
+ * @url http://sean.is/poppin/tags
+ * @description Taggle is a simple delicious style tagging plugin
  */
 
 ;(function(window, document, undefined) {
@@ -135,8 +135,8 @@
         var self = this;
         self.container = el;
         self.options = self.extend(defaults, options);
-        self.the_tags = [];
-        self.tag_list = document.createElement('ul');
+        self.tags = [];
+        self.list = document.createElement('ul');
         self.tag_input_li = document.createElement('li');
         self.tag_input = document.createElement('input');
         self.placeholder = document.createElement('span');
@@ -187,7 +187,7 @@
      */
     Taggle.prototype.setupTextarea = function() {
         var self = this;
-        self.tag_list.className = 'taggle_list';
+        self.list.className = 'taggle_list';
         self.tag_input.type = 'text';
         self.tag_input.className = 'taggle_input';
         self.tag_input.tabIndex = self.options.tabIndex;
@@ -197,14 +197,14 @@
 
         if (self.options.tags !== null) {
             for (var i = 0; i < self.options.tags.length; i++) {
-                self.tag_list.innerHTML += '<li class="taggle ' +
+                self.list.innerHTML += '<li class="taggle ' +
                 self.options.additionalTagClasses + '">' +
                 self.options.tags[i] +
                 '<a href="javascript:void(0)" class="close">&times;</a>' +
                 '<input type="hidden" value="' +
                 self.options.tags[i] + '" name="' +
                 self.options.hiddenInputName +'"></li>';
-                self.the_tags.push(self.options.tags[i].toLowerCase());
+                self.tags.push(self.options.tags[i].toLowerCase());
             }
         }
 
@@ -216,13 +216,12 @@
         }
 
         self.tag_input_li.appendChild(self.tag_input);
-        self.tag_list.appendChild(self.tag_input_li);
-        self.container.appendChild(self.tag_list);
+        self.list.appendChild(self.tag_input_li);
+        self.container.appendChild(self.list);
     };
 
     /**
      * Attaches events, duh
-     * @return {void}
      */
     Taggle.prototype.attachEvents = function() {
         var self = this,
@@ -248,7 +247,6 @@
     /**
      * Resizes the hidden input where user types to fill in the
      * width of the div
-     * @return {void}
      */
     Taggle.prototype.fixInputWidth = function() {
         var self = this,
@@ -270,16 +268,15 @@
     /**
      * Appends tag with its corresponding input to the list
      * @param  {String} tag
-     * @return {void}
      */
-    Taggle.prototype.confirmTag = function(tag) {
+    Taggle.prototype.add = function(tag) {
         var self = this,
             li = document.createElement('li'),
             a = document.createElement('a'),
             hidden = document.createElement('input'),
-            val = self.tag_input.value,
-            tag_input_value = tag ? tag.toLowerCase() : trim(val.toLowerCase()),
-            last_li, close;
+            input = self.tag_input,
+            tag_input_value = tag ? tag.toLowerCase() : trim(input.value.toLowerCase()),
+            last_li;
 
         a.href = 'javascript:void(0)';
         a.innerHTML = '&times;';
@@ -293,26 +290,24 @@
         hidden.value = tag_input_value;
         hidden.name = self.options.hiddenInputName;
 
-        self.the_tags.push(tag_input_value);
+        self.tags.push(tag_input_value);
 
         li.appendChild(a);
         li.appendChild(hidden);
 
-        last_li = self.tag_list.querySelector('li:last-child');
-        self.tag_list.insertBefore(li, last_li);
-        close = li.querySelector('.close');
-
-        one(close, 'click', bind(self, self.removeTag, [close]));
+        last_li = self.list.querySelector('li:last-child');
+        self.list.insertBefore(li, last_li);
 
         self.tag_input.value = '';
         self.setInputWidth();
         self.fixInputWidth();
+
+        return self;
     };
 
     /**
      * Removes last tag if it has already been probed
      * @param  {Event}  e
-     * @return {void}
      */
     Taggle.prototype.chargeLastTag = function(e) {
         e = e || window.event;
@@ -341,7 +336,6 @@
     /**
      * Grabs the text from the li item and removes it from global array
      * @param  {Element} el
-     * @return {void}
      */
     Taggle.prototype.removeFromTheTags = function(el) {
         var self = this,
@@ -350,13 +344,12 @@
 
         text = text.slice(0, -1);
 
-        self.the_tags.splice(self.the_tags.indexOf(text), 1);
+        self.tags.splice(self.tags.indexOf(text), 1);
     };
 
     /**
      * Setter for the hidden input.
      * @param {Number} width
-     * @return {void}
      */
     Taggle.prototype.setInputWidth = function(width) {
         this.tag_input.style.width = (width || 10) + 'px';
@@ -365,13 +358,12 @@
     /**
      * Checks global tags array if provided tag exists
      * @param  {String} tag
-     * @return {void}
      */
     Taggle.prototype.checkForDupes = function(tag) {
         var self = this,
             val = self.tag_input.value,
             tag_input_value = tag ? tag.toLowerCase() : trim(val.toLowerCase()),
-            needle = self.the_tags.indexOf(tag_input_value),
+            needle = self.tags.indexOf(tag_input_value),
             taggle_list = self.container.querySelector('.taggle_list'),
             dupes = taggle_list.querySelectorAll('.' + self.options.duplicateTagClass);
 
@@ -412,7 +404,6 @@
 
     /**
      * Handles focus state of div container.
-     * @return {void}
      */
     Taggle.prototype.inputFocused = function() {
         var self = this;
@@ -430,7 +421,6 @@
 
     /**
      * Sets state of container when blurred
-     * @return {void}
      */
     Taggle.prototype.inputBlurred = function() {
         var self = this;
@@ -442,7 +432,7 @@
             self.container.classList.remove(self.options.containerFocusClass);
         }
 
-        if (!self.the_tags.length && self.options.placeholder) {
+        if (!self.tags.length && self.options.placeholder) {
             self.placeholder.style.opacity = 1;
         }
     };
@@ -450,7 +440,6 @@
     /**
      * Runs all the events that need to run on keydown
      * @param  {Event} e
-     * @return {void}
      */
     Taggle.prototype.keydownEvents = function(e) {
         e = e || window.event;
@@ -469,7 +458,6 @@
     /**
      * Runs all the events that need to run on keyup
      * @param  {Event} e
-     * @return {void}
      */
     Taggle.prototype.keyupEvents = function(e) {
         e = e || window.event;
@@ -494,7 +482,7 @@
         }
 
         if (!dupes || self.options.allowDuplicates) {
-            self.confirmTag();
+            self.add();
         }
 
         if (e.preventDefault) {
@@ -507,7 +495,6 @@
 
     /**
      * Approximates when the hidden input should break to the next line
-     * @return {void}
      */
     Taggle.prototype.listenForEndOfContainer = function() {
         // apx_width: 32px wide input = 5chars = 11px font
@@ -515,7 +502,7 @@
         // eh. maybe eventually.
         var self = this,
             apx_width = (self.options.fontSize / 8) * 4.5 * self.tag_input.value.length,
-            max = measurements.container.width - measurements.container.side_padding;
+            max = measurements.container.rect.width - measurements.container.side_padding;
 
         if (apx_width + 5 > parseInt(self.tag_input.style.width, 10)) {
             self.tag_input.style.width = max + 'px';
@@ -525,7 +512,6 @@
     /**
      * Removes tag from the list and global tags array
      * @param  {Event} e
-     * @return {void}
      */
     Taggle.prototype.removeTag = function(e) {
         e = e || window.event;
