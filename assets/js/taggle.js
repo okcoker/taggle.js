@@ -60,14 +60,7 @@
          * Tags that should be preloaded in the div on load
          * @type {Array}
          */
-        tags:                   null,
-
-        /**
-         * Approximate font size (px) of the tags. Used to estimate where
-         * to break when typing
-         * @type {Number}
-         */
-        fontSize:               11,
+        tags:                   [],
 
         /**
          * If within a form, you can specify the tab index flow
@@ -497,15 +490,14 @@
      * Approximates when the hidden input should break to the next line
      */
     Taggle.prototype.listenForEndOfContainer = function() {
-        // apx_width: 32px wide input = 5chars = 11px font
-        // alternative would be to make an invisible div and measure its width
-        // eh. maybe eventually.
         var self = this,
-            apx_width = (self.options.fontSize / 8) * 4.5 * self.tag_input.value.length,
-            max = measurements.container.rect.width - measurements.container.side_padding;
+            width = self.sizer.getBoundingClientRect().width,
+            max = self.measurements.container.rect.width - self.measurements.container.side_padding,
+            size = parseInt(self.sizer.style.fontSize, 10);
 
-        if (apx_width + 5 > parseInt(self.tag_input.style.width, 10)) {
-            self.tag_input.style.width = max + 'px';
+        //1.5 just seems to be a good multiplier here
+        if (width + (size * 1.5) > parseInt(self.input.style.width, 10)) {
+            self.input.style.width = max + 'px';
         }
     };
 
