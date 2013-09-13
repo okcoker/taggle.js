@@ -115,6 +115,11 @@
         }
 
         // Bang bang bang skeet skeet
+        self.init();
+    };
+
+    Taggle.prototype.init = function() {
+        var self = this;
         self.getMeasurements();
         self.setupTextarea();
         self.attachEvents();
@@ -241,23 +246,21 @@
 
     /**
      * Removes last tag if it has already been probed
-     * @param  {Event}  e
      */
-    Taggle.prototype.chargeLastTag = function(e) {
+    Taggle.prototype.checkLastTag = function(e) {
         e = e || window.event;
 
         var self = this,
             taggles = self.container.querySelectorAll('.taggle'),
             last_taggle = taggles[taggles.length - 1],
-            hot_class = 'hot';
+            hot_class = 'taggle_hot';
 
         //8 - backspace
-        if (self.tag_input.value === '' && e.keyCode === 8) {
         if (self.input.value === '' && e.keyCode === BACKSPACE) {
             if (last_taggle.classList.contains(hot_class)) {
-                self.removeFromTheTags(last_taggle);
-                last_taggle.remove();
+                self.remove(last_taggle);
                 self.fixInputWidth();
+                self.focusInput();
             }
             else {
                 last_taggle.classList.add(hot_class);
@@ -273,22 +276,23 @@
      * @param {Number} width
      */
     Taggle.prototype.setInputWidth = function(width) {
-        this.tag_input.style.width = (width || 10) + 'px';
+        this.input.style.width = (width || 10) + 'px';
     };
 
     /**
      * Checks global tags array if provided tag exists
      * @param  {String} tag
      */
-    Taggle.prototype.checkForDupes = function(tag) {
+    Taggle.prototype.hasDupes = function(text) {
         var self = this,
-            val = self.tag_input.value,
-            tag_input_value = tag ? tag.toLowerCase() : trim(val.toLowerCase()),
-            needle = self.tags.indexOf(tag_input_value),
+            val = self.input.value,
+            tag_input_value = text ? text.toLowerCase() : _trim(val.toLowerCase()),
+            needle = self.tag.values.indexOf(tag_input_value),
             taggle_list = self.container.querySelector('.taggle_list'),
-            dupes = taggle_list.querySelectorAll('.' + self.options.duplicateTagClass);
+            dupes;
 
-        if (!!self.options.duplicateTagClass && dupes.length) {
+        if (!!self.options.duplicateTagClass) {
+            dupes = taggle_list.querySelectorAll('.' + self.options.duplicateTagClass);
             for (var i = 0, len = dupes.length; i < len; i++) {
                 dupes[i].classList.remove(self.options.duplicateTagClass);
             }
@@ -326,7 +330,7 @@
     /**
      * Handles focus state of div container.
      */
-    Taggle.prototype.inputFocused = function() {
+    Taggle.prototype.focusInput = function() {
         var self = this;
 
         self.fixInputWidth();
@@ -335,7 +339,7 @@
             self.container.classList.add(self.options.containerFocusClass);
         }
 
-        if (!!self.options.placeholder) {
+        if (self.placeholder) {
             self.placeholder.style.opacity = 0;
         }
     };
@@ -343,17 +347,17 @@
     /**
      * Sets state of container when blurred
      */
-    Taggle.prototype.inputBlurred = function() {
+    Taggle.prototype.blurInput = function() {
         var self = this;
 
-        self.tag_input.value = '';
+        self.input.value = '';
         self.setInputWidth();
 
         if (self.container.classList.contains(self.options.containerFocusClass)) {
             self.container.classList.remove(self.options.containerFocusClass);
         }
 
-        if (!self.tags.length && self.options.placeholder) {
+        if (!self.tag.values.length && self.placeholder) {
             self.placeholder.style.opacity = 1;
         }
     };
@@ -369,11 +373,13 @@
 
         self.listenForEndOfContainer();
 
-        if (self.isConfirmKey(e) && self.tag_input.value !== '') {
+        if (self.isConfirmKey(e) && self.input.value !== '') {
             self.listenForTagConfirm(e);
         }
 
-        self.chargeLastTag(e);
+        if (self.tag.values.length) {
+            self.checkLastTag(e);
+        }
     };
 
     /**
