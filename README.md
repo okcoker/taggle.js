@@ -1,7 +1,7 @@
 Taggle.js
 =========
 
-jQuery Plugin for Delicious style tagging
+Form-ready delicious style tagging.
 
 [Demo & Docs](http://sean.is/poppin/tags/)
 
