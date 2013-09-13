@@ -24,9 +24,12 @@ var faux = ['.net','accounting','acting','adobe creative suite','advertising','a
         source: faux,
         appendTo: container,
         position: { at: "left bottom", of: container },
-        close: function() {
-            // Add the autocompleted value
-            example4.add();
+        select: function(e) {
+            e.preventDefault();
+            //Add the tag if user clicks
+            if (e.which === 1) {
+                example4.add();
+            }
         }
     });
 

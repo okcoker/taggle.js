@@ -125,9 +125,10 @@ p a:hover {
 /* line 107, ../../../sass/projects/taggle/taggle.scss */
 .ui-menu .ui-menu-item a:hover {
   color: #fff;
+  background: #990033;
 }
 
-/* line 117, ../../../sass/projects/taggle/taggle.scss */
+/* line 118, ../../../sass/projects/taggle/taggle.scss */
 .ui-state-hover,
 .ui-widget-content .ui-state-hover,
 .ui-widget-header .ui-state-hover,
@@ -135,18 +136,18 @@ p a:hover {
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
   background: #990033;
-  color: #fff;
+  color: #fff !important;
 }
 
-/* line 125, ../../../sass/projects/taggle/taggle.scss */
+/* line 126, ../../../sass/projects/taggle/taggle.scss */
 .ui-state-hover a,
 .ui-state-hover a:hover,
 .ui-state-hover a:link,
 .ui-state-hover a:visited {
-  color: #212121;
+  color: #fff;
 }
 
-/* line 131, ../../../sass/projects/taggle/taggle.scss */
+/* line 132, ../../../sass/projects/taggle/taggle.scss */
 .ui-state-active,
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active {
@@ -156,12 +157,12 @@ p a:hover {
   color: #212121;
 }
 
-/* line 138, ../../../sass/projects/taggle/taggle.scss */
+/* line 139, ../../../sass/projects/taggle/taggle.scss */
 .ui-helper-hidden {
   display: none;
 }
 
-/* line 142, ../../../sass/projects/taggle/taggle.scss */
+/* line 143, ../../../sass/projects/taggle/taggle.scss */
 .ui-helper-hidden-accessible {
   border: 0;
   clip: rect(0 0 0 0);
@@ -174,74 +175,74 @@ p a:hover {
 }
 
 @-webkit-keyframes bounce {
-  /* line 155, ../../../sass/projects/taggle/taggle.scss */
+  /* line 156, ../../../sass/projects/taggle/taggle.scss */
   0%, 20%, 50%, 80%, 100% {
     -webkit-transform: translateY(0);
   }
 
-  /* line 160, ../../../sass/projects/taggle/taggle.scss */
+  /* line 161, ../../../sass/projects/taggle/taggle.scss */
   40% {
     -webkit-transform: translateY(-16px);
   }
 
-  /* line 165, ../../../sass/projects/taggle/taggle.scss */
+  /* line 166, ../../../sass/projects/taggle/taggle.scss */
   60% {
     -webkit-transform: translateY(-7px);
   }
 }
 
 @-moz-keyframes bounce {
-  /* line 172, ../../../sass/projects/taggle/taggle.scss */
+  /* line 173, ../../../sass/projects/taggle/taggle.scss */
   0%, 20%, 50%, 80%, 100% {
     -moz-transform: translateY(0);
   }
 
-  /* line 177, ../../../sass/projects/taggle/taggle.scss */
+  /* line 178, ../../../sass/projects/taggle/taggle.scss */
   40% {
     -moz-transform: translateY(-16px);
   }
 
-  /* line 182, ../../../sass/projects/taggle/taggle.scss */
+  /* line 183, ../../../sass/projects/taggle/taggle.scss */
   60% {
     -moz-transform: translateY(-7px);
   }
 }
 
 @-o-keyframes bounce {
-  /* line 189, ../../../sass/projects/taggle/taggle.scss */
+  /* line 190, ../../../sass/projects/taggle/taggle.scss */
   0%, 20%, 50%, 80%, 100% {
     -o-transform: translateY(0);
   }
 
-  /* line 194, ../../../sass/projects/taggle/taggle.scss */
+  /* line 195, ../../../sass/projects/taggle/taggle.scss */
   40% {
     -o-transform: translateY(-16px);
   }
 
-  /* line 199, ../../../sass/projects/taggle/taggle.scss */
+  /* line 200, ../../../sass/projects/taggle/taggle.scss */
   60% {
     -o-transform: translateY(-7px);
   }
 }
 
 @keyframes bounce {
-  /* line 206, ../../../sass/projects/taggle/taggle.scss */
+  /* line 207, ../../../sass/projects/taggle/taggle.scss */
   0%, 20%, 50%, 80%, 100% {
     transform: translateY(0);
   }
 
-  /* line 211, ../../../sass/projects/taggle/taggle.scss */
+  /* line 212, ../../../sass/projects/taggle/taggle.scss */
   40% {
     transform: translateY(-16px);
   }
 
-  /* line 216, ../../../sass/projects/taggle/taggle.scss */
+  /* line 217, ../../../sass/projects/taggle/taggle.scss */
   60% {
     transform: translateY(-7px);
   }
 }
 
-/* line 221, ../../../sass/projects/taggle/taggle.scss */
+/* line 222, ../../../sass/projects/taggle/taggle.scss */
 .bounce {
   -webkit-animation-name: bounce;
   -moz-animation-name: bounce;
@@ -249,14 +250,14 @@ p a:hover {
   animation-name: bounce;
 }
 
-/* line 228, ../../../sass/projects/taggle/taggle.scss */
+/* line 229, ../../../sass/projects/taggle/taggle.scss */
 #forkongithub a {
   background: #990033;
   color: white;
 }
 
 /*plugin specific styles*/
-/* line 231, ../../../sass/projects/taggle/taggle.scss */
+/* line 232, ../../../sass/projects/taggle/taggle.scss */
 .clearfix:before, .clearfix:after {
   display: block;
   content: "";
@@ -264,13 +265,13 @@ p a:hover {
   clear: both;
 }
 
-/* line 238, ../../../sass/projects/taggle/taggle.scss */
+/* line 239, ../../../sass/projects/taggle/taggle.scss */
 .taggle_list {
   float: left;
   width: 100%;
 }
 
-/* line 243, ../../../sass/projects/taggle/taggle.scss */
+/* line 244, ../../../sass/projects/taggle/taggle.scss */
 .taggle_input {
   border: none;
   outline: none;
@@ -278,7 +279,7 @@ p a:hover {
   font-weight: 300;
 }
 
-/* line 250, ../../../sass/projects/taggle/taggle.scss */
+/* line 251, ../../../sass/projects/taggle/taggle.scss */
 .taggle_list li {
   float: left;
   display: inline-block;
@@ -287,7 +288,7 @@ p a:hover {
   margin-bottom: 5px;
 }
 
-/* line 258, ../../../sass/projects/taggle/taggle.scss */
+/* line 259, ../../../sass/projects/taggle/taggle.scss */
 .taggle_list .taggle {
   margin-right: 8px;
   background: #E2E1DF;
@@ -309,12 +310,12 @@ p a:hover {
   animation-fill-mode: both;
 }
 
-/* line 276, ../../../sass/projects/taggle/taggle.scss */
+/* line 277, ../../../sass/projects/taggle/taggle.scss */
 .taggle_list .taggle_hot {
   background: #cac8c4;
 }
 
-/* line 280, ../../../sass/projects/taggle/taggle.scss */
+/* line 281, ../../../sass/projects/taggle/taggle.scss */
 .taggle_list .taggle .close {
   font-size: 1.1rem;
   position: absolute;
@@ -330,7 +331,7 @@ p a:hover {
   display: none;
 }
 
-/* line 295, ../../../sass/projects/taggle/taggle.scss */
+/* line 296, ../../../sass/projects/taggle/taggle.scss */
 .taggle_list .taggle:hover {
   padding: 5px;
   padding-right: 15px;
@@ -341,17 +342,17 @@ p a:hover {
   transition: all 0.3s;
 }
 
-/* line 302, ../../../sass/projects/taggle/taggle.scss */
+/* line 303, ../../../sass/projects/taggle/taggle.scss */
 .taggle_list .taggle:hover > .close {
   display: block;
 }
 
-/* line 306, ../../../sass/projects/taggle/taggle.scss */
+/* line 307, ../../../sass/projects/taggle/taggle.scss */
 .taggle_list .taggle .close:hover {
   color: #990033;
 }
 
-/* line 310, ../../../sass/projects/taggle/taggle.scss */
+/* line 311, ../../../sass/projects/taggle/taggle.scss */
 .taggle_placeholder {
   position: absolute;
   color: #CCC;
@@ -366,7 +367,7 @@ p a:hover {
   -ms-user-select: none;
 }
 
-/* line 321, ../../../sass/projects/taggle/taggle.scss */
+/* line 322, ../../../sass/projects/taggle/taggle.scss */
 .taggle_input {
   padding: 8px;
   padding-left: 0;
@@ -377,7 +378,7 @@ p a:hover {
   max-width: 100%;
 }
 
-/* line 331, ../../../sass/projects/taggle/taggle.scss */
+/* line 332, ../../../sass/projects/taggle/taggle.scss */
 .taggle_sizer {
   padding: 0;
   margin: 0;
@@ -387,7 +388,7 @@ p a:hover {
   visibility: hidden;
 }
 
-/* line 341, ../../../sass/projects/taggle/taggle.scss */
+/* line 342, ../../../sass/projects/taggle/taggle.scss */
 .autocomplete {
   max-height: 200px;
   overflow: scroll;
@@ -399,20 +400,20 @@ p a:hover {
   z-index: 2;
 }
 
-/* line 352, ../../../sass/projects/taggle/taggle.scss */
+/* line 353, ../../../sass/projects/taggle/taggle.scss */
 .autocomplete ul li {
   display: block;
   padding: 6px 8px;
 }
 
-/* line 357, ../../../sass/projects/taggle/taggle.scss */
+/* line 358, ../../../sass/projects/taggle/taggle.scss */
 .autocomplete ul li.selected, .autocomplete ul li:hover {
   background: #ff6633;
   color: #fff;
   cursor: pointer;
 }
 
-/* line 364, ../../../sass/projects/taggle/taggle.scss */
+/* line 365, ../../../sass/projects/taggle/taggle.scss */
 .ui-autocomplete {
   max-height: 200px;
   overflow: scroll;
@@ -420,7 +421,7 @@ p a:hover {
 }
 
 /*container styles*/
-/* line 373, ../../../sass/projects/taggle/taggle.scss */
+/* line 374, ../../../sass/projects/taggle/taggle.scss */
 textarea.input,
 .textarea.input {
   border: 0;
@@ -443,7 +444,7 @@ textarea.input,
   position: relative;
 }
 
-/* line 390, ../../../sass/projects/taggle/taggle.scss */
+/* line 391, ../../../sass/projects/taggle/taggle.scss */
 .textarea.input:focus,
 .textarea.input.active,
 textarea.input:focus,
@@ -455,18 +456,18 @@ textarea.input.active {
   transition: all 0.25s;
 }
 
-/* line 396, ../../../sass/projects/taggle/taggle.scss */
+/* line 397, ../../../sass/projects/taggle/taggle.scss */
 .textarea.input,
 textarea.input {
   height: auto;
 }
 
-/* line 401, ../../../sass/projects/taggle/taggle.scss */
+/* line 402, ../../../sass/projects/taggle/taggle.scss */
 .textarea.tags {
   position: relative;
 }
 
-/* line 405, ../../../sass/projects/taggle/taggle.scss */
+/* line 406, ../../../sass/projects/taggle/taggle.scss */
 .textarea.tags * {
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
@@ -475,12 +476,12 @@ textarea.input {
   box-sizing: content-box;
 }
 
-/* line 414, ../../../sass/projects/taggle/taggle.scss */
+/* line 415, ../../../sass/projects/taggle/taggle.scss */
 .placeholder_input {
   position: relative;
 }
 
-/* line 418, ../../../sass/projects/taggle/taggle.scss */
+/* line 419, ../../../sass/projects/taggle/taggle.scss */
 .placeholder_input span {
   position: absolute;
   color: #AAA;
@@ -489,12 +490,12 @@ textarea.input {
   left: 10px;
 }
 
-/* line 426, ../../../sass/projects/taggle/taggle.scss */
+/* line 427, ../../../sass/projects/taggle/taggle.scss */
 .placeholder_input input {
   width: 120px;
 }
 
-/* line 430, ../../../sass/projects/taggle/taggle.scss */
+/* line 431, ../../../sass/projects/taggle/taggle.scss */
 .custom.textarea {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -503,7 +504,7 @@ textarea.input {
   -moz-box-shadow: none;
   box-shadow: none;
 }
-/* line 434, ../../../sass/projects/taggle/taggle.scss */
+/* line 435, ../../../sass/projects/taggle/taggle.scss */
 .custom.textarea .taggle {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -511,13 +512,13 @@ textarea.input {
   padding: 5px;
   padding-right: 20px;
 }
-/* line 439, ../../../sass/projects/taggle/taggle.scss */
+/* line 440, ../../../sass/projects/taggle/taggle.scss */
 .custom.textarea .taggle .close {
   display: inline-block;
   right: 3px;
 }
 
-/* line 446, ../../../sass/projects/taggle/taggle.scss */
+/* line 447, ../../../sass/projects/taggle/taggle.scss */
 .custom.delicious {
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.01, #eeeeee), color-stop(0.15, white));
   background-image: -webkit-linear-gradient(top, #eeeeee 1%, white 15%);
@@ -528,7 +529,7 @@ textarea.input {
   border: 1px solid #AAA;
   min-height: 50px;
 }
-/* line 456, ../../../sass/projects/taggle/taggle.scss */
+/* line 457, ../../../sass/projects/taggle/taggle.scss */
 .custom.delicious.active {
   border-color: #3274D1;
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.01, #eeeeee), color-stop(0.15, white));
@@ -538,7 +539,7 @@ textarea.input {
   background-image: -ms-linear-gradient(top, #eeeeee 1%, white 15%);
   background-image: linear-gradient(to bottom, #eeeeee 1%, #ffffff 15%);
 }
-/* line 466, ../../../sass/projects/taggle/taggle.scss */
+/* line 467, ../../../sass/projects/taggle/taggle.scss */
 .custom.delicious .taggle {
   color: #444;
   -webkit-border-radius: 0;
@@ -556,7 +557,7 @@ textarea.input {
   padding: 5px;
   padding-left: 20px;
 }
-/* line 477, ../../../sass/projects/taggle/taggle.scss */
+/* line 478, ../../../sass/projects/taggle/taggle.scss */
 .custom.delicious .taggle .close {
   color: #aaa;
   font-size: 0.9rem;
@@ -567,17 +568,17 @@ textarea.input {
   right: auto;
   left: 5px;
 }
-/* line 487, ../../../sass/projects/taggle/taggle.scss */
+/* line 488, ../../../sass/projects/taggle/taggle.scss */
 .custom.delicious .taggle .close:hover {
   color: #888;
 }
 
-/* line 494, ../../../sass/projects/taggle/taggle.scss */
+/* line 495, ../../../sass/projects/taggle/taggle.scss */
 .custom.stackoverflow {
   border: 1px solid #ccc;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-/* line 498, ../../../sass/projects/taggle/taggle.scss */
+/* line 499, ../../../sass/projects/taggle/taggle.scss */
 .custom.stackoverflow .taggle {
   color: #3E6D8E;
   -webkit-border-radius: 0;
@@ -586,11 +587,11 @@ textarea.input {
   background-color: #E0EAF1;
   font-weight: 200;
 }
-/* line 504, ../../../sass/projects/taggle/taggle.scss */
+/* line 505, ../../../sass/projects/taggle/taggle.scss */
 .custom.stackoverflow .taggle.taggle_hot {
   background: #BDD0DD;
 }
-/* line 508, ../../../sass/projects/taggle/taggle.scss */
+/* line 509, ../../../sass/projects/taggle/taggle.scss */
 .custom.stackoverflow .taggle .close {
   color: #aaa;
   -webkit-border-radius: 0.7rem;
@@ -602,7 +603,7 @@ textarea.input {
   line-height: .1rem;
   margin-top: 3px;
 }
-/* line 517, ../../../sass/projects/taggle/taggle.scss */
+/* line 518, ../../../sass/projects/taggle/taggle.scss */
 .custom.stackoverflow .taggle .close:hover {
   background: #C03434;
   color: #fff;

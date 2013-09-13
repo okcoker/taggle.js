@@ -18,7 +18,7 @@
  */
  /*!
  * @author Sean Coker <sean@seancoker.com>
- * @Version 1.1.0
+ * @Version 1.1.1
  * @url http://sean.is/poppin/tags
  * @description Taggle is a simple delicious style tagging plugin
  */
@@ -131,13 +131,16 @@
      */
     Taggle.prototype.getMeasurements = function() {
         var self = this,
-            style;
+            style,
+            lpad, rpad;
 
         self.measurements.container.rect = self.container.getBoundingClientRect();
         self.measurements.container.style = window.getComputedStyle(self.container);
 
         style = self.measurements.container.style;
-        self.measurements.container.side_padding = parseInt(style['padding-left'], 10) + parseInt(style['padding-right'], 10);
+        lpad = parseInt(style['padding-left'] || style['paddingLeft'], 10);
+        rpad = parseInt(style['padding-right'] || style['paddingRight'], 10);
+        self.measurements.container.side_padding =  lpad + rpad;
     };
 
     /**
@@ -190,11 +193,11 @@
             self.input.focus();
         });
 
-        self.input.onfocus = _bind(self, self.focusInput);
-        self.input.onblur = _bind(self, self.blurInput);
+        self.input.onfocus = self.focusInput.bind(self);
+        self.input.onblur = self.blurInput.bind(self);
 
-        _on(self.input, 'keydown', _bind(self, self.keydownEvents));
-        _on(self.input, 'keyup', _bind(self, self.keyupEvents));
+        _on(self.input, 'keydown', self.keydownEvents.bind(self));
+        _on(self.input, 'keyup', self.keyupEvents.bind(self));
     };
 
     /**
@@ -375,7 +378,8 @@
         self.listenForEndOfContainer();
 
         if (self.isConfirmKey(e) && self.input.value !== '') {
-            self.listenForTagConfirm(e);
+            self.confirmValidTagEvent(e);
+            return;
         }
 
         if (self.tag.values.length) {
@@ -398,18 +402,14 @@
      * @param  {Event} e
      * @return {Boolean}
      */
-    Taggle.prototype.listenForTagConfirm = function(e) {
+    Taggle.prototype.confirmValidTagEvent = function(e) {
         e = e || window.event;
 
-        var self = this,
-            code = e.keyCode;
+        var self = this;
 
+        self.add();
 
-        //tab, enter
-        if (code === TAB || code === ENTER) {
-            self.add();
-        }
-
+        //prevents from jumping out of textarea
         if (e.preventDefault) {
             e.preventDefault();
         }
@@ -445,7 +445,7 @@
         close.href = 'javascript:void(0)';
         close.innerHTML = '&times;';
         close.className = 'close';
-        close.onclick = _bind(self, self.remove, [close]);
+        close.onclick = self.remove.bind(self, close);
 
         span.textContent = text;
         span.className = 'taggle_text';
@@ -552,9 +552,26 @@
         return str.replace(/^\s+|\s+$/g, '');
     }
 
-    function _bind(object, method, args) {
-        return function() {
-            return method.apply(object, args);
+    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
+    if (!Function.prototype.bind) {
+        Function.prototype.bind = function (oThis) {
+            if (typeof this !== "function") {
+              // closest thing possible to the ECMAScript 5 internal IsCallable function
+              throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+            }
+
+            var aArgs = Array.prototype.slice.call(arguments, 1),
+                fToBind = this,
+                fNOP = function () {},
+                fBound = function () {
+                  return fToBind.apply(this instanceof fNOP && oThis ? this :
+                    oThis, aArgs.concat(Array.prototype.slice.call(arguments)));
+                };
+
+            fNOP.prototype = this.prototype;
+            fBound.prototype = new fNOP();
+
+            return fBound;
         };
     }
 
