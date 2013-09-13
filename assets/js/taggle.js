@@ -75,28 +75,40 @@
         placeholder:            'Enter tags...'
     },
 
-    measurements = {
-        container: {
-            rect: null,
-            style: null,
-            side_padding: null
-        }
-    };
-
     BACKSPACE = 8,
     COMMA = 188,
     TAB = 9,
     ENTER = 13;
 
+    /**
+     * Constructor
+     * @param {Mixed} el ID of an element or the actual element
+     * @param {Object} options
+     */
     var Taggle = function(el, options) {
         var self = this;
+
         self.container = el;
-        self.options = self.extend(defaults, options);
-        self.tags = [];
+        self.options = _extend({}, defaults, options);
+        self.tag = {
+            values: [],
+            elements: []
+        };
+        self.measurements = {
+            container: {
+                rect: null,
+                style: null,
+                side_padding: null
+            }
+        };
+
         self.list = document.createElement('ul');
-        self.tag_input_li = document.createElement('li');
-        self.tag_input = document.createElement('input');
-        self.placeholder = document.createElement('span');
+        self.input_li = document.createElement('li');
+        self.input = document.createElement('input');
+
+        if (self.options.placeholder) {
+            self.placeholder = document.createElement('span');
+        }
 
         if (typeof el === 'string') {
             self.container = document.getElementById(el);
@@ -115,11 +127,11 @@
         var self = this,
             style;
 
-        measurements.container.rect = self.container.getBoundingClientRect();
-        measurements.container.style = window.getComputedStyle(self.container);
+        self.measurements.container.rect = self.container.getBoundingClientRect();
+        self.measurements.container.style = window.getComputedStyle(self.container);
 
-        style = measurements.container.style;
-        measurements.container.side_padding = parseInt(style['padding-left'], 10) + parseInt(style['padding-right'], 10);
+        style = self.measurements.container.style;
+        self.measurements.container.side_padding = parseInt(style['padding-left'], 10) + parseInt(style['padding-right'], 10);
     };
 
     /**
@@ -197,10 +209,10 @@
         //reset width incase we've broken to the next line on a backspace erase
         self.setInputWidth();
 
-        input_rect = self.tag_input.getBoundingClientRect();
-        width = ~~measurements.container.rect.width;
-        left_pos = ~~input_rect.left - ~~measurements.container.rect.left;
-        padding = measurements.container.side_padding;
+        input_rect = self.input.getBoundingClientRect();
+        width = ~~self.measurements.container.rect.width;
+        left_pos = ~~input_rect.left - ~~self.measurements.container.rect.left;
+        padding = self.measurements.container.side_padding;
 
         self.setInputWidth(width - left_pos - padding);
     };
