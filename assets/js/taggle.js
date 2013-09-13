@@ -167,27 +167,20 @@
     };
 
     /**
-     * Attaches events, duh
+     * Attaches neccessary events
      */
     Taggle.prototype.attachEvents = function() {
-        var self = this,
-            closes;
+        var self = this;
 
-        on(self.container, 'click', function() {
-            self.tag_input.focus();
+        _on(self.container, 'click', function() {
+            self.input.focus();
         });
 
-        self.tag_input.onfocus = bind(self, self.inputFocused);
-        self.tag_input.onblur = bind(self, self.inputBlurred);
+        self.input.onfocus = _bind(self, self.focusInput);
+        self.input.onblur = _bind(self, self.blurInput);
 
-        on(self.tag_input, 'keydown', bind(self, self.keydownEvents));
-        on(self.tag_input, 'keyup', bind(self, self.keyupEvents));
-
-        closes = self.container.querySelectorAll('.close');
-
-        for (var i = 0, len = closes.length; i < len; i++) {
-            one(closes[i], 'click', bind(self, self.removeTag, [closes[i]]));
-        }
+        _on(self.input, 'keydown', _bind(self, self.keydownEvents));
+        _on(self.input, 'keyup', _bind(self, self.keyupEvents));
     };
 
     /**
@@ -265,20 +258,6 @@
         else if (last_taggle.classList.contains(hot_class)) {
             last_taggle.classList.remove(hot_class);
         }
-    };
-
-    /**
-     * Grabs the text from the li item and removes it from global array
-     * @param  {Element} el
-     */
-    Taggle.prototype.removeFromTheTags = function(el) {
-        var self = this,
-            elem = (el.tagName.toLowerCase() === 'a') ? el.parentNode : el,
-            text = elem.textContent || elem.innerText;
-
-        text = text.slice(0, -1);
-
-        self.tags.splice(self.tags.indexOf(text), 1);
     };
 
     /**
@@ -406,8 +385,7 @@
         e = e || window.event;
 
         var self = this,
-            code = e.keyCode,
-            dupes;
+            code = e.keyCode;
 
 
         //tab, enter
@@ -472,18 +450,24 @@
     };
 
     /**
-     * Removes tag from the list and global tags array
+     * Removes tag from the tags collection
      * @param  {Event} e
      */
-    Taggle.prototype.removeTag = function(e) {
+    Taggle.prototype.remove = function(e) {
         e = e || window.event;
         var self = this,
-            targ = e.target || e,
-            li = targ.parentNode;
+            targ = e.target || e.srcElement || e,
+            li = targ;
+
+        if (li.tagName.toLowerCase() !== 'li') {
+            li = li.parentNode;
+        }
 
         li.parentNode.removeChild(li);
-        self.inputFocused();
-        self.removeFromTheTags(targ);
+        _removeFromTheTags(li, self.tag);
+
+        self.focusInput();
+    };
     };
 
     function _extend() {
