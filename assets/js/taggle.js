@@ -83,46 +83,6 @@
         }
     };
 
-    function on(element, eventName, handler) {
-        if (element.addEventListener) {
-            element.addEventListener(eventName, handler, false);
-        }
-        else if (element.attachEvent) {
-            element.attachEvent('on' + eventName, handler);
-        }
-        else {
-            element['on' + eventName] = handler;
-        }
-    }
-
-    function off(element, eventName, handler) {
-        if (element.addEventListener) {
-            element.removeEventListener(eventName, handler, false);
-        }
-        else if (element.detachEvent) {
-            element.detachEvent('on' + eventName, handler);
-        }
-        else {
-            element['on' + eventName] = null;
-        }
-    }
-
-    function one(element, eventName, handler) {
-        on(element, eventName, function() {
-            handler();
-            off(element, eventName, handler);
-        });
-    }
-
-    function trim(str) {
-        return str.replace(/^\s+|\s+$/g, '');
-    }
-
-    function bind(object, method, args) {
-        return function() {
-            return method.apply(object, args);
-        };
-    }
 
     var Taggle = function(el, options) {
         var self = this;
@@ -142,23 +102,6 @@
         self.getMeasurements();
         self.setupTextarea();
         self.attachEvents();
-    };
-
-    Taggle.prototype.extend = function() {
-        if (arguments.length < 2) {
-            return;
-        }
-        var master = arguments[0];
-        for (var i = 1, l = arguments.length; i < l; i++) {
-            var object = arguments[i];
-            for (var key in object) {
-                if (object.hasOwnProperty(key)) {
-                    master[key] = object[key];
-                }
-            }
-        }
-
-        return master;
     };
 
     /**
@@ -515,6 +458,58 @@
         self.inputFocused();
         self.removeFromTheTags(targ);
     };
+
+    function _extend() {
+        if (arguments.length < 2) {
+            return;
+        }
+        var master = arguments[0];
+        for (var i = 1, l = arguments.length; i < l; i++) {
+            var object = arguments[i];
+            for (var key in object) {
+                if (object.hasOwnProperty(key)) {
+                    master[key] = object[key];
+                }
+            }
+        }
+
+        return master;
+    }
+
+    /**
+     * Grabs the text from the li item and removes it from global array
+     * @param  {Element} el
+     */
+    function _removeFromTheTags(el, tag) {
+        var elem = (el.tagName.toLowerCase() === 'a') ? el.parentNode : el,
+            index = tag.elements.indexOf(elem);
+
+        // Going to assume the indicies match for now
+        tag.elements.splice(index, 1);
+        tag.values.splice(index, 1);
+    }
+
+    function _on(element, eventName, handler) {
+        if (element.addEventListener) {
+            element.addEventListener(eventName, handler, false);
+        }
+        else if (element.attachEvent) {
+            element.attachEvent('on' + eventName, handler);
+        }
+        else {
+            element['on' + eventName] = handler;
+        }
+    }
+
+    function _trim(str) {
+        return str.replace(/^\s+|\s+$/g, '');
+    }
+
+    function _bind(object, method, args) {
+        return function() {
+            return method.apply(object, args);
+        };
+    }
 
     window.Taggle = Taggle;
 
