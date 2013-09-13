@@ -83,6 +83,10 @@
         }
     };
 
+    BACKSPACE = 8,
+    COMMA = 188,
+    TAB = 9,
+    ENTER = 13;
 
     var Taggle = function(el, options) {
         var self = this;
@@ -255,6 +259,7 @@
 
         //8 - backspace
         if (self.tag_input.value === '' && e.keyCode === 8) {
+        if (self.input.value === '' && e.keyCode === BACKSPACE) {
             if (last_taggle.classList.contains(hot_class)) {
                 self.removeFromTheTags(last_taggle);
                 last_taggle.remove();
@@ -328,8 +333,8 @@
     Taggle.prototype.isConfirmKey = function(e) {
         var code = e.keyCode,
             confirm_key = false;
-        // comma or tab or enter
-        if (code === 188 || code === 9 || code === 13) {
+
+        if (code === COMMA || code === TAB || code === ENTER) {
             confirm_key = true;
         }
 
@@ -413,11 +418,7 @@
 
 
         //tab, enter
-        if (code === 9 || code === 13) {
-            dupes = self.checkForDupes();
-        }
-
-        if (!dupes || self.options.allowDuplicates) {
+        if (code === TAB || code === ENTER) {
             self.add();
         }
 
