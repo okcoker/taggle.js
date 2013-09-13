@@ -148,15 +148,9 @@
         self.container.appendChild(self.placeholder);
 
         if (self.options.tags !== null) {
-            for (var i = 0; i < self.options.tags.length; i++) {
-                self.list.innerHTML += '<li class="taggle ' +
-                self.options.additionalTagClasses + '">' +
-                self.options.tags[i] +
-                '<a href="javascript:void(0)" class="close">&times;</a>' +
-                '<input type="hidden" value="' +
-                self.options.tags[i] + '" name="' +
-                self.options.hiddenInputName +'"></li>';
-                self.tags.push(self.options.tags[i].toLowerCase());
+            for (var i = 0, len = self.options.tags.length; i < len; i++) {
+                var tag = self.createTag(self.options.tags[i]);
+                self.list.appendChild(tag);
             }
         }
 
@@ -221,38 +215,25 @@
      * Appends tag with its corresponding input to the list
      * @param  {String} tag
      */
-    Taggle.prototype.add = function(tag) {
+    Taggle.prototype.add = function(text) {
         var self = this,
-            li = document.createElement('li'),
-            a = document.createElement('a'),
-            hidden = document.createElement('input'),
-            input = self.tag_input,
-            tag_input_value = tag ? tag.toLowerCase() : trim(input.value.toLowerCase()),
-            last_li;
+            val = typeof text === 'string' ? text.toLowerCase() :
+                _trim(self.input.value.toLowerCase()),
+            li, last_li;
 
-        a.href = 'javascript:void(0)';
-        a.innerHTML = '&times;';
-        a.className = 'close';
-        a.onclick = bind(self, self.removeTag, [a]);
+        if ((!self.options.allowDuplicates && self.hasDupes()) || val === '') {
+            return self;
+        }
 
-        li.innerHTML = tag_input_value;
-        li.className = 'taggle ' + self.options.additionalTagClasses;
-
-        hidden.type = 'hidden';
-        hidden.value = tag_input_value;
-        hidden.name = self.options.hiddenInputName;
-
-        self.tags.push(tag_input_value);
-
-        li.appendChild(a);
-        li.appendChild(hidden);
+        li = self.createTag(val);
 
         last_li = self.list.querySelector('li:last-child');
         self.list.insertBefore(li, last_li);
 
-        self.tag_input.value = '';
+        self.input.value = '';
         self.setInputWidth();
         self.fixInputWidth();
+        self.focusInput();
 
         return self;
     };
@@ -455,6 +436,39 @@
         if (width + (size * 1.5) > parseInt(self.input.style.width, 10)) {
             self.input.style.width = max + 'px';
         }
+    };
+
+    Taggle.prototype.createTag = function(text) {
+        var self = this;
+        var li = document.createElement('li');
+        var close = document.createElement('a');
+        var hidden = document.createElement('input');
+        var span = document.createElement('span');
+
+        text = text.toLowerCase();
+
+        close.href = 'javascript:void(0)';
+        close.innerHTML = '&times;';
+        close.className = 'close';
+        close.onclick = _bind(self, self.remove, [close]);
+
+        span.textContent = text;
+        span.className = 'taggle_text';
+
+        li.className = 'taggle ' + self.options.additionalTagClasses;
+
+        hidden.type = 'hidden';
+        hidden.value = text;
+        hidden.name = self.options.hiddenInputName;
+
+        li.appendChild(span);
+        li.appendChild(close);
+        li.appendChild(hidden);
+
+        self.tag.values.push(text);
+        self.tag.elements.push(li);
+
+        return li;
     };
 
     /**
