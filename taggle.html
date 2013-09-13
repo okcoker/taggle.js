@@ -84,12 +84,15 @@ var container = example4.getContainer();
 var input = example4.getInput();
 
 $(input).autocomplete({
-    source: [Your source of tags],
+    source: faux,
     appendTo: container,
     position: { at: "left bottom", of: container },
-    close: function() {
-        // Add the autocompleted value
-        example4.add();
+    select: function(e, v) {
+        e.preventDefault();
+        //Add the tag if user clicks
+        if (e.which === 1) {
+            example4.add(v.item.value);
+        }
     }
 });
             </pre>

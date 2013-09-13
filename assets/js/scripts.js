@@ -24,11 +24,11 @@ var faux = ['.net','accounting','acting','adobe creative suite','advertising','a
         source: faux,
         appendTo: container,
         position: { at: "left bottom", of: container },
-        select: function(e) {
+        select: function(e, v) {
             e.preventDefault();
             //Add the tag if user clicks
             if (e.which === 1) {
-                example4.add();
+                example4.add(v.item.value);
             }
         }
     });
