@@ -484,6 +484,25 @@
 
         self.focusInput();
     };
+
+    Taggle.prototype.getTags = function() {
+        return this.tag;
+    };
+
+    Taggle.prototype.getTagElements = function() {
+        return this.tag.elements;
+    };
+
+    Taggle.prototype.getTagValues = function() {
+        return this.tag.values;
+    };
+
+    Taggle.prototype.getInput = function() {
+        return this.input;
+    };
+
+    Taggle.prototype.getContainer = function() {
+        return this.container;
     };
 
     function _extend() {
