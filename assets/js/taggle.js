@@ -138,14 +138,14 @@
      * Setup the div container for tags to be entered
      */
     Taggle.prototype.setupTextarea = function() {
-        var self = this;
+        var self = this,
+            font_size;
         self.list.className = 'taggle_list';
-        self.tag_input.type = 'text';
-        self.tag_input.className = 'taggle_input';
-        self.tag_input.tabIndex = self.options.tabIndex;
-        self.placeholder.style.display = 'none';
-        self.placeholder.classList.add('taggle_placeholder');
-        self.container.appendChild(self.placeholder);
+        self.input.type = 'text';
+        self.input.className = 'taggle_input';
+        self.input.tabIndex = self.options.tabIndex;
+        self.sizer = document.createElement('div');
+        self.sizer.className = 'taggle_sizer';
 
         if (self.options.tags !== null) {
             for (var i = 0, len = self.options.tags.length; i < len; i++) {
@@ -154,16 +154,24 @@
             }
         }
 
-        if (!!self.options.placeholder) {
+        if (self.placeholder) {
+            self.placeholder.style.opacity = 0;
+            self.placeholder.classList.add('taggle_placeholder');
+            self.container.appendChild(self.placeholder);
             self.placeholder.textContent = self.options.placeholder;
+
             if (!self.options.tags.length) {
                 self.placeholder.style.opacity = 1;
             }
         }
 
-        self.tag_input_li.appendChild(self.tag_input);
-        self.list.appendChild(self.tag_input_li);
+        self.input_li.appendChild(self.input);
+        self.list.appendChild(self.input_li);
         self.container.appendChild(self.list);
+        self.container.appendChild(self.sizer);
+
+        font_size = window.getComputedStyle(self.input)['font-size'];
+        self.sizer.style.fontSize = font_size;
     };
 
     /**
@@ -374,6 +382,8 @@
      */
     Taggle.prototype.keyupEvents = function(e) {
         e = e || window.event;
+        var self = this;
+        self.sizer.textContent = self.input.value;
     };
 
     /**
