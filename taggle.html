@@ -1,12 +1,15 @@
+<!DOCTYPE html>
 <html style="background:url(assets/images/bg.png) repeat" class="no-js" lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
-<!--<![endif]-->
 <head>
 <title>Sean Coker | Taggle.js</title>
-<!--[if lt IE 8]>            <![endif]-->
+
 <meta charset="utf-8">
 <link type="text/css" href="assets/css/twilight.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="assets/css/projects.min.css">
 <link rel="stylesheet" type="text/css" href="assets/css/taggle.min.css">
+<!--[if lte IE 8]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
 </head>
 <body style="">
 <span id="forkongithub"><a href="https://github.com/okcoker/taggle.js" target="_blank">Fork me on GitHub</a></span>
@@ -55,7 +58,7 @@ new Taggle('example2', {
             <h5>Example 3 - Duplicate tag alert</h5>
             <div class="input textarea clearfix example3"></div>
             <p>This example takes advantage of how much CSS control Taggle.js allows you to have. Specify your own duplicate CSS class by using the <code>duplicateTagClass</code> option. Try entering one of the already existing tags to see a subtle alert notifying you of the tag.</p>
-            <blockquote>Note: the bounce animation happens as a result of the css class being added. Not javascript.</blockquote>
+            <blockquote>Note: the bounce animation happens as a result of the css class being added. Not javascript. Therefore you will not see the animation in IE9 and below.</blockquote>
         </article>
         <article class="block">
             <h6>HTML:</h6>
@@ -228,6 +231,8 @@ $(input).autocomplete({
 <script src="assets/js/jquery-1.10.1.js"></script>
 <script src="assets/js/jquery-ui.js"></script>
 <script src="assets/js/rainbow-custom.min.js"></script>
+<script src="assets/js/taggle-ie8.js"></script>
+<script src="assets/js/taggle-ie9.js"></script>
 <script src="assets/js/taggle.js"></script>
 <script src="assets/js/scripts.js"></script>
 </body>

@@ -18,7 +18,7 @@
  */
  /*!
  * @author Sean Coker <sean@seancoker.com>
- * @Version 1.1.1
+ * @Version 1.1.2
  * @url http://sean.is/poppin/tags
  * @description Taggle is a simple delicious style tagging plugin
  */
@@ -167,7 +167,7 @@
             self.placeholder.style.opacity = 0;
             self.placeholder.classList.add('taggle_placeholder');
             self.container.appendChild(self.placeholder);
-            self.placeholder.textContent = self.options.placeholder;
+            self.placeholder.innerText = self.options.placeholder;
 
             if (!self.options.tags.length) {
                 self.placeholder.style.opacity = 1;
@@ -178,7 +178,6 @@
         self.list.appendChild(self.input_li);
         self.container.appendChild(self.list);
         self.container.appendChild(self.sizer);
-
         font_size = window.getComputedStyle(self.input)['font-size'];
         self.sizer.style.fontSize = font_size;
     };
@@ -207,15 +206,21 @@
     Taggle.prototype.fixInputWidth = function() {
         var self = this,
             width,
-            input_rect,
+            input_rect, rect,
             left_pos,
             padding;
         //reset width incase we've broken to the next line on a backspace erase
         self.setInputWidth();
 
         input_rect = self.input.getBoundingClientRect();
-        width = ~~self.measurements.container.rect.width;
-        left_pos = ~~input_rect.left - ~~self.measurements.container.rect.left;
+        rect = self.measurements.container.rect;
+        width = ~~rect.width;
+        // Could probably just use right - left all the time
+        // but eh, this check is mostly for IE8
+        if (!width) {
+            width = ~~rect.right - ~~rect.left;
+        }
+        left_pos = ~~input_rect.left - ~~rect.left;
         padding = self.measurements.container.side_padding;
 
         self.setInputWidth(width - left_pos - padding);
@@ -229,15 +234,15 @@
         var self = this,
             val = typeof text === 'string' ? text.toLowerCase() :
                 _trim(self.input.value.toLowerCase()),
-            li, last_li;
+            li, lis, last_li;
 
         if ((!self.options.allowDuplicates && self.hasDupes()) || val === '') {
             return self;
         }
 
         li = self.createTag(val);
-
-        last_li = self.list.querySelector('li:last-child');
+        lis = self.list.querySelectorAll('li');
+        last_li = lis[lis.length - 1];
         self.list.insertBefore(li, last_li);
 
         self.input.value = '';
@@ -394,7 +399,7 @@
     Taggle.prototype.keyupEvents = function(e) {
         e = e || window.event;
         var self = this;
-        self.sizer.textContent = self.input.value;
+        self.sizer.innerText = self.input.value;
     };
 
     /**
@@ -447,7 +452,7 @@
         close.className = 'close';
         close.onclick = self.remove.bind(self, close);
 
-        span.textContent = text;
+        span.innerText = text;
         span.className = 'taggle_text';
 
         li.className = 'taggle ' + self.options.additionalTagClasses;
@@ -550,29 +555,6 @@
 
     function _trim(str) {
         return str.replace(/^\s+|\s+$/g, '');
-    }
-
-    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
-    if (!Function.prototype.bind) {
-        Function.prototype.bind = function (oThis) {
-            if (typeof this !== "function") {
-              // closest thing possible to the ECMAScript 5 internal IsCallable function
-              throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
-            }
-
-            var aArgs = Array.prototype.slice.call(arguments, 1),
-                fToBind = this,
-                fNOP = function () {},
-                fBound = function () {
-                  return fToBind.apply(this instanceof fNOP && oThis ? this :
-                    oThis, aArgs.concat(Array.prototype.slice.call(arguments)));
-                };
-
-            fNOP.prototype = this.prototype;
-            fBound.prototype = new fNOP();
-
-            return fBound;
-        };
     }
 
     window.Taggle = Taggle;
