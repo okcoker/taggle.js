@@ -167,7 +167,7 @@
             self.placeholder.style.opacity = 0;
             self.placeholder.classList.add('taggle_placeholder');
             self.container.appendChild(self.placeholder);
-            self.placeholder.innerText = self.options.placeholder;
+            _setText(self.placeholder, self.options.placeholder);
 
             if (!self.options.tags.length) {
                 self.placeholder.style.opacity = 1;
@@ -399,7 +399,7 @@
     Taggle.prototype.keyupEvents = function(e) {
         e = e || window.event;
         var self = this;
-        self.sizer.innerText = self.input.value;
+        _setText(self.sizer, self.input.value);
     };
 
     /**
@@ -452,7 +452,7 @@
         close.className = 'close';
         close.onclick = self.remove.bind(self, close);
 
-        span.innerText = text;
+        _setText(span, text);
         span.className = 'taggle_text';
 
         li.className = 'taggle ' + self.options.additionalTagClasses;
@@ -555,6 +555,15 @@
 
     function _trim(str) {
         return str.replace(/^\s+|\s+$/g, '');
+    }
+
+    function _setText(el, text) {
+        if (window.attachEvent && !window.addEventListener) { // <= IE8
+            el.innerText = text;
+        }
+        else {
+            el.textContent = text;
+        }
     }
 
     window.Taggle = Taggle;
