@@ -18,7 +18,7 @@
  */
  /*!
  * @author Sean Coker <sean@seancoker.com>
- * @Version 1.1.2
+ * @Version 1.1.3
  * @url http://sean.is/poppin/tags
  * @description Taggle is a simple delicious style tagging plugin
  */
