@@ -4,10 +4,13 @@ var faux = ['.net','accounting','acting','adobe creative suite','advertising','a
 
     // The example code uses the real id so i'm selecting these elements
     // via jquery so we dont screw with the examples
-    new Taggle($(".example1.textarea")[0]);
+new Taggle($(".example1.textarea")[0], {
+	allowDuplicates: true
+});
 
     new Taggle($(".example2.textarea")[0], {
-        tags: ['These', 'are', 'prefilled', 'tags']
+	    tags: ['These', 'are', 'prefilled', 'tags'],
+	    allowDuplicates: true
     });
 
     new Taggle($('.example3.textarea')[0], {
@@ -15,7 +18,9 @@ var faux = ['.net','accounting','acting','adobe creative suite','advertising','a
         duplicateTagClass: 'bounce'
     });
 
-    var example4 = new Taggle($(".example4.textarea")[0]);
+    var example4 = new Taggle($(".example4.textarea")[0], {
+	    duplicateTagClass: 'bounce'
+	});
 
     var container = example4.getContainer();
     var input = example4.getInput();

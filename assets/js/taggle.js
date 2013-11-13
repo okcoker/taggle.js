@@ -18,9 +18,9 @@
  */
  /*!
  * @author Sean Coker <sean@seancoker.com>
- * @Version 1.1.3
+ * @Version 1.1.4
  * @url http://sean.is/poppin/tags
- * @description Taggle is a simple delicious style tagging plugin
+ * @description Taggle is a simple delicious style tagging library
  */
 
 ;(function(window, document, undefined) {
@@ -80,6 +80,8 @@
     COMMA = 188,
     TAB = 9,
     ENTER = 13;
+
+
 
     /**
      * Constructor
@@ -262,11 +264,13 @@
         var self = this,
             taggles = self.container.querySelectorAll('.taggle'),
             last_taggle = taggles[taggles.length - 1],
-            hot_class = 'taggle_hot';
+            hot_class = 'taggle_hot',
+            held_down = self.input.classList.contains('taggle_back');
 
-        //8 - backspace
-        if (self.input.value === '' && e.keyCode === BACKSPACE) {
+        //prevent holding backspace from deleting all tags
+        if (self.input.value === '' && e.keyCode === BACKSPACE && !held_down) {
             if (last_taggle.classList.contains(hot_class)) {
+                self.input.classList.add('taggle_back');
                 self.remove(last_taggle);
                 self.fixInputWidth();
                 self.focusInput();
@@ -320,14 +324,13 @@
 
     /**
      * Checks whether or not the key pressed is acceptable
-     * @param  {Event}  e
+     * @param  {Number}  key code
      * @return {Boolean}
      */
-    Taggle.prototype.isConfirmKey = function(e) {
-        var code = e.keyCode,
-            confirm_key = false;
+    Taggle.prototype.isConfirmKey = function(key) {
+        var confirm_key = false;
 
-        if (code === COMMA || code === TAB || code === ENTER) {
+        if (key === COMMA || key === TAB || key === ENTER) {
             confirm_key = true;
         }
 
@@ -378,11 +381,12 @@
     Taggle.prototype.keydownEvents = function(e) {
         e = e || window.event;
 
-        var self = this;
+        var self = this,
+            key = e.keyCode;
 
         self.listenForEndOfContainer();
 
-        if (self.isConfirmKey(e) && self.input.value !== '') {
+        if (self.isConfirmKey(key) && self.input.value !== '') {
             self.confirmValidTagEvent(e);
             return;
         }
@@ -398,7 +402,11 @@
      */
     Taggle.prototype.keyupEvents = function(e) {
         e = e || window.event;
+
         var self = this;
+
+        self.input.classList.remove('taggle_back');
+
         _setText(self.sizer, self.input.value);
     };
 
