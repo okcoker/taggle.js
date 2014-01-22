@@ -18,7 +18,7 @@
  */
  /*!
  * @author Sean Coker <sean@seancoker.com>
- * @Version 1.1.4
+ * @Version 1.2.0
  * @url http://sean.is/poppin/tags
  * @description Taggle is a simple delicious style tagging library
  */
@@ -73,7 +73,21 @@
          * Placeholder string to be placed in an empty taggle field
          * @type {String}
          */
-        placeholder:            'Enter tags...'
+        placeholder:            'Enter tags...',
+
+        /**
+         * Function hook called when a tag is added
+         * @param  {Event} event Event triggered when tag was added
+         * @param  {String} tag The tag added
+         */
+        onTagAdd: function() {},
+
+        /**
+         * Function hook called when a tag is removed
+         * @param  {Event} event Event triggered when tag was removed
+         * @param  {String} tag The tag removed
+         */
+        onTagRemove: function() {}
     },
 
     BACKSPACE = 8,
@@ -140,8 +154,8 @@
         self.measurements.container.style = window.getComputedStyle(self.container);
 
         style = self.measurements.container.style;
-        lpad = parseInt(style['padding-left'] || style['paddingLeft'], 10);
-        rpad = parseInt(style['padding-right'] || style['paddingRight'], 10);
+        lpad = parseInt(style['padding-left'] || style.paddingLeft, 10);
+        rpad = parseInt(style['padding-right'] || style.paddingRight, 10);
         self.measurements.container.side_padding =  lpad + rpad;
     };
 
@@ -232,7 +246,7 @@
      * Appends tag with its corresponding input to the list
      * @param  {String} tag
      */
-    Taggle.prototype.add = function(text) {
+    Taggle.prototype.add = function(e, text) {
         var self = this,
             val = typeof text === 'string' ? text.toLowerCase() :
                 _trim(self.input.value.toLowerCase()),
@@ -246,6 +260,8 @@
         lis = self.list.querySelectorAll('li');
         last_li = lis[lis.length - 1];
         self.list.insertBefore(li, last_li);
+
+        self.options.onTagAdd(e, val);
 
         self.input.value = '';
         self.setInputWidth();
@@ -271,7 +287,7 @@
         if (self.input.value === '' && e.keyCode === BACKSPACE && !held_down) {
             if (last_taggle.classList.contains(hot_class)) {
                 self.input.classList.add('taggle_back');
-                self.remove(last_taggle);
+                self.remove(last_taggle, e);
                 self.fixInputWidth();
                 self.focusInput();
             }
@@ -418,9 +434,7 @@
     Taggle.prototype.confirmValidTagEvent = function(e) {
         e = e || window.event;
 
-        var self = this;
-
-        self.add();
+        this.add(e);
 
         //prevents from jumping out of textarea
         if (e.preventDefault) {
@@ -481,17 +495,22 @@
 
     /**
      * Removes tag from the tags collection
+     * @param  {li} li List item to remove
      * @param  {Event} e
      */
-    Taggle.prototype.remove = function(e) {
-        e = e || window.event;
+    Taggle.prototype.remove = function(li, e) {
         var self = this,
-            targ = e.target || e.srcElement || e,
-            li = targ;
+            span,
+            text;
 
         if (li.tagName.toLowerCase() !== 'li') {
             li = li.parentNode;
         }
+
+        span = li.querySelector('.taggle_text');
+        text = span.innerText || span.textContent;
+
+        self.options.onTagRemove(e, text);
 
         li.parentNode.removeChild(li);
         _removeFromTheTags(li, self.tag);

@@ -16,8 +16,6 @@ h1, h2, h3, h4, h5, h6 {
 pre {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
   border-radius: 3px;
 }
 
@@ -53,8 +51,6 @@ p a:hover {
   padding: 12px 30px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
   border-radius: 3px;
   margin-right: 10px;
   color: white !important;
@@ -443,8 +439,6 @@ textarea.input,
   padding: 8px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
   border-radius: 3px;
   color: #555;
   -webkit-transition: all 0.25s;
@@ -511,8 +505,6 @@ textarea.input {
 .custom.textarea {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
   border-radius: 0;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -522,8 +514,6 @@ textarea.input {
 .custom.textarea .taggle {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
   border-radius: 0;
   padding: 5px;
   padding-right: 20px;
@@ -541,7 +531,7 @@ textarea.input {
   background-image: -moz-linear-gradient(top, #eeeeee 1%, white 15%);
   background-image: -o-linear-gradient(top, #eeeeee 1%, white 15%);
   background-image: -ms-linear-gradient(top, #eeeeee 1%, white 15%);
-  background-image: linear-gradient(top, #eeeeee 1%, #ffffff 15%);
+  background-image: linear-gradient(to bottom, #eeeeee 1%, #ffffff 15%);
   border: 1px solid #AAA;
   min-height: 50px;
 }
@@ -553,15 +543,13 @@ textarea.input {
   background-image: -moz-linear-gradient(top, #eeeeee 1%, white 15%);
   background-image: -o-linear-gradient(top, #eeeeee 1%, white 15%);
   background-image: -ms-linear-gradient(top, #eeeeee 1%, white 15%);
-  background-image: linear-gradient(top, #eeeeee 1%, #ffffff 15%);
+  background-image: linear-gradient(to bottom, #eeeeee 1%, #ffffff 15%);
 }
 /* line 473, ../../../sass/projects/taggle/taggle.scss */
 .custom.delicious .taggle {
   color: #444;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
   border-radius: 0;
   -moz-border-radius-topleft: 1.5rem;
   -webkit-border-top-left-radius: 1.5rem;
@@ -601,8 +589,6 @@ textarea.input {
   color: #3E6D8E;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
   border-radius: 0;
   background-color: #E0EAF1;
   font-weight: 200;
@@ -616,8 +602,6 @@ textarea.input {
   color: #aaa;
   -webkit-border-radius: 0.7rem;
   -moz-border-radius: 0.7rem;
-  -ms-border-radius: 0.7rem;
-  -o-border-radius: 0.7rem;
   border-radius: 0.7rem;
   font-size: 0.9rem;
   height: 0.7rem;
