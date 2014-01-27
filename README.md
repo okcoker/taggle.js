@@ -7,6 +7,7 @@ Form-ready delicious style tagging.
 
 ## History
 
+ - 1.3.0 - Restructured library for better suport of multiple instances. Added add/remove functions
  - 1.2.0 - Added callback functions for whenever a tag is added or removed
  - 1.1.4 - Prevent holding down backspace key from deleting all tags quickly
  - 1.1.3 - Set innerText only for <= IE8

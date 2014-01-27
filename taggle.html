@@ -99,7 +99,57 @@ $(input).autocomplete({
     }
 });
             </pre>
-        </article></section><section><article class="block">
+        </article>
+    </section>
+    <section>
+        <article class="block">
+            <h4>Example 5 - onTagAdd / onTagRemove</h4>
+            <p>Want callback functions after a tag has been added or removed? Fine.</p>
+            <blockquote> I'm using innerHTML for simplicity however you should look into <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.textContent?redirectlocale=en-US&redirectslug=DOM%2FNode.textContent" rel="nofollow">innerText or textContent</a> depending on what browser you're supporting.</blockquote>
+            <div class="input textarea clearfix example5"></div>
+            <p class="example5-event" style="color: #990000"></p>
+            <h6>HTML:</h6>
+            <pre data-language="html">
+<div id="example5"></div>
+<p id="example5-event"></p>
+            </pre>
+            <h6>Javascript:</h6>
+            <pre data-language="javascript">
+var text = document.getElementById('example5-event');
+new Taggle('example5', {
+    onTagAdd: function(event, tag) {
+        text.innerHTML = 'You just added ' + tag;
+    },
+    onTagRemove: function(event, tag) {
+        text.innerHTML = 'You just removed ' + tag;
+    }
+});
+            </pre>
+        </article>
+    </section>
+
+    <section>
+        <article class="block">
+            <h4>Example 6 - add / remove</h4>
+            <p>You can programatically add and remove tags as well.</p>
+            <div class="input textarea clearfix example6"></div>
+            <h6>HTML:</h6>
+            <pre data-language="html">
+<div id="example6"></div>
+            </pre>
+            <h6>Javascript:</h6>
+            <pre data-language="javascript">
+var taggle = new Taggle('example6');
+
+taggle.add('one');
+taggle.add(['two', 'three', 'four', 'four', 'five', 'five']);
+taggle.remove('five');
+taggle.remove('four', true);
+            </pre>
+        </article>
+    </section>
+    <section>
+    <article class="block">
     <h4>Misc - Tags around the web</h4>
     <p>
         Tag fields can be really useful because it makes it easy for your users to provide the type of data values you need without having to worry about if they submitted values with trailing spaces, extra commas, etc.
@@ -196,7 +246,15 @@ $(input).autocomplete({
         </p>
     </div>
     </article><article class="block">
-    <h4>API</h4>
+    <h4>Methods</h4>
+    <div class="option">
+        <p>add(tag(s))</p>
+        <p>Pass an array of strings or just one string to programatically add tags.</p>
+    </div>
+    <div class="option">
+        <p>remove(tag, remove_all=false)</p>
+        <p>Pass a string to remove the most recent occurance of the tag. Pass true to the second argument to remove all occurances of the tag.</p>
+    </div>
     <div class="option">
         <p>
             getTags() <code>Returns {Object}</code>
@@ -218,7 +276,7 @@ $(input).autocomplete({
             getTagValues() <code>Returns {Array}</code>
         </p>
         <p>
-            Get an object with an array of the tag text.
+            Get an array of the tag text.
         </p>
     </div>
     <div class="option">

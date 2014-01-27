@@ -4,13 +4,10 @@ var faux = ['.net','accounting','acting','adobe creative suite','advertising','a
 
     // The example code uses the real id so i'm selecting these elements
     // via jquery so we dont screw with the examples
-new Taggle($(".example1.textarea")[0], {
-	allowDuplicates: true
-});
+    new Taggle($('.example1.textarea')[0]);
 
-    new Taggle($(".example2.textarea")[0], {
-	    tags: ['These', 'are', 'prefilled', 'tags'],
-	    allowDuplicates: true
+    new Taggle($('.example2.textarea')[0], {
+        tags: ['These', 'are', 'prefilled', 'tags']
     });
 
     new Taggle($('.example3.textarea')[0], {
@@ -18,9 +15,9 @@ new Taggle($(".example1.textarea")[0], {
         duplicateTagClass: 'bounce'
     });
 
-    var example4 = new Taggle($(".example4.textarea")[0], {
-	    duplicateTagClass: 'bounce'
-	});
+    var example4 = new Taggle($('.example4.textarea')[0], {
+        duplicateTagClass: 'bounce'
+    });
 
     var container = example4.getContainer();
     var input = example4.getInput();
@@ -28,7 +25,7 @@ new Taggle($(".example1.textarea")[0], {
     $(input).autocomplete({
         source: faux,
         appendTo: container,
-        position: { at: "left bottom", of: container },
+        position: { at: 'left bottom', of: container },
         select: function(e, v) {
             e.preventDefault();
             //Add the tag if user clicks
@@ -37,6 +34,22 @@ new Taggle($(".example1.textarea")[0], {
             }
         }
     });
+
+    new Taggle($('.example5.textarea')[0], {
+        onTagAdd: function(event, tag) {
+            $('.example5-event').text('You just added ' + tag);
+        },
+        onTagRemove: function(event, tag) {
+            $('.example5-event').text('You just removed ' + tag);
+        }
+    });
+
+    var six = new Taggle($('.example6.textarea')[0]);
+
+    six.add('one');
+    six.add(['two', 'three', 'four', 'four', 'five', 'five']);
+    six.remove('five');
+    six.remove('four', true);
 
     new Taggle($('.delicious.textarea')[0], {
         tags: ['tags', 'like', 'delicious']
