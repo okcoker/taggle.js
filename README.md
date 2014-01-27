@@ -1,7 +1,7 @@
 Taggle.js
 =========
 
-Form-ready delicious style tagging.
+Form-ready dependency-less delicious-style tagging.
 
 [Demo & Docs](http://sean.is/poppin/tags/)
 
