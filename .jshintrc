@@ -1,0 +1,19 @@
+{
+    "boss": true,
+    "browser": true,
+    "curly": true,
+    "devel": true,
+    "eqeqeq": true,
+    "evil": true,
+    "latedef": true,
+    "mootools": true,
+    "multistr": true,
+    "regexdash": true,
+    "scripturl": true,
+    "smarttabs": true,
+    "sub": true,
+    "trailing": true,
+    "undef": true,
+    "unused": true,
+    "wsh": true
+}

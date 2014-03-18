@@ -10,7 +10,7 @@
 /*global self, document, DOMException */
 
 /*! @source http://purl.eligrey.com/github/classList.js/blob/master/classList.js*/
-
+;(function() {
 if (typeof document !== "undefined" && !("classList" in document.documentElement)) {
 
 (function (view) {
@@ -173,3 +173,4 @@ if (typeof document !== "undefined" && !("classList" in document.documentElement
 
     }(self));
 }
+})();
