@@ -1,0 +1,26 @@
+{
+  "name": "taggle.js",
+  "version": "1.3.0",
+  "homepage": "http://sean.is/poppin/tags",
+  "authors": [
+    "Sean Coker <seany789@gmail.com>"
+  ],
+  "description": "Form-ready dependency-less delicious-style tagging",
+  "main": "assets/js/taggle.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "tagging",
+    "tags"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ]
+}
