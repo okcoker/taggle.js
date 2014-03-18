@@ -16,3 +16,7 @@ Form-ready dependency-less delicious-style tagging.
  - 1.1.0 - Remove useless fontSize option. Add basic API
  - 1.0.0 - Rewrite and remove jQuery dependency.
  - 0.1.0 - Initial release
+
+## License
+
+MIT © [Sean Coker](http://sean.is)
