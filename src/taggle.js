@@ -172,7 +172,7 @@
             list.appendChild(input_li);
             container.appendChild(list);
             container.appendChild(sizer);
-            font_size = window.getComputedStyle(input)['font-size'];
+            font_size = window.getComputedStyle(input).fontSize;
             sizer.style.fontSize = font_size;
         }
 
