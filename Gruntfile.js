@@ -80,15 +80,25 @@ module.exports = function(grunt) {
                 files: ['Gruntfile.js', 'src/**/*'],
                 tasks: ['jshint']
             }
+        },
+
+        mocha: {
+            options: {
+                reporter: 'Nyan',
+                run: true
+            },
+            src: [
+                'test/**/*.html'
+            ]
         }
 
     });
 
     // register task
-    grunt.registerTask('build:all', ['uglify:main', 'ie9', 'ie8']);
-    grunt.registerTask('build', ['uglify:main']);
-    grunt.registerTask('ie9', ['concat:ie9', 'uglify:ie9', 'clean']);
-    grunt.registerTask('ie8', ['concat:ie8', 'uglify:ie8', 'clean']);
+    grunt.registerTask('build:all', ['mocha', 'uglify:main', 'ie9', 'ie8']);
+    grunt.registerTask('build', ['mocha', 'uglify:main']);
+    grunt.registerTask('ie9', ['mocha', 'concat:ie9', 'uglify:ie9', 'clean']);
+    grunt.registerTask('ie8', ['mocha', 'concat:ie8', 'uglify:ie8', 'clean']);
     grunt.registerTask('dev', ['watch']);
 
 };

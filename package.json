@@ -1,19 +1,19 @@
 {
   "name": "Taggle.js",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Taggle is a dependency-less tagging library",
   "author": "Sean Coker <sean@seancoker.com>",
   "url": "http://sean.is/poppin/tags",
   "repository": "git@github.com:okcoker/taggle.js.git",
   "devDependencies": {
-    "grunt": "~0.4.0",
-    "grunt-contrib-jshint": "~0.1.0",
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-concat": "~0.1.1",
+    "grunt-contrib-jshint": "~0.1.0",
     "grunt-contrib-uglify": "~0.1.0",
     "grunt-contrib-watch": "~0.5.3",
-    "grunt-mocha": "~0.4.10",
-    "load-grunt-tasks": "~0.4.0",
+    "grunt-mocha": "^0.4.11",
     "load-grunt-config": "~0.7.1",
-    "grunt-contrib-clean": "~0.5.0"
+    "load-grunt-tasks": "~0.4.0"
   }
 }
