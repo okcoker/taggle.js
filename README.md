@@ -7,6 +7,7 @@ Form-ready dependency-less delicious-style tagging.
 
 ## History
 
+ - 1.4.0 - Added allowedTags option
  - 1.3.0 - Restructured library for better suport of multiple instances. Added add/remove functions
  - 1.2.0 - Added callback functions for whenever a tag is added or removed
  - 1.1.4 - Prevent holding down backspace key from deleting all tags quickly
@@ -19,4 +20,4 @@ Form-ready dependency-less delicious-style tagging.
 
 ## License
 
-MIT © [Sean Coker](http://sean.is)
+MIT © [Sean Coker](https://twitter.com/okcoker)
