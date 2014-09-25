@@ -1,3 +1,5 @@
+/*global Taggle, it, chai, sinon, before, beforeEach, describe, after, afterEach */
+/*jshint expr: true, es5: true, unused: false */
 (function() {
 
     var expect = chai.expect;
@@ -46,6 +48,28 @@
             });
         });
 
+        describe('Options', function() {
+            it('should disallow duplicate tags to be added by default', function() {
+                var taggle = new Taggle(this.container);
+
+                expect(taggle.getTags().values.length).to.equal(0);
+                taggle.add(['tag', 'tag']);
+                expect(taggle.getTags().values.length).to.equal(1);
+
+            });
+
+            it('should allow duplicate tags to be added when allowDuplicates is true', function() {
+                var taggle = new Taggle(this.container, {
+                        allowDuplicates: true
+                    });
+
+                expect(taggle.getTags().values.length).to.equal(0);
+                taggle.add(['tag', 'tag']);
+                expect(taggle.getTags().values.length).to.equal(2);
+
+            });
+        });
+
         describe('Option callbacks', function() {
             var onTagAddSpy = sinon.spy();
             var onTagRemoveSpy = sinon.spy();
@@ -61,7 +85,6 @@
                 it('should be called after a tag has been added', function() {
                     expect(onTagAddSpy).to.not.have.been.called;
                     this.instance.add('one');
-                    console.log(onTagAddSpy.getCall());
                     expect(onTagAddSpy).to.have.been.called;
                     expect(onTagAddSpy.getCall(0).args[0]).to.not.be.ok;
                     expect(onTagAddSpy.getCall(0).args[1]).to.equal('one');

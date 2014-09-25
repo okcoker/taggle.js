@@ -2,7 +2,7 @@
 
  /*!
  * @author Sean Coker <sean@seancoker.com>
- * @version 1.3.0
+ * @version 1.4.0
  * @url http://sean.is/poppin/tags
  * @license MIT
  * @description Taggle is a dependency-less tagging library
@@ -47,6 +47,12 @@
          * @type {Array}
          */
         tags:                   [],
+
+        /**
+         * Tags that the user will be restricted to
+         * @type {Array}
+         */
+        allowedTags:            [],
 
         /**
          * If within a form, you can specify the tab index flow
@@ -218,15 +224,37 @@
         }
 
         /**
+         * Returns whether or not the specified tag text can be added
+         * @param  {String} text tag value
+         * @return {Boolean}
+         */
+        function _canAdd(text) {
+            if (!text) {
+                return false;
+            }
+
+            if (!settings.allowDuplicates && _hasDupes(text)) {
+                return false;
+            }
+
+            if (settings.allowedTags.length && settings.allowedTags.indexOf(text) === -1) {
+                return false;
+            }
+
+            return true;
+        }
+
+        /**
          * Appends tag with its corresponding input to the list
          * @param  {String} tag
          */
         function _add(e, text) {
-            var val = typeof text === 'string' ? text.toLowerCase() :
-                    _trim(input.value.toLowerCase()),
-                li, lis, last_li;
+            var val = typeof text === 'string' ? text.toLowerCase() : _trim(input.value.toLowerCase()),
+                li,
+                lis,
+                last_li;
 
-            if ((!settings.allowDuplicates && _hasDupes()) || val === '') {
+            if (!_canAdd(val)) {
                 return;
             }
 
@@ -284,9 +312,7 @@
          * @param  {String} tag
          */
         function _hasDupes(text) {
-            var val = input.value,
-                tag_input_value = text ? text.toLowerCase() : _trim(val.toLowerCase()),
-                needle = tag.values.indexOf(tag_input_value),
+            var needle = tag.values.indexOf(text),
                 taggle_list = container.querySelector('.taggle_list'),
                 dupes;
 
