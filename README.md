@@ -1,22 +1,42 @@
 Taggle.js
 =========
 
-Form-ready dependency-less delicious-style tagging.
+Form-ready dependency-less tagging.
 
-[Demo & Docs](http://sean.is/poppin/tags/)
 
-## History
+## How it works
 
- - 1.4.0 - Added allowedTags option
- - 1.3.0 - Restructured library for better suport of multiple instances. Added add/remove functions
- - 1.2.0 - Added callback functions for whenever a tag is added or removed
- - 1.1.4 - Prevent holding down backspace key from deleting all tags quickly
- - 1.1.3 - Set innerText only for <= IE8
- - 1.1.2 - Add support for IE8 and IE9
- - 1.1.1 - Fix issue in ff and opera with adding tags
- - 1.1.0 - Remove useless fontSize option. Add basic API
- - 1.0.0 - Rewrite and remove jQuery dependency.
- - 0.1.0 - Initial release
+Taggle.js allows you to create tag fields within your forms, to allow for easy and optionally restricted, input from your users.
+
+![](https://cloud.githubusercontent.com/assets/1030830/4432876/e5dbccd0-46b0-11e4-99cb-2578f4762256.gif)
+
+Each tag contains an hidden input with a configurable name of `taggles[]` by default so when taggle is inserted in a form, your server can easily read each item and continue accordingly. Taggle is highly customizable with your own css, or you can optionally use the included assets to start your own project.
+
+![](https://cloud.githubusercontent.com/assets/1030830/4432907/e001b336-46b2-11e4-966e-12b0648386c8.gif)
+
+Taggle.js also contains a simple API for you to easily hook in to your favorite autocomplete libraries.
+
+
+[How-To Demo](http://sean.is/poppin/tags/)
+
+
+## Support for older IE
+
+Taggle.js comes with optional polyfills in order to add support for IE8 and IE9. If you want to support IE8, add the scripts on your page in this order:
+
+### IE8 Support
+- taggle-ie8.js
+- taggle-ie9.js
+- taggle.js
+
+or optionally the compressed taggle-ie8.min.js
+
+### IE9 Support
+- taggle-ie9.js
+- taggle.js
+
+or optionally the compressed taggle-ie9.min.js
+
 
 ## License
 
