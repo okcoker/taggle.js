@@ -1,8 +1,9 @@
 {
-  "name": "Taggle.js",
+  "name": "taggle",
   "version": "1.4.0",
   "description": "Taggle is a dependency-less tagging library",
   "author": "Sean Coker <sean@seancoker.com>",
+  "main": "src/taggle.js",
   "url": "http://sean.is/poppin/tags",
   "repository": "git@github.com:okcoker/taggle.js.git",
   "devDependencies": {
@@ -15,5 +16,7 @@
     "grunt-mocha": "^0.4.11",
     "load-grunt-config": "~0.7.1",
     "load-grunt-tasks": "~0.4.0"
+  },
+  "dependencies": {
   }
 }
