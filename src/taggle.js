@@ -2,7 +2,7 @@
 
  /*!
  * @author Sean Coker <sean@seancoker.com>
- * @version 1.4.0
+ * @version 1.5.0
  * @url http://sean.is/poppin/tags
  * @license MIT
  * @description Taggle is a dependency-less tagging library
@@ -67,6 +67,12 @@
         placeholder:            'Enter tags...',
 
         /**
+         * Keycodes that will add a tag
+         * @type {Array}
+         */
+        submitKeys:             [],
+
+        /**
          * Function hook called when a tag is added
          * @param  {Event} event Event triggered when tag was added
          * @param  {String} tag The tag added
@@ -116,6 +122,10 @@
 
         if (settings.placeholder) {
             placeholder = document.createElement('span');
+        }
+
+        if (!settings.submitKeys.length) {
+            settings.submitKeys = [COMMA, TAB, ENTER];
         }
 
         if (typeof el === 'string') {
@@ -316,7 +326,7 @@
                 taggle_list = container.querySelector('.taggle_list'),
                 dupes;
 
-            if (!!settings.duplicateTagClass) {
+            if (settings.duplicateTagClass) {
                 dupes = taggle_list.querySelectorAll('.' + settings.duplicateTagClass);
                 for (var i = 0, len = dupes.length; i < len; i++) {
                     dupes[i].classList.remove(settings.duplicateTagClass);
@@ -342,7 +352,7 @@
         function _isConfirmKey(key) {
             var confirm_key = false;
 
-            if (key === COMMA || key === TAB || key === ENTER) {
+            if (settings.submitKeys.indexOf(key) > -1) {
                 confirm_key = true;
             }
 
