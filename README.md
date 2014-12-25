@@ -1,4 +1,4 @@
-Taggle.js
+Taggle
 =========
 
 Form-ready dependency-less tagging.
@@ -6,7 +6,7 @@ Form-ready dependency-less tagging.
 
 ## How it works
 
-Taggle.js allows you to create tag fields within your forms, to allow for easy and optionally restricted, input from your users.
+Taggle allows you to create tag fields within your forms, to allow for easy and optionally restricted, input from your users.
 
 ![](https://cloud.githubusercontent.com/assets/1030830/4432876/e5dbccd0-46b0-11e4-99cb-2578f4762256.gif)
 
@@ -14,7 +14,7 @@ Each tag contains an hidden input with a configurable name of `taggles[]` by def
 
 ![](https://cloud.githubusercontent.com/assets/1030830/4432907/e001b336-46b2-11e4-966e-12b0648386c8.gif)
 
-Taggle.js also contains a simple API for you to easily hook in to your favorite autocomplete libraries.
+Taggle also contains a simple API for you to easily hook in to your favorite autocomplete libraries.
 
 
 [How-To Demo](http://sean.is/poppin/tags/)
@@ -22,7 +22,7 @@ Taggle.js also contains a simple API for you to easily hook in to your favorite 
 
 ## Support for older IE
 
-Taggle.js comes with optional polyfills in order to add support for IE8 and IE9. If you want to support IE8, add the scripts on your page in this order:
+Taggle comes with optional polyfills in order to add support for IE8 and IE9. If you want to support IE8, add the scripts on your page in this order:
 
 ### IE8 Support
 - taggle-ie8.js
