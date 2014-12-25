@@ -6,17 +6,20 @@
   "url": "http://sean.is/poppin/tags",
   "repository": "git@github.com:okcoker/taggle.js.git",
   "devDependencies": {
+    "chai": "^1.10.0",
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-compass": "~1.0.1",
     "grunt-contrib-concat": "~0.1.1",
+    "grunt-contrib-cssmin": "~0.11.0",
     "grunt-contrib-jshint": "~0.1.0",
+    "grunt-contrib-sass": "~0.8.1",
     "grunt-contrib-uglify": "~0.1.0",
     "grunt-contrib-watch": "~0.5.3",
-    "grunt-contrib-sass": "~0.8.1",
-    "grunt-contrib-cssmin": "~0.11.0",
-    "grunt-contrib-compass": "~1.0.1",
     "grunt-mocha": "^0.4.11",
     "load-grunt-config": "~0.7.1",
-    "load-grunt-tasks": "~0.4.0"
+    "load-grunt-tasks": "~0.4.0",
+    "sinon": "^1.12.2",
+    "sinon-chai": "^2.6.0"
   }
 }

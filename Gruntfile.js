@@ -126,6 +126,7 @@ module.exports = function(grunt) {
     grunt.registerTask('build:modern', ['mocha', 'sass', 'cssmin', 'uglify:main']);
     grunt.registerTask('ie9', ['mocha', 'sass', 'cssmin', 'concat:ie9', 'uglify:ie9', 'clean']);
     grunt.registerTask('ie8', ['mocha', 'sass', 'cssmin', 'concat:ie8', 'uglify:ie8', 'clean']);
+    grunt.registerTask('test', ['mocha']);
     grunt.registerTask('dev', ['watch']);
 
 };
