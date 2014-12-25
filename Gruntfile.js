@@ -75,6 +75,33 @@ module.exports = function(grunt) {
             }
         },
 
+        sass: {
+            options: {
+                style: 'expanded'
+            },
+            dist: {
+                files: {
+                    'assets/css/taggle.css': ['assets/scss/taggle.scss']
+                }
+            }
+        },
+
+        cssmin: {
+            compress: {
+                files: {
+                    'assets/css/taggle.min.css': ['assets/css/taggle.css']
+                }
+            }
+        },
+
+        compass: {
+            options: {
+                config: 'config.rb',
+                sassDir: 'assets/scss',
+                cssDir: 'assets/css'
+            }
+        },
+
         watch: {
             all: {
                 files: ['Gruntfile.js', 'src/**/*'],
@@ -96,9 +123,9 @@ module.exports = function(grunt) {
 
     // register task
     grunt.registerTask('build', ['mocha', 'uglify:main', 'ie9', 'ie8']);
-    grunt.registerTask('build:modern', ['mocha', 'uglify:main']);
-    grunt.registerTask('ie9', ['mocha', 'concat:ie9', 'uglify:ie9', 'clean']);
-    grunt.registerTask('ie8', ['mocha', 'concat:ie8', 'uglify:ie8', 'clean']);
+    grunt.registerTask('build:modern', ['mocha', 'sass', 'cssmin', 'uglify:main']);
+    grunt.registerTask('ie9', ['mocha', 'sass', 'cssmin', 'concat:ie9', 'uglify:ie9', 'clean']);
+    grunt.registerTask('ie8', ['mocha', 'sass', 'cssmin', 'concat:ie8', 'uglify:ie8', 'clean']);
     grunt.registerTask('dev', ['watch']);
 
 };
