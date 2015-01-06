@@ -111,7 +111,7 @@ module.exports = function(grunt) {
 
         mocha: {
             options: {
-                reporter: 'Nyan',
+                reporter: 'Dot',
                 run: true
             },
             src: [
