@@ -1,4 +1,4 @@
-Taggle
+Taggle [![Coverage Status](https://img.shields.io/coveralls/okcoker/taggle.js.svg)](https://coveralls.io/r/okcoker/taggle.js)
 =========
 
 Form-ready dependency-less tagging.
