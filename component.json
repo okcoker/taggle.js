@@ -1,0 +1,17 @@
+{
+  "name": "taggle",
+  "description": "Taggle is a dependency-less tagging library",
+  "version": "1.5.0",
+  "keywords": [
+    "tags",
+    "tagging",
+    "standalone",
+    "micro",
+    "library"
+  ],
+  "scripts": [
+    "dist/taggle.min.js"
+  ],
+  "license": "MIT",
+  "repo": "okcoker/taggle.js"
+}
