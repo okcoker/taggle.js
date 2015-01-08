@@ -43,23 +43,19 @@
         });
 
         describe('Options', function() {
-            var onTagAddSpy = sinon.spy();
-            var onTagRemoveSpy = sinon.spy();
 
-            before(function() {
-                this.instance = new Taggle(this.container, {
-                    onTagAdd: onTagAddSpy,
-                    onTagRemove: onTagRemoveSpy
-                });
+            beforeEach(function() {
+                this.instance = new Taggle(this.container);
+            });
+
+            afterEach(function() {
+                this.instance = null;
             });
 
             it('should disallow duplicate tags to be added by default', function() {
-                var taggle = new Taggle(this.container);
-
-                expect(taggle.getTags().values.length).to.equal(0);
-                taggle.add(['tag', 'tag']);
-                expect(taggle.getTags().values.length).to.equal(1);
-
+                expect(this.instance.getTags().values.length).to.equal(0);
+                this.instance.add(['tag', 'tag']);
+                expect(this.instance.getTags().values.length).to.equal(1);
             });
 
             it('should allow duplicate tags to be added when allowDuplicates is true', function() {
@@ -73,20 +69,100 @@
 
             });
 
-            it('should call onTagAdd() after a tag has been added', function() {
-                expect(onTagAddSpy).to.not.have.been.called;
-                this.instance.add('one');
-                expect(onTagAddSpy).to.have.been.called;
-                expect(onTagAddSpy.getCall(0).args[0]).to.not.be.ok;
-                expect(onTagAddSpy.getCall(0).args[1]).to.equal('one');
+            describe('#onTagAdd', function() {
+                it('should be called after a tag has been added', function() {
+                    var container = createContainer(300, 400),
+                        tag = 'one',
+                        onTagAddSpy = sinon.spy(),
+                        ret,
+                        taggle;
+
+                    document.body.appendChild(container);
+
+                    taggle = new Taggle(container, {
+                        onTagAdd: onTagAddSpy
+                    });
+
+                    expect(onTagAddSpy).to.not.have.been.called;
+                    taggle.add(tag);
+                    expect(onTagAddSpy).to.have.been.calledOnce;
+
+                    expect(onTagAddSpy.args[0][0]).to.not.be.ok;
+                    expect(onTagAddSpy.args[0][1]).to.eq(tag);
+                });
+
+                it('should reflect one additional tag value when being called', function() {
+                    var tags_length,
+                        container = createContainer(300, 400),
+                        tag = 'tag',
+                        cb_length,
+                        taggle;
+
+                    document.body.appendChild(container);
+
+                    taggle = new Taggle(container, {
+                        onTagAdd: function() {
+                            cb_length = taggle.getTagElements().length;
+                        }
+                    });
+
+                    tags_length = taggle.getTagElements().length;
+
+                    taggle.add(tag);
+
+                    expect(cb_length).to.eq(tags_length + 1);
+                });
             });
 
-            it('should be call onTagRemove() after a tag has been added', function() {
-                expect(onTagRemoveSpy).to.not.have.been.called;
-                this.instance.remove('one');
-                expect(onTagRemoveSpy).to.have.been.called;
-                expect(onTagRemoveSpy.getCall(0).args[0]).to.not.be.ok;
-                expect(onTagRemoveSpy.getCall(0).args[1]).to.equal('one');
+            describe('#onTagRemove', function() {
+                it('should be called after a tag has been removed', function() {
+                    var container = createContainer(300, 400),
+                        tag = 'one',
+                        onTagRemoveSpy = sinon.spy(),
+                        ret,
+                        taggle;
+
+                    document.body.appendChild(container);
+
+                    taggle = new Taggle(container, {
+                        onTagRemove: onTagRemoveSpy
+                    });
+
+                    expect(onTagRemoveSpy).to.not.have.been.called;
+                    taggle.remove(tag);
+                    expect(onTagRemoveSpy).to.not.have.been.called;
+
+                    taggle.add(tag);
+                    taggle.remove(tag);
+                    expect(onTagRemoveSpy).to.have.been.calledOnce;
+
+                    expect(onTagRemoveSpy.args[0][0]).to.not.be.ok;
+                    expect(onTagRemoveSpy.args[0][1]).to.eq(tag);
+                });
+
+                it('should reflect one less tag value when being called', function() {
+                    var tags_length,
+                        container = createContainer(300, 400),
+                        tag = 'tag',
+                        cb_length,
+                        taggle;
+
+                    document.body.appendChild(container);
+
+                    taggle = new Taggle(container, {
+                        onTagRemove: function() {
+                            cb_length = taggle.getTagElements().length;
+                        }
+                    });
+
+                    taggle.add(tag);
+
+                    tags_length = taggle.getTagElements().length;
+
+                    taggle.remove(tag);
+
+                    expect(cb_length).to.eq(tags_length - 1);
+                });
             });
         });
 

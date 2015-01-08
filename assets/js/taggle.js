@@ -2,7 +2,7 @@
 
  /*!
  * @author Sean Coker <sean@seancoker.com>
- * @version 1.5.0
+ * @version 1.5.1
  * @url http://sean.is/poppin/tags
  * @license MIT
  * @description Taggle is a dependency-less tagging library
@@ -506,10 +506,10 @@
             span = li.querySelector('.taggle_text');
             text = span.innerText || span.textContent;
 
-            settings.onTagRemove(e, text);
-
             li.parentNode.removeChild(li);
             _removeFromTheTags(li, tag);
+
+            settings.onTagRemove(e, text);
 
             _focusInput();
         }
