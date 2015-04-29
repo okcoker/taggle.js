@@ -3,6 +3,20 @@ Taggle [![Build Status](https://travis-ci.org/okcoker/taggle.js.svg?branch=maste
 
 Form-ready dependency-less tagging.
 
+## Install
+
+Bower:
+
+    bower install taggle.js --save
+
+NPM:
+
+    npm install taggle --save
+
+Manual:
+- [Development Build](https://raw.github.com/okcoker/taggle.js/master/src/taggle.js)
+- [Minified/Production Build](https://raw.github.com/okcoker/taggle.js/master/dist/taggle.min.js)
+
 
 ## How it works
 
