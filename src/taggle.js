@@ -78,13 +78,15 @@
          * @param  {String} tag The tag added
          */
         onTagAdd:               function() {},
+        onBeforeTagAdd:         function() { return 1; },
 
         /**
          * Function hook called when a tag is removed
          * @param  {Event} event Event triggered when tag was removed
          * @param  {String} tag The tag removed
          */
-        onTagRemove:            function() {}
+        onTagRemove:            function() {},
+        onBeforeTagRemove:      function() { return 1; }
     },
 
     BACKSPACE = 8,
@@ -268,17 +270,20 @@
                 return;
             }
 
+            if (!settings.onBeforeTagAdd(e, val)) {
+                return;
+            }
+
             li = _createTag(val);
             lis = list.querySelectorAll('li');
             last_li = lis[lis.length - 1];
             list.insertBefore(li, last_li);
 
-            settings.onTagAdd(e, val);
-
-            input.value = '';
+             input.value = '';
             _setInputWidth();
             _fixInputWidth();
             _focusInput();
+            settings.onTagAdd(e, val);
         }
 
         /**
@@ -506,12 +511,15 @@
             span = li.querySelector('.taggle_text');
             text = span.innerText || span.textContent;
 
+            if (!settings.onBeforeTagRemove(e, text)){
+                return;
+            }
+
             li.parentNode.removeChild(li);
             _removeFromTheTags(li, tag);
+            _focusInput();
 
             settings.onTagRemove(e, text);
-
-            _focusInput();
         }
 
         self.getTags = function() {
