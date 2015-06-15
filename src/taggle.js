@@ -67,6 +67,12 @@
         placeholder:            'Enter tags...',
 
         /**
+         * Placeholder string to be placed just after the last tag to emphasize mouse click location to start input
+         * @type {String}
+         */
+        inputPlaceholder:       'Add new',
+
+        /**
          * Keycodes that will add a tag
          * @type {Array}
          */
@@ -155,6 +161,18 @@
         }
 
         /**
+         * Returns empty string if taggle field is empty.
+         * Returns initial or user redefined value otherwise.
+         *
+         * @private
+         */
+	    function _getPlaceHolder() {
+		    return list.querySelectorAll('li').length
+			    ? settings.inputPlaceholder
+			    : '';
+	    }
+
+        /**
          * Setup the div container for tags to be entered
          */
         function _setupTextarea() {
@@ -172,6 +190,8 @@
                     list.appendChild(tag);
                 }
             }
+
+            input.placeholder = _getPlaceHolder();
 
             if (placeholder) {
                 placeholder.style.opacity = 0;
@@ -276,6 +296,7 @@
             settings.onTagAdd(e, val);
 
             input.value = '';
+            input.placeholder = _getPlaceHolder();
             _setInputWidth();
             _fixInputWidth();
             _focusInput();
@@ -314,7 +335,7 @@
          * @param {Number} width
          */
         function _setInputWidth(width) {
-            input.style.width = (width || 10) + 'px';
+            //input.style.width = (width || 10) + 'px';
         }
 
         /**
