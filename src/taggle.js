@@ -318,7 +318,10 @@
             close.href = '#';
             close.innerHTML = '&times;';
             close.className = 'close';
-            close.onclick = _remove.bind(null, close);
+            _on(close, 'click', function (e) {
+                _remove(close);
+                e.preventDefault();
+            });
 
             _setText(span, text);
             span.className = 'taggle_text';
