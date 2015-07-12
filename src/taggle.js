@@ -319,7 +319,7 @@
             close.innerHTML = '&times;';
             close.className = 'close';
             _on(close, 'click', function (e) {
-                _remove(close);
+                _remove(close, e);
                 e.preventDefault();
             });
 
