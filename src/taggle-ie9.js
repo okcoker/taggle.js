@@ -8,16 +8,14 @@
  */
 
 /*global self, document, DOMException */
-
+/*jslint vars:true*/
 /*! @source http://purl.eligrey.com/github/classList.js/blob/master/classList.js*/
-;(function() {
+;(function() {'use strict';
 if (typeof document !== "undefined" && !("classList" in document.documentElement)) {
 
 (function (view) {
 
-    "use strict";
-
-    if (!('HTMLElement' in view) && !('Element' in view)) return;
+    if (!('HTMLElement' in view) && !('Element' in view)) {return;}
 
     var
           classListProp = "classList"
@@ -29,10 +27,10 @@ if (typeof document !== "undefined" && !("classList" in document.documentElement
         }
         , arrIndexOf = Array[protoProp].indexOf || function (item) {
             var
-                  i = 0
+                  i
                 , len = this.length
             ;
-            for (; i < len; i++) {
+            for (i = 0; i < len; i++) {
                 if (i in this && this[i] === item) {
                     return i;
                 }
@@ -64,10 +62,10 @@ if (typeof document !== "undefined" && !("classList" in document.documentElement
             var
                   trimmedClasses = strTrim.call(elem.className)
                 , classes = trimmedClasses ? trimmedClasses.split(/\s+/) : []
-                , i = 0
+                , i
                 , len = classes.length
             ;
-            for (; i < len; i++) {
+            for (i = 0; i < len; i++) {
                 this.push(classes[i]);
             }
             this._updateClassName = function () {
@@ -98,7 +96,7 @@ if (typeof document !== "undefined" && !("classList" in document.documentElement
             , updated = false
         ;
         do {
-            token = tokens[i] + "";
+            token = String(tokens[i]);
             if (checkTokenAndGetIndex(this, token) === -1) {
                 this.push(token);
                 updated = true;
@@ -116,11 +114,12 @@ if (typeof document !== "undefined" && !("classList" in document.documentElement
             , i = 0
             , l = tokens.length
             , token
+            , index
             , updated = false
         ;
         do {
-            token = tokens[i] + "";
-            var index = checkTokenAndGetIndex(this, token);
+            token = String(tokens[i]);
+            index = checkTokenAndGetIndex(this, token);
             if (index !== -1) {
                 this.splice(index, 1);
                 updated = true;
@@ -173,4 +172,4 @@ if (typeof document !== "undefined" && !("classList" in document.documentElement
 
     }(self));
 }
-})();
+}());
