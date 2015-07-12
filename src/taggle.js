@@ -26,7 +26,7 @@
         allowDuplicates:        false,
 
         /**
-         * Class name that will be added onto duplicate existant tag
+         * Class name that will be added onto duplicate existent tag
          * @type {String}
          */
         duplicateTagClass:      '',
@@ -85,7 +85,13 @@
          * @param  {Event} event Event triggered when tag was removed
          * @param  {String} tag The tag removed
          */
-        onTagRemove:            function() {}
+        onTagRemove:            function() {},
+
+        /**
+         * Function hook called when a close link is about to be added. Return true to avoid adding the link.
+         * @param {String} tag The name of the tag onto which the close link would be added
+         */
+        preventCloseLink:      function () {return false;}
     },
 
     BACKSPACE = 8,
@@ -333,7 +339,9 @@
             hidden.name = settings.hiddenInputName;
 
             li.appendChild(span);
-            li.appendChild(close);
+            if (!settings.preventCloseLink(text)) {
+                li.appendChild(close);
+            }
             li.appendChild(hidden);
 
             tag.values.push(text);
