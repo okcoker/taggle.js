@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html style="background:url(assets/images/bg.png) repeat" class="no-js" lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
+<meta charset="utf-8">
 <title>Sean Coker | Taggle.js</title>
 
-<meta charset="utf-8">
-<link type="text/css" href="assets/css/twilight.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="assets/css/twilight.css">
 <link rel="stylesheet" type="text/css" href="assets/css/projects.min.css">
 <link rel="stylesheet" type="text/css" href="assets/css/taggle.min.css">
 <!--[if lte IE 8]>
@@ -287,6 +287,10 @@ var taggle = new Taggle('example7', {
     <div class="option">
         <p>remove(tag, remove_all=false)</p>
         <p>Pass a string to remove the most recent occurance of the tag. Pass true to the second argument to remove all occurances of the tag.</p>
+    </div>
+    <div class="option">
+        <p>removeAll()</p>
+        <p>Remove all tags at once, including duplicates.</p>
     </div>
     <div class="option">
         <p>

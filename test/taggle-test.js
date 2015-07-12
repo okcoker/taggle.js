@@ -256,6 +256,21 @@
                     expect(this.instance.getTagValues()[3]).to.equal('four');
                 });
             });
+
+            describe('#removeAll', function() {
+                beforeEach(function() {
+                    this.instance = new Taggle(this.container, {
+                        tags: ['zero', 'one', 'two', 'three', 'four', 'three']
+                    });
+                });
+
+                it('should remove all existent tags', function() {
+                    expect(this.instance.getTagElements().length).to.equal(6);
+                    this.instance.removeAll();
+                    expect(this.instance.getTagElements().length).to.equal(0);
+                    expect(this.instance.getTagValues().length).to.equal(0);
+                });
+            });
         });
     });
 
