@@ -639,6 +639,18 @@
         }
     }
 
-    window.Taggle = Taggle;
+    /* global define, module */
+    if ( typeof define === 'function' && define.amd ) {
+        // AMD
+        define([], function () {
+            return Taggle;
+        });
+    } else if (typeof exports === 'object') {
+        // CommonJS
+        module.exports = Taggle;
+    } else {
+        // Vanilla browser global
+        window.Taggle = Taggle;
+    }
 
 }(window, document));
