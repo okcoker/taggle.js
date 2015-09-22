@@ -69,6 +69,23 @@
 
             });
 
+            it('should lowercase tags to be added by default', function() {
+                expect(this.instance.getTags().values.length).to.equal(0);
+                this.instance.add(['Tag']);
+                expect(this.instance.getTags().values[0]).to.equal('tag');
+            });
+
+            it('should preserve case when preserveCase is true', function() {
+                var taggle = new Taggle(this.container, {
+                        preserveCase: true
+                    });
+
+                expect(taggle.getTags().values.length).to.equal(0);
+                taggle.add(['tag', 'Tag']);
+                expect(taggle.getTags().values).to.eql(['tag', 'Tag']);
+                expect(taggle.getTags().values.length).to.equal(2);
+            });
+
             describe('#onTagAdd', function() {
                 it('should be called after a tag has been added', function() {
                     var container = createContainer(300, 400),
