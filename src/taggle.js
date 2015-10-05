@@ -433,6 +433,14 @@
         function _confirmValidTagEvent(e) {
             e = e || window.event;
 
+            if (input.value.indexOf(',') > -1) {
+                var tags = input.value.split(',');
+                for (var i = tags.length - 1; i >= 0; i--) {
+                    _add(e, tags[i]);
+                }
+                return;
+            }
+
             _add(e);
 
             //prevents from jumping out of textarea
