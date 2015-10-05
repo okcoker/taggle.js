@@ -104,8 +104,8 @@ module.exports = function(grunt) {
 
         watch: {
             all: {
-                files: ['Gruntfile.js', 'src/**/*'],
-                tasks: ['jshint']
+                files: ['Gruntfile.js', 'src/**/*', 'test/**/*'],
+                tasks: ['jshint', 'test']
             }
         },
 
