@@ -374,6 +374,12 @@ describe('Taggle', function() {
                 this.instance.add(['', Array, false]);
                 expect(this.instance.getTagElements().length).to.equal(6);
             });
+
+            it('should add new tags from a comma delimited list', function() {
+                expect(this.instance.getTagElements().length).to.equal(4);
+                this.instance.add('four, five, six, seven');
+                expect(this.instance.getTagElements().length).to.equal(8);
+            });
         });
 
         describe('#remove', function() {

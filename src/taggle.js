@@ -483,7 +483,13 @@
          */
         function _confirmValidTagEvent(e) {
             e = e || window.event;
-
+            if (input.value.indexOf(',') > -1) {
+               var tags = input.value.split(',');
+               for (var i = tags.length - 1; i >= 0; i--) {
+                   _add(e, tags[i]);
+               }
+               return;
+           }
             _add(e);
 
             // prevents from jumping out of textarea
@@ -599,18 +605,20 @@
         };
 
         self.add = function(text) {
-            var isArr = _isArray(text);
+            var is_arr = _isArray(text),
+                  is_str = typeof text === 'string';
 
-            if (typeof text === 'string') {
-                return _add(null, text);
-            }
-
-            if (isArr) {
+           if (is_str && text.indexOf(',') > -1 || is_arr) {
+                if (is_str) {
+                    text = text.split(',');
+                }
                 for (var i = 0, len = text.length; i < len; i++) {
                     if (typeof text[i] === 'string') {
                         _add(null, text[i]);
                     }
                 }
+            } else if (typeof text === 'string') {
+                return _add(null, text);
             }
 
             return self;
