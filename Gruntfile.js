@@ -135,11 +135,12 @@ module.exports = function(grunt) {
     });
 
     // register task
-    grunt.registerTask('build', ['mocha', 'uglify:main', 'ie9', 'ie8']);
-    grunt.registerTask('build:modern', ['mocha', 'sass', 'cssmin', 'uglify:main']);
-    grunt.registerTask('ie9', ['mocha', 'sass', 'cssmin', 'concat:ie9', 'uglify:ie9', 'clean']);
-    grunt.registerTask('ie8', ['mocha', 'sass', 'cssmin', 'concat:ie8', 'uglify:ie8', 'clean']);
+    grunt.registerTask('build', ['test', 'uglify:main', 'ie9', 'ie8']);
+    grunt.registerTask('build:modern', ['test', 'sass', 'cssmin', 'uglify:main']);
+    grunt.registerTask('ie9', ['test', 'sass', 'cssmin', 'concat:ie9', 'uglify:ie9', 'clean']);
+    grunt.registerTask('ie8', ['test', 'sass', 'cssmin', 'concat:ie8', 'uglify:ie8', 'clean']);
     grunt.registerTask('test', ['karma']);
     grunt.registerTask('dev', ['watch']);
+    grunt.registerTask('default', ['build']);
 
 };

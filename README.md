@@ -5,17 +5,13 @@ Form-ready dependency-less tagging.
 
 ## Install
 
-Bower:
-
-    bower install taggle.js --save
-
 NPM:
 
     npm install taggle --save
 
-Manual:
-- [Development Build](https://raw.github.com/okcoker/taggle.js/master/src/taggle.js)
-- [Minified/Production Build](https://raw.github.com/okcoker/taggle.js/master/dist/taggle.min.js)
+Bower:
+
+    bower install taggle.js --save
 
 
 ## How it works
@@ -43,13 +39,16 @@ Taggle comes with optional polyfills in order to add support for IE8 and IE9. If
 - taggle-ie9.js
 - taggle.js
 
-or optionally the compressed taggle-ie8.min.js
-
 ### IE9 Support
 - taggle-ie9.js
 - taggle.js
 
-or optionally the compressed taggle-ie9.min.js
+### Building minified version
+
+After cloning the repo you can build minified versions of the library by:
+
+- npm install
+- grunt uglify
 
 
 ## License
