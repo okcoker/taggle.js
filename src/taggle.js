@@ -345,6 +345,9 @@
             if (needle > -1) {
                 if (settings.duplicateTagClass) {
                     taggle_list.childNodes[needle].classList.add(settings.duplicateTagClass);
+	                window.setTimeout(function(){
+		                taggle_list.childNodes[needle].classList.remove(settings.duplicateTagClass);
+	                },800)
                 }
                 return true;
             }
