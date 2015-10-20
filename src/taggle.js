@@ -81,6 +81,12 @@
         submitKeys:             [],
 
         /**
+         * Preserve case of tags being added
+         * @type {Boolean}
+         */
+        preserveCase:           false,
+
+        /**
          * Function hook called when a tag is added
          * @param  {Event} event Event triggered when tag was added
          * @param  {String} tag The tag added
@@ -267,7 +273,7 @@
          * @param  {String} tag
          */
         function _add(e, text) {
-            var val = typeof text === 'string' ? text.toLowerCase() : _trim(input.value.toLowerCase()),
+            var val = _formatTag(typeof text === 'string' ? text : _trim(input.value)),
                 li,
                 lis,
                 last_li;
@@ -490,7 +496,7 @@
                 hidden = document.createElement('input'),
                 span = document.createElement('span');
 
-            text = text.toLowerCase();
+            text = _formatTag(text);
 
             close.href = 'javascript:void(0)';
             close.innerHTML = '&times;';
@@ -538,6 +544,15 @@
             settings.onTagRemove(e, text);
 
             _focusInput();
+        }
+
+        /**
+         * Format the text for a tag
+         * @param {String} text Tag text
+         * @return {String}
+         */
+        function _formatTag(text) {
+            return settings.preserveCase ? text : text.toLowerCase();
         }
 
         self.getTags = function() {
