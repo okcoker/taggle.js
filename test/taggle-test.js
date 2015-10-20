@@ -12,7 +12,8 @@ function createContainer(width, height) {
 
 function getObjectLength(obj) {
     'use strict';
-    var len = 0, key;
+    var len = 0;
+    var key;
 
     for (key in obj) {
         if (obj.hasOwnProperty(key)) {
@@ -33,12 +34,6 @@ describe('Taggle', function() {
 
     afterEach(function() {
         this.container.parentNode.removeChild(this.container);
-    });
-
-    describe('Initialization', function() {
-        it('should exist as a global', function() {
-            expect(Taggle).to.exist;
-        });
     });
 
     describe('Options', function() {
@@ -68,25 +63,6 @@ describe('Taggle', function() {
 
         });
 
-        it('should lowercase tags to be added by default', function() {
-            expect(this.instance.getTags().values.length).to.equal(0);
-            this.instance.add(['Tag']);
-            expect(this.instance.getTags().values[0]).to.equal('tag');
-        });
-
-        it('should clear any input when the input element is blurred', function() {
-            var input = this.instance.getInput();
-            var tag = 'thing';
-
-            expect(this.instance.getTagValues().length).to.equal(0);
-
-            input.focus();
-            input.value = tag;
-            input.blur();
-
-            expect(this.instance.getTagValues().length).to.equal(0);
-        });
-
         it('should preserve case when preserveCase is true', function() {
             var taggle = new Taggle(this.container, {
                 preserveCase: true
@@ -100,11 +76,10 @@ describe('Taggle', function() {
 
         describe('#onTagAdd', function() {
             it('should be called after a tag has been added', function() {
-                var container = createContainer(300, 400),
-                    tag = 'one',
-                    onTagAddSpy = sinon.spy(),
-                    ret,
-                    taggle;
+                var container = createContainer(300, 400);
+                var tag = 'one';
+                var onTagAddSpy = sinon.spy();
+                var taggle;
 
                 document.body.appendChild(container);
 
@@ -121,35 +96,34 @@ describe('Taggle', function() {
             });
 
             it('should reflect one additional tag value when being called', function() {
-                var tags_length,
-                    container = createContainer(300, 400),
-                    tag = 'tag',
-                    cb_length,
-                    taggle;
+                var tagsLength;
+                var container = createContainer(300, 400);
+                var tag = 'tag';
+                var cbLength;
+                var taggle;
 
                 document.body.appendChild(container);
 
                 taggle = new Taggle(container, {
                     onTagAdd: function() {
-                        cb_length = taggle.getTagElements().length;
+                        cbLength = taggle.getTagElements().length;
                     }
                 });
 
-                tags_length = taggle.getTagElements().length;
+                tagsLength = taggle.getTagElements().length;
 
                 taggle.add(tag);
 
-                expect(cb_length).to.eq(tags_length + 1);
+                expect(cbLength).to.eq(tagsLength + 1);
             });
         });
 
         describe('#onTagRemove', function() {
             it('should be called after a tag has been removed', function() {
-                var container = createContainer(300, 400),
-                    tag = 'one',
-                    onTagRemoveSpy = sinon.spy(),
-                    ret,
-                    taggle;
+                var container = createContainer(300, 400);
+                var tag = 'one';
+                var onTagRemoveSpy = sinon.spy();
+                var taggle;
 
                 document.body.appendChild(container);
 
@@ -170,28 +144,80 @@ describe('Taggle', function() {
             });
 
             it('should reflect one less tag value when being called', function() {
-                var tags_length,
-                    container = createContainer(300, 400),
-                    tag = 'tag',
-                    cb_length,
-                    taggle;
+                var tagsLength;
+                var container = createContainer(300, 400);
+                var tag = 'tag';
+                var cbLength;
+                var taggle;
 
                 document.body.appendChild(container);
 
                 taggle = new Taggle(container, {
                     onTagRemove: function() {
-                        cb_length = taggle.getTagElements().length;
+                        cbLength = taggle.getTagElements().length;
                     }
                 });
 
                 taggle.add(tag);
 
-                tags_length = taggle.getTagElements().length;
+                tagsLength = taggle.getTagElements().length;
 
                 taggle.remove(tag);
 
-                expect(cb_length).to.eq(tags_length - 1);
+                expect(cbLength).to.eq(tagsLength - 1);
             });
+        });
+    });
+
+    describe('Overall functionality', function() {
+        beforeEach(function() {
+            this.instance = new Taggle(this.container);
+        });
+
+        afterEach(function() {
+            this.instance = null;
+        });
+
+        it('should allow for multiple instances to co-exist', function() {
+            var container = createContainer(500, 300);
+            container.id = 'taggle2';
+            document.body.appendChild(container);
+
+            var first = ['these', 'tags', 'should'];
+            var firstLength = first.length;
+            var second = ['not', 'affect', 'each', 'other'];
+            var secondLength = second.length;
+
+            this.instance.add(first);
+
+            var instance = new Taggle(container, {
+                tags: second
+            });
+
+            instance.remove('other');
+            expect(this.instance.getTagValues().length).to.equal(firstLength);
+            expect(instance.getTagValues().length).to.equal(secondLength - 1);
+
+            container.parentNode.removeChild(container);
+        });
+
+        it('should lowercase tags to be added by default', function() {
+            expect(this.instance.getTags().values.length).to.equal(0);
+            this.instance.add(['Tag']);
+            expect(this.instance.getTags().values[0]).to.equal('tag');
+        });
+
+        it('should clear any input when the input element is blurred', function() {
+            var input = this.instance.getInput();
+            var tag = 'thing';
+
+            expect(this.instance.getTagValues().length).to.equal(0);
+
+            input.focus();
+            input.value = tag;
+            input.blur();
+
+            expect(this.instance.getTagValues().length).to.equal(0);
         });
     });
 
@@ -201,6 +227,11 @@ describe('Taggle', function() {
                 tags: ['zero', 'one', 'two', 'three']
             });
         });
+
+        afterEach(function() {
+            this.instance = null;
+        });
+
 
         describe('#getTagValues', function() {
             it('should match length of tags passed in options', function() {

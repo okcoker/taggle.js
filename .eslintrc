@@ -9,7 +9,6 @@
         "space-after-function-name": 0,
         "space-before-function-parentheses": 0,
         "space-unary-word-ops": 0,
-
         "no-alert": 2,
         "no-array-constructor": 2,
         "no-caller": 2,
@@ -86,11 +85,10 @@
         "no-unused-expressions": 2,
         "no-unused-vars": [2, { "vars": "all", "args": "none" }],
         "no-use-before-define": 2,
-        // "no-var": 2,
+        "one-var": [2, "never"],
         "no-warning-comments": [1, { "terms": ["@todo", "todo", "fixme", "@fixme"] }],
         "no-with": 2,
         "no-extra-parens": 0,
-
         "accessor-pairs": [2, { "setWithoutGet": true }],
         "array-bracket-spacing": [2, "never"],
         "brace-style": [2, "stroustrup"],
@@ -144,7 +142,6 @@
         "valid-typeof": 2,
         "wrap-iife": [2, "outside"],
         "yoda": [2, "never"],
-        "camelcase": [0, { "properties": "always" }],
         "prefer-const": 0,
         "brace-style": [2, "stroustrup", { "allowSingleLine": false }],
         "object-shorthand": 0,
