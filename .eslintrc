@@ -3,7 +3,7 @@
         "browser": true,
     },
     "rules": {
-        "global-strict": 0,
+        "strict": 1,
         "no-extra-strict": 0,
         "no-space-before-semi": 0,
         "space-after-function-name": 0,

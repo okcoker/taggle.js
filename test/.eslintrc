@@ -1,0 +1,21 @@
+{
+    "extends": "../.eslintrc",
+    "env": {
+        "mocha": true
+    },
+    "globals": {
+        "chai": true,
+        "before": true,
+        "after": true,
+        "beforeEach": true,
+        "afterEach": true,
+        "describe": true,
+        "sinon": true,
+        "expect": true,
+        "Taggle": true
+    },
+    "rules": {
+        "max-nested-callbacks": [1, 4],
+        "no-unused-expressions": 0
+    }
+}

@@ -4,6 +4,9 @@ module.exports = function(grunt) {
 
     require('load-grunt-tasks')(grunt);
 
+    var karmaReporter = grunt.option('reporters') || 'progress';
+    var karmaBrowser = grunt.option('browsers') || 'PhantomJS';
+
     grunt.initConfig({
 
         pkg: grunt.file.readJSON('package.json'),
@@ -109,16 +112,26 @@ module.exports = function(grunt) {
             }
         },
 
-        mocha: {
+        karma: {
             options: {
-                reporter: 'Dot',
-                run: true
+                configFile: 'karma.conf.js',
+                browsers: karmaBrowser.split(','),
+                singleRun: grunt.option('single-run') ? false : true,
+                logLevel: 'error',
+                reporters: karmaReporter.split(',').concat('coverage'),
+                client: {
+                    captureConsole: !!grunt.option('console')
+                }
             },
-            src: [
-                'test/**/*.html'
-            ]
+            main: {
+                files: [{
+                    src: [
+                        'src/**/*.js',
+                        'test/**/*-test.js'
+                    ]
+                }]
+            }
         }
-
     });
 
     // register task
@@ -126,7 +139,7 @@ module.exports = function(grunt) {
     grunt.registerTask('build:modern', ['mocha', 'sass', 'cssmin', 'uglify:main']);
     grunt.registerTask('ie9', ['mocha', 'sass', 'cssmin', 'concat:ie9', 'uglify:ie9', 'clean']);
     grunt.registerTask('ie8', ['mocha', 'sass', 'cssmin', 'concat:ie8', 'uglify:ie8', 'clean']);
-    grunt.registerTask('test', ['mocha']);
+    grunt.registerTask('test', ['karma']);
     grunt.registerTask('dev', ['watch']);
 
 };
