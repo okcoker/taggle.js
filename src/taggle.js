@@ -1,6 +1,4 @@
-/*jshint scripturl:true, smarttabs:true */
-
- /*!
+/* !
  * @author Sean Coker <sean@seancoker.com>
  * @version 1.5.1
  * @url http://sean.is/poppin/tags
@@ -8,103 +6,104 @@
  * @description Taggle is a dependency-less tagging library
  */
 
-;(function(window, document, undefined) {
+(function(window, document) {
+    'use strict';
 
     var DEFAULTS = {
 
-        /**
-         * Class names to be added on each tag entered
-         * @type {String}
-         */
-        additionalTagClasses:   '',
+            /**
+             * Class names to be added on each tag entered
+             * @type {String}
+             */
+            additionalTagClasses: '',
 
-        /**
-         * Allow duplicate tags to be entered in the field?
-         * @type {Boolean}
-         */
-        allowDuplicates:        false,
+            /**
+             * Allow duplicate tags to be entered in the field?
+             * @type {Boolean}
+             */
+            allowDuplicates: false,
 
-        /**
-         * Allow the saving of a tag on blur, rather than it being
-         * removed.
-         *
-         * @type {Boolean}
-         */
-         saveOnBlur:            false,
+            /**
+             * Allow the saving of a tag on blur, rather than it being
+             * removed.
+             *
+             * @type {Boolean}
+             */
+            saveOnBlur: false,
 
-        /**
-         * Class name that will be added onto duplicate existant tag
-         * @type {String}
-         */
-        duplicateTagClass:      '',
+            /**
+             * Class name that will be added onto duplicate existant tag
+             * @type {String}
+             */
+            duplicateTagClass: '',
 
-        /**
-         * Class added to the container div when focused
-         * @type {String}
-         */
-        containerFocusClass:    'active',
+            /**
+             * Class added to the container div when focused
+             * @type {String}
+             */
+            containerFocusClass: 'active',
 
-        /**
-         * Name added to the hidden inputs within each tag
-         * @type {String}
-         */
-        hiddenInputName:        'taggles[]',
+            /**
+             * Name added to the hidden inputs within each tag
+             * @type {String}
+             */
+            hiddenInputName: 'taggles[]',
 
-        /**
-         * Tags that should be preloaded in the div on load
-         * @type {Array}
-         */
-        tags:                   [],
+            /**
+             * Tags that should be preloaded in the div on load
+             * @type {Array}
+             */
+            tags: [],
 
-        /**
-         * Tags that the user will be restricted to
-         * @type {Array}
-         */
-        allowedTags:            [],
+            /**
+             * Tags that the user will be restricted to
+             * @type {Array}
+             */
+            allowedTags: [],
 
-        /**
-         * If within a form, you can specify the tab index flow
-         * @type {Number}
-         */
-        tabIndex:               1,
+            /**
+             * If within a form, you can specify the tab index flow
+             * @type {Number}
+             */
+            tabIndex: 1,
 
-        /**
-         * Placeholder string to be placed in an empty taggle field
-         * @type {String}
-         */
-        placeholder:            'Enter tags...',
+            /**
+             * Placeholder string to be placed in an empty taggle field
+             * @type {String}
+             */
+            placeholder: 'Enter tags...',
 
-        /**
-         * Keycodes that will add a tag
-         * @type {Array}
-         */
-        submitKeys:             [],
+            /**
+             * Keycodes that will add a tag
+             * @type {Array}
+             */
+            submitKeys: [],
 
-        /**
-         * Preserve case of tags being added
-         * @type {Boolean}
-         */
-        preserveCase:           false,
+            /**
+             * Preserve case of tags being added
+             * @type {Boolean}
+             */
+            preserveCase: false,
 
-        /**
-         * Function hook called when a tag is added
-         * @param  {Event} event Event triggered when tag was added
-         * @param  {String} tag The tag added
-         */
-        onTagAdd:               function() {},
+            /**
+             * Function hook called when a tag is added
+             * @param  {Event} event Event triggered when tag was added
+             * @param  {String} tag The tag added
+             */
+            onTagAdd: function() {},
 
-        /**
-         * Function hook called when a tag is removed
-         * @param  {Event} event Event triggered when tag was removed
-         * @param  {String} tag The tag removed
-         */
-        onTagRemove:            function() {}
-    },
+            /**
+             * Function hook called when a tag is removed
+             * @param  {Event} event Event triggered when tag was removed
+             * @param  {String} tag The tag removed
+             */
+            onTagRemove: function() {}
+        },
 
-    BACKSPACE = 8,
-    COMMA = 188,
-    TAB = 9,
-    ENTER = 13;
+        BACKSPACE = 8,
+        COMMA = 188,
+        TAB = 9,
+        ENTER = 13;
 
     /**
      * Constructor
@@ -627,9 +626,6 @@
 
 
     function _extend() {
-        if (arguments.length < 2) {
-            return;
-        }
         var master = arguments[0];
         for (var i = 1, l = arguments.length; i < l; i++) {
             var object = arguments[i];

@@ -1,6 +1,6 @@
-/*jshint node:true */
+/* eslint-env node */
 module.exports = function(grunt) {
-    "use strict";
+    'use strict';
 
     require('load-grunt-tasks')(grunt);
 
@@ -8,16 +8,16 @@ module.exports = function(grunt) {
 
         pkg: grunt.file.readJSON('package.json'),
 
-        banner: "/*!\n" +
- "* @author <%= pkg.author %>\n" +
- "* @version <%= pkg.version %>\n" +
- "* @url <%= pkg.url %>\n" +
- "* @license MIT\n" +
- "* @description <%= pkg.description %>\n" +
- "*/\n",
-        jshint: {
+        banner: '/*!\n' +
+ '* @author <%= pkg.author %>\n' +
+ '* @version <%= pkg.version %>\n' +
+ '* @url <%= pkg.url %>\n' +
+ '* @license MIT\n' +
+ '* @description <%= pkg.description %>\n' +
+ '*/\n',
+        eslint: {
             options: {
-                'jshintrc': '.jshintrc'
+                configFile: '.eslintrc'
             },
             files: [
                 'Gruntfile.js', 'src/taggle.js'
@@ -105,7 +105,7 @@ module.exports = function(grunt) {
         watch: {
             all: {
                 files: ['Gruntfile.js', 'src/**/*', 'test/**/*'],
-                tasks: ['jshint', 'test']
+                tasks: ['eslint', 'test']
             }
         },
 
