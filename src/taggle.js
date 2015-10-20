@@ -25,6 +25,14 @@
         allowDuplicates:        false,
 
         /**
+         * Allow the saving of a tag on blur, rather than it being
+         * removed.
+         *
+         * @type {Boolean}
+         */
+         saveOnBlur:            false,
+
+        /**
          * Class name that will be added onto duplicate existant tag
          * @type {String}
          */
@@ -201,8 +209,8 @@
             });
 
             input.onfocus = _focusInput;
-            input.onblur = _blurInput;
 
+            _on(input, 'blur', _blurEvent);
             _on(input, 'keydown', _keydownEvents);
             _on(input, 'keyup', _keyupEvents);
         }
@@ -377,18 +385,36 @@
         }
 
         /**
-         * Sets state of container when blurred
+         * Runs all the events that need to happen on a blur
+         * @param  {Event} e
          */
-        function _blurInput() {
-            input.value = '';
-            _setInputWidth();
+        function _blurEvent(e) {
 
-            if (container.classList.contains(settings.containerFocusClass)) {
-                container.classList.remove(settings.containerFocusClass);
-            }
+            if (settings.saveOnBlur) {
+                e = e || window.event;
 
-            if (!tag.values.length && placeholder) {
-                placeholder.style.opacity = 1;
+                _listenForEndOfContainer();
+
+                if (input.value !== '') {
+                    _confirmValidTagEvent(e);
+                    return;
+                }
+
+                if (tag.values.length) {
+                    _checkLastTag(e);
+                }
+
+            } else {
+                input.value = '';
+                _setInputWidth();
+
+                if (container.classList.contains(settings.containerFocusClass)) {
+                    container.classList.remove(settings.containerFocusClass);
+                }
+
+                if (!tag.values.length && placeholder) {
+                    placeholder.style.opacity = 1;
+                }
             }
         }
 
