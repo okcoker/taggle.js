@@ -270,7 +270,23 @@ var taggle = new Taggle('example7', {
             <p>Tags that the user will be restricted to.</p>
         </div>
     </div>
-       <div class="option">
+    <div class="option">
+        <p>
+            onBeforeTagAdd(event, tag)
+        </p>
+        <p>
+            Hook fired before a tag is added. Provides the event and tag text. Return false to prevent the tag from being added.
+        </p>
+    </div>
+    <div class="option">
+        <p>
+            onBeforeTagRemove(event, tag)
+        </p>
+        <p>
+            Hook fired before a tag is removed. Provides the event and tag text. Return false to prevent the tag from being removed.
+        </p>
+    </div>
+    <div class="option">
         <p>
             onTagAdd(event, tag)
         </p>

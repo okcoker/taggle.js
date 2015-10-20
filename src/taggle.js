@@ -87,11 +87,25 @@
         preserveCase: false,
 
         /**
+         * Function hook called before a tag is added. Return false
+         * to prevent tag from being added
+         * @param  {String} tag The tag to be added
+         */
+        onBeforeTagAdd: noop,
+
+        /**
          * Function hook called when a tag is added
          * @param  {Event} event Event triggered when tag was added
          * @param  {String} tag The tag added
          */
         onTagAdd: noop,
+
+        /**
+         * Function hook called before a tag is removed. Return false
+         * to prevent tag from being removed
+         * @param  {String} tag The tag to be removed
+         */
+        onBeforeTagRemove: noop,
 
         /**
          * Function hook called when a tag is removed
@@ -248,10 +262,11 @@
 
         /**
          * Returns whether or not the specified tag text can be added
+         * @param  {Event} e event causing the potentially added tag
          * @param  {String} text tag value
          * @return {Boolean}
          */
-        function _canAdd(text) {
+        function _canAdd(e, text) {
             if (!text) {
                 return false;
             }
@@ -261,6 +276,10 @@
             }
 
             if (settings.allowedTags.length && settings.allowedTags.indexOf(text) === -1) {
+                return false;
+            }
+
+            if (settings.onBeforeTagAdd(e, text) === false) {
                 return false;
             }
 
@@ -277,7 +296,7 @@
             var lis;
             var lastLi;
 
-            if (!_canAdd(val)) {
+            if (!_canAdd(e, val)) {
                 return;
             }
 
@@ -537,6 +556,10 @@
 
             span = li.querySelector('.taggle_text');
             text = span.innerText || span.textContent;
+
+            if (settings.onBeforeTagRemove(e, text) === false) {
+                return false;
+            }
 
             li.parentNode.removeChild(li);
             _removeFromTheTags(li, tag);

@@ -74,6 +74,50 @@ describe('Taggle', function() {
             expect(taggle.getTags().values.length).to.equal(2);
         });
 
+        describe('#onBeforeTagAdd', function() {
+            it('should not add the tag if the function returns false', function() {
+                var container = createContainer(300, 400);
+                var tag = 'tag';
+
+                document.body.appendChild(container);
+
+                var taggle = new Taggle(container, {
+                    tags: ['some', 'tags', tag],
+                    onBeforeTagAdd: function() {
+                        return false;
+                    }
+                });
+
+                var length = taggle.getTagValues().length;
+                taggle.add(tag);
+
+                expect(taggle.getTagValues().length).to.eq(length);
+
+                container.parentNode.removeChild(container);
+            });
+
+            it('should add the tag if the function returns something other than false', function() {
+                var container = createContainer(300, 400);
+                var tag = 'tag';
+
+                document.body.appendChild(container);
+
+                var taggle = new Taggle(container, {
+                    tags: ['some', 'tags'],
+                    onBeforeTagAdd: function() {
+                        return 'ads';
+                    }
+                });
+
+                var length = taggle.getTagValues().length;
+                taggle.add(tag);
+
+                expect(taggle.getTagValues().length).to.eq(length + 1);
+
+                container.parentNode.removeChild(container);
+            });
+        });
+
         describe('#onTagAdd', function() {
             it('should be called after a tag has been added', function() {
                 var container = createContainer(300, 400);
@@ -115,6 +159,52 @@ describe('Taggle', function() {
                 taggle.add(tag);
 
                 expect(cbLength).to.eq(tagsLength + 1);
+
+                container.parentNode.removeChild(container);
+            });
+        });
+
+        describe('#onBeforeTagRemove', function() {
+            it('should not remove the tag if the function returns false', function() {
+                var container = createContainer(300, 400);
+                var tag = 'tag';
+
+                document.body.appendChild(container);
+
+                var taggle = new Taggle(container, {
+                    tags: ['some', 'tags', tag],
+                    onBeforeTagRemove: function() {
+                        return false;
+                    }
+                });
+
+                var length = taggle.getTagValues().length;
+                taggle.remove(tag);
+
+                expect(taggle.getTagValues().length).to.eq(length);
+
+                container.parentNode.removeChild(container);
+            });
+
+            it('should remove the tag if the function returns something other than false', function() {
+                var container = createContainer(300, 400);
+                var tag = 'tag';
+
+                document.body.appendChild(container);
+
+                var taggle = new Taggle(container, {
+                    tags: ['some', 'tags', tag],
+                    onBeforeTagRemove: function() {
+                        return 'ads';
+                    }
+                });
+
+                var length = taggle.getTagValues().length;
+                taggle.remove(tag);
+
+                expect(taggle.getTagValues().length).to.eq(length - 1);
+
+                container.parentNode.removeChild(container);
             });
         });
 
