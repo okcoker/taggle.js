@@ -579,7 +579,10 @@
         }
 
         self.getTags = function() {
-            return tag;
+            return {
+                elements: self.getTagElements(),
+                values: self.getTagValues()
+            };
         };
 
         self.getTagElements = function() {
@@ -587,7 +590,7 @@
         };
 
         self.getTagValues = function() {
-            return tag.values;
+            return [].slice.apply(tag.values);
         };
 
         self.getInput = function() {
