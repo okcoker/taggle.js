@@ -726,15 +726,17 @@
     }
 
     /* global define, module */
-    if ( typeof define === 'function' && define.amd ) {
+    if (typeof define === 'function' && define.amd) {
         // AMD
-        define([], function () {
+        define([], function() {
             return Taggle;
         });
-    } else if (typeof exports === 'object') {
+    }
+    else if (typeof exports === 'object') {
         // CommonJS
         module.exports = Taggle;
-    } else {
+    }
+    else {
         // Vanilla browser global
         window.Taggle = Taggle;
     }
