@@ -240,11 +240,14 @@ p a:hover {
   text-decoration: none;
   padding-left: 2px;
   padding-top: 3px;
-  line-height: 75%;
+  line-height: 0.5;
   color: #ccc;
   color: rgba(0, 0, 0, 0.2);
   padding-bottom: 4px;
   display: none;
+  border: 0;
+  background: none;
+  cursor: pointer;
 }
 
 .taggle_list .taggle:hover {

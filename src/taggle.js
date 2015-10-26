@@ -88,6 +88,14 @@
         preserveCase: false,
 
         /**
+         * Function hook called with the to-be-added tag DOM element.
+         * Use this function to edit the list item before it is appended
+         * to the DOM
+         * @param  {HTMLElement} li The list item to be added
+         */
+        tagFormatter: noop,
+
+        /**
          * Function hook called before a tag is added. Return false
          * to prevent tag from being added
          * @param  {String} tag The tag to be added
@@ -524,13 +532,12 @@
 
         function _createTag(text) {
             var li = document.createElement('li');
-            var close = document.createElement('a');
+            var close = document.createElement('button');
             var hidden = document.createElement('input');
             var span = document.createElement('span');
 
             text = _formatTag(text);
 
-            close.href = 'javascript:void(0)';
             close.innerHTML = '&times;';
             close.className = 'close';
             close.onclick = _remove.bind(null, close);
@@ -547,6 +554,16 @@
             li.appendChild(span);
             li.appendChild(close);
             li.appendChild(hidden);
+
+            var formatted = settings.tagFormatter(li);
+
+            if (typeof formatted !== 'undefined') {
+                li = formatted;
+            }
+
+            if (!(li instanceof HTMLElement) || li.tagName !== 'LI') {
+                throw Error('tagFormatter must return an li element');
+            }
 
             tag.values.push(text);
             tag.elements.push(li);

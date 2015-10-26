@@ -74,6 +74,45 @@ describe('Taggle', function() {
             expect(taggle.getTags().values.length).to.equal(2);
         });
 
+        describe('#tagFormatter', function() {
+            it('should throw if li element is not returned', function() {
+                var instance = new Taggle(this.container, {
+                    tagFormatter: function() {
+                        return '';
+                    }
+                });
+
+                expect(instance.add.bind(instance, 'tag')).to.throw();
+            });
+
+            it('should be called with an LI element', function() {
+                var spy = sinon.spy();
+                var instance = new Taggle(this.container, {
+                    tagFormatter: spy
+                });
+
+                instance.add('tag');
+
+                expect(spy.args[0][0].tagName).to.eq('LI');
+            });
+
+            it('should allow you to format the LI element before it is added to the textarea', function() {
+                var html = 'test';
+                var instance = new Taggle(this.container, {
+                    tagFormatter: function(li) {
+                        li.innerHTML = html;
+                        return li;
+                    }
+                });
+
+                instance.add('tag');
+
+                var li = instance.getContainer().querySelector('.taggle');
+
+                expect(li.innerHTML).to.eq(html);
+            });
+        });
+
         describe('#onBeforeTagAdd', function() {
             it('should not add the tag if the function returns false', function() {
                 var container = createContainer(300, 400);
@@ -321,7 +360,6 @@ describe('Taggle', function() {
         afterEach(function() {
             this.instance = null;
         });
-
 
         describe('#getTagValues', function() {
             it('should match length of tags passed in options', function() {
