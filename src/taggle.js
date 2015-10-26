@@ -272,15 +272,15 @@
                 return false;
             }
 
+            if (settings.onBeforeTagAdd(e, text) === false) {
+                return false;
+            }
+
             if (!settings.allowDuplicates && _hasDupes(text)) {
                 return false;
             }
 
             if (settings.allowedTags.length && settings.allowedTags.indexOf(text) === -1) {
-                return false;
-            }
-
-            if (settings.onBeforeTagAdd(e, text) === false) {
                 return false;
             }
 
