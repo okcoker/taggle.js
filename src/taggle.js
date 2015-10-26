@@ -292,26 +292,29 @@
          * @param  {String} tag
          */
         function _add(e, text) {
-            var val = _formatTag(typeof text === 'string' ? text : _trim(input.value));
-            var li;
-            var lis;
-            var lastLi;
+            var values = text || '';
 
-            if (!_canAdd(e, val)) {
-                return;
+            if (typeof text !== 'string') {
+                values = _trim(input.value);
             }
 
-            li = _createTag(val);
-            lis = list.querySelectorAll('li');
-            lastLi = lis[lis.length - 1];
-            list.insertBefore(li, lastLi);
+            values.split(',').map(_formatTag).forEach(function(val) {
+                if (!_canAdd(e, val)) {
+                    return;
+                }
 
-            settings.onTagAdd(e, val);
+                var li = _createTag(val);
+                var lis = list.querySelectorAll('li');
+                var lastLi = lis[lis.length - 1];
+                list.insertBefore(li, lastLi);
 
-            input.value = '';
-            _setInputWidth();
-            _fixInputWidth();
-            _focusInput();
+                settings.onTagAdd(e, val);
+
+                input.value = '';
+                _setInputWidth();
+                _fixInputWidth();
+                _focusInput();
+            });
         }
 
         /**
@@ -415,7 +418,6 @@
          * @param  {Event} e
          */
         function _blurEvent(e) {
-
             if (settings.saveOnBlur) {
                 e = e || window.event;
 
@@ -453,8 +455,13 @@
             e = e || window.event;
 
             var key = e.keyCode;
+            self.pasting = false;
 
             _listenForEndOfContainer();
+
+            if (key === 86 && e.metaKey) {
+                self.pasting = true;
+            }
 
             if (_isConfirmKey(key) && input.value !== '') {
                 _confirmValidTagEvent(e);
@@ -476,6 +483,11 @@
             input.classList.remove('taggle_back');
 
             _setText(sizer, input.value);
+
+            if (self.pasting && input.value !== '') {
+                _add(e);
+                self.pasting = false;
+            }
         }
 
         /**
@@ -484,14 +496,6 @@
          */
         function _confirmValidTagEvent(e) {
             e = e || window.event;
-            if (input.value.indexOf(',') > -1) {
-               var tags = input.value.split(',');
-               for (var i = tags.length - 1; i >= 0; i--) {
-                   _add(e, tags[i]);
-               }
-               return;
-           }
-            _add(e);
 
             // prevents from jumping out of textarea
             if (e.preventDefault) {
@@ -500,6 +504,8 @@
             else {
                 e.returnValue = false;
             }
+
+            _add(e);
         }
 
         /**
@@ -611,19 +617,16 @@
         };
 
         self.add = function(text) {
-            var is_arr = _isArray(text),
-                  is_str = typeof text === 'string';
+            var isArr = _isArray(text);
 
-           if (is_str && text.indexOf(',') > -1 || is_arr) {
-                if (is_str) {
-                    text = text.split(',');
-                }
+            if (isArr) {
                 for (var i = 0, len = text.length; i < len; i++) {
                     if (typeof text[i] === 'string') {
                         _add(null, text[i]);
                     }
                 }
-            } else if (typeof text === 'string') {
+            }
+            else {
                 return _add(null, text);
             }
 

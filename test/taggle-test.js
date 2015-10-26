@@ -386,8 +386,15 @@ describe('Taggle', function() {
 
             it('should add new tags from a comma delimited list', function() {
                 expect(this.instance.getTagElements().length).to.equal(4);
-                this.instance.add('four, five, six, seven');
+                var tags = 'four, five, six, seven';
+                var allTags = this.instance.getTagValues().concat(tags.split(','));
+                this.instance.add(tags);
                 expect(this.instance.getTagElements().length).to.equal(8);
+
+                // Ensure added in same order
+                this.instance.getTagValues().forEach(function(tag, i) {
+                    expect(tag).to.equal(allTags[i]);
+                });
             });
         });
 
