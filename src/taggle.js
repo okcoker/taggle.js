@@ -35,6 +35,7 @@
         /**
          * Class name that will be added onto duplicate existant tag
          * @type {String}
+         * @deprecated
          */
         duplicateTagClass: '',
 
@@ -585,10 +586,12 @@
             };
         };
 
+        // @deprecated
         self.getTagElements = function() {
             return tag.elements;
         };
 
+        // @deprecated
         self.getTagValues = function() {
             return [].slice.apply(tag.values);
         };
