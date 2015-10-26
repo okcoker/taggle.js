@@ -89,19 +89,29 @@ module.exports = function(grunt) {
             }
         },
 
-        cssmin: {
-            compress: {
-                files: {
-                    'assets/css/taggle.min.css': ['assets/css/taggle.css']
-                }
-            }
-        },
-
-        compass: {
+        postcss: {
             options: {
-                config: 'config.rb',
-                sassDir: 'assets/scss',
-                cssDir: 'assets/css'
+                processors: [
+                    require('autoprefixer')({
+                        browsers: [
+                            'IE >= 8',
+                            'last 2 versions'
+                        ]
+                    })
+                ]
+            },
+            main: {
+                src: 'assets/css/taggle.css'
+            },
+            min: {
+                options: {
+                    processors: [
+                        require('cssnano')()
+                    ]
+                },
+                files: {
+                    'assets/css/taggle.min.css': 'assets/css/taggle.css'
+                }
             }
         },
 
@@ -136,9 +146,10 @@ module.exports = function(grunt) {
 
     // register task
     grunt.registerTask('build', ['test', 'uglify:main', 'ie9', 'ie8']);
-    grunt.registerTask('build:modern', ['test', 'sass', 'cssmin', 'uglify:main']);
-    grunt.registerTask('ie9', ['test', 'sass', 'cssmin', 'concat:ie9', 'uglify:ie9', 'clean']);
-    grunt.registerTask('ie8', ['test', 'sass', 'cssmin', 'concat:ie8', 'uglify:ie8', 'clean']);
+    grunt.registerTask('build:modern', ['test', 'css', 'uglify:main']);
+    grunt.registerTask('ie9', ['test', 'css', 'concat:ie9', 'uglify:ie9', 'clean']);
+    grunt.registerTask('ie8', ['test', 'css', 'concat:ie8', 'uglify:ie8', 'clean']);
+    grunt.registerTask('css', ['sass', 'postcss']);
     grunt.registerTask('test', ['karma']);
     grunt.registerTask('dev', ['watch']);
     grunt.registerTask('default', ['build']);

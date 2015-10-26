@@ -1,5 +1,3 @@
-@import 'compass/css3';
-
 $project_color: #990033;
 $button_text_color: #fff;
 $gray: #8a8a8a;
@@ -9,7 +7,7 @@ html {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    @include text-shadow(1px 1px 1px #fff);
+    text-shadow: 1px 1px 1px #fff;
     color: #000;
     font-weight: bold;
     line-height: 1.5;
@@ -17,7 +15,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 pre {
-    @include border-radius(3px);
+    border-radius: 3px;
 }
 
 p {
@@ -27,20 +25,20 @@ p {
 p a {
     color: $project_color;
     text-decoration: none;
-    @include transition(all .25s);
+    transition: all .25s;
     padding: 3px;
 }
 
 p a:hover {
     color: #fff;
     background: $project_color;
-    @include transition(all .25s);
+    transition: all .25s;
 }
 
 .btn {
     background: $project_color;
     padding: 12px 30px;
-    @include border-radius(3px);
+    border-radius: 3px;
     margin-right: 10px;
     color: $button_text_color !important;
     position: relative;
@@ -222,13 +220,13 @@ p a:hover {
 }
 
 .bounce {
-    -webkit-animation-name: bounce;
-    -moz-animation-name: bounce;
-    -o-animation-name: bounce;
     animation-name: bounce;
 }
 
-#forkongithub a{background:$project_color;color:$button_text_color;}
+#forkongithub a{
+    background: $project_color;
+    color: $button_text_color;
+}
 
 /*plugin specific styles*/
 
@@ -270,14 +268,8 @@ p a:hover {
     border-radius: 3px;
     position: relative;
     cursor: pointer;
-    @include transition(all .3s);
-    -webkit-animation-duration: 1s;
-    -moz-animation-duration: 1s;
-    -o-animation-duration: 1s;
+    transition: all .3s;
     animation-duration: 1s;
-    -webkit-animation-fill-mode: both;
-    -moz-animation-fill-mode: both;
-    -o-animation-fill-mode: both;
     animation-fill-mode: both;
 }
 
@@ -304,7 +296,7 @@ p a:hover {
     padding: 5px;
     padding-right: 15px;
     background: #ccc;
-    @include transition(all .3s);
+    transition: all .3s;
 }
 
 .taggle_list .taggle:hover > .close {
@@ -320,10 +312,8 @@ p a:hover {
     color: #CCC;
     top: 12px;
     left: 8px;
-    @include transition(opacity, .25s);
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+    transition: opacity, .25s;
+    user-select: none;
 }
 
 .taggle_input {
@@ -381,12 +371,12 @@ textarea.input,
 .textarea.input {
     border: 0;
     background: #FDFDFD;
-    @include box-shadow(inset 0 1px 2px rgba(0, 0, 0, 0.2), 0 1px 1px rgba(255, 255, 255, 0.7));
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2), 0 1px 1px rgba(255, 255, 255, 0.7);
     min-height: 60px;
     padding: 8px;
-    @include border-radius(3px);
+    border-radius: 3px;
     color: #555;
-    @include transition(all .25s);
+    transition: all .25s;
     cursor: text;
     margin-bottom: 10px;
     position: relative;
@@ -397,7 +387,7 @@ textarea.input,
 textarea.input:focus,
 textarea.input.active {
     background: #fff;
-    @include transition(all .25s);
+    transition: all .25s;
 }
 
 .textarea.input,
@@ -411,10 +401,6 @@ textarea.input {
 }
 
 .textarea.tags * {
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    -o-box-sizing: content-box;
-    -ms-box-sizing: content-box;
     box-sizing: content-box;
 }
 
@@ -436,11 +422,11 @@ textarea.input {
 }
 
 .custom.textarea {
-    @include border-radius(0);
-    @include box-shadow(none);
+    border-radius: 0;
+    box-shadow: none;
 
     .taggle {
-        @include border-radius(0);
+        border-radius: 0;
         padding: 5px;
         padding-right: 20px;
 
@@ -452,30 +438,20 @@ textarea.input {
 }
 
 .custom.delicious {
-    background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0.01,#EEE),color-stop(0.15,#FFF));
-    background-image: -webkit-linear-gradient(top,#EEE 1%,#FFF 15%);
-    background-image: -moz-linear-gradient(top,#eee 1%,#fff 15%);
-    background-image: -o-linear-gradient(top,#eee 1%,#fff 15%);
-    background-image: -ms-linear-gradient(top,#eee 1%,#fff 15%);
     background-image: linear-gradient(top,#eee 1%,#fff 15%);
     border: 1px solid #AAA;
     min-height: 50px;
 
     &.active {
         border-color: #3274D1;
-        background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0.01,#EEE),color-stop(0.15,#FFF));
-        background-image: -webkit-linear-gradient(top,#EEE 1%,#FFF 15%);
-        background-image: -moz-linear-gradient(top,#eee 1%,#fff 15%);
-        background-image: -o-linear-gradient(top,#eee 1%,#fff 15%);
-        background-image: -ms-linear-gradient(top,#eee 1%,#fff 15%);
         background-image: linear-gradient(top,#eee 1%,#fff 15%);
     }
 
     .taggle {
         color: #444;
-        @include border-radius(0);
-        @include border-top-left-radius(1.5rem);
-        @include border-bottom-left-radius(1.5rem);
+        border-radius: 0;
+        border-top-left-radius: 1.5rem;
+        border-bottom-left-radius: 1.5rem;
         background-color: #ddd;
         font-family: sans-serif;
         font-size: 0.8rem;
@@ -505,7 +481,7 @@ textarea.input {
 
     .taggle {
         color: #3E6D8E;
-        @include border-radius(0);
+        border-radius: 0;
         background-color: #E0EAF1;
         font-weight: 200;
 
@@ -515,7 +491,7 @@ textarea.input {
 
         .close {
             color: #aaa;
-            @include border-radius(0.7rem);
+            border-radius: 0.7rem;
             font-size: 0.9rem;
             height: 0.7rem;
             width: 0.7rem;
