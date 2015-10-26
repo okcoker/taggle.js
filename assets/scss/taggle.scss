@@ -68,89 +68,6 @@ p a:hover {
     color: #fff;
 }
 
-
-.ui-autocomplete {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.ui-menu {
-    list-style: none;
-    padding: 2px;
-    margin: 0;
-    display: block;
-    outline: none;
-}
-
-.ui-widget-content {
-    background: #fff;
-    color: $project_color;
-}
-
-.ui-menu .ui-menu-item {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-}
-
-.ui-menu .ui-menu-item a {
-    text-decoration: none;
-    display: block;
-    padding: 2px .4em;
-    line-height: 1.5;
-    min-height: 0;
-    font-weight: normal;
-    color: $gray;
-    cursor: pointer;
-
-    &:hover {
-        color: #fff;
-        background: $project_color;
-    }
-}
-
-.ui-state-hover,
-.ui-widget-content .ui-state-hover,
-.ui-widget-header .ui-state-hover,
-.ui-state-focus,
-.ui-widget-content .ui-state-focus,
-.ui-widget-header .ui-state-focus {
-    background: $project_color;
-    color: #fff !important;
-}
-
-.ui-state-hover a,
-.ui-state-hover a:hover,
-.ui-state-hover a:link,
-.ui-state-hover a:visited {
-    color: #fff;
-}
-
-.ui-state-active,
-.ui-widget-content .ui-state-active,
-.ui-widget-header .ui-state-active {
-    border: 1px solid #aaaaaa;
-    background: #ffffff;
-    font-weight: normal;
-    color: #212121;
-}
-
-.ui-helper-hidden {
-    display: none;
-}
-
-.ui-helper-hidden-accessible {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-}
-
 @-webkit-keyframes bounce {
 
     0%, 20%, 50%, 80%, 100% {
@@ -228,7 +145,7 @@ p a:hover {
     color: $button_text_color;
 }
 
-/*plugin specific styles*/
+// plugin specific styles
 
 .project_container a {
     color: #000;
@@ -338,37 +255,6 @@ p a:hover {
     visibility: hidden;
 }
 
-
-.autocomplete {
-    max-height: 200px;
-    overflow: scroll;
-    position: absolute;
-    top: 66px;
-    background: white;
-    width: 99.5%;
-    left: 0.25%;
-    z-index: 2;
-}
-
-.autocomplete ul li {
-    display: block;
-    padding: 6px 8px;
-}
-
-.autocomplete ul li.selected, .autocomplete ul li:hover {
-    background: #ff6633;
-    color: #fff;
-    cursor: pointer;
-}
-
-
-.ui-autocomplete {
-    max-height: 200px;
-    overflow: scroll;
-    width: 99% !important;
-}
-
-
 /*container styles*/
 textarea.input,
 .textarea.input {
@@ -422,6 +308,120 @@ textarea.input {
 
 .placeholder_input input {
     width: 120px;
+}
+
+// jQuery autocomplete example
+
+
+.ui-autocomplete {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.ui-menu {
+    list-style: none;
+    padding: 2px;
+    margin: 0;
+    display: block;
+    outline: none;
+}
+
+.ui-widget-content {
+    background: #fff;
+    color: $project_color;
+}
+
+.ui-menu .ui-menu-item {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.ui-menu .ui-menu-item a {
+    text-decoration: none;
+    display: block;
+    padding: 2px .4em;
+    line-height: 1.5;
+    min-height: 0;
+    font-weight: normal;
+    color: $gray;
+    cursor: pointer;
+
+    &:hover {
+        color: #fff;
+        background: $project_color;
+    }
+}
+
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus {
+    background: $project_color;
+    color: #fff !important;
+}
+
+.ui-state-hover a,
+.ui-state-hover a:hover,
+.ui-state-hover a:link,
+.ui-state-hover a:visited {
+    color: #fff;
+}
+
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active {
+    border: 1px solid #aaaaaa;
+    background: #ffffff;
+    font-weight: normal;
+    color: #212121;
+}
+
+.ui-helper-hidden {
+    display: none;
+}
+
+.ui-helper-hidden-accessible {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.autocomplete {
+    max-height: 200px;
+    overflow: scroll;
+    position: absolute;
+    top: 66px;
+    background: white;
+    width: 99.5%;
+    left: 0.25%;
+    z-index: 2;
+}
+
+.autocomplete ul li {
+    display: block;
+    padding: 6px 8px;
+}
+
+.autocomplete ul li.selected, .autocomplete ul li:hover {
+    background: #ff6633;
+    color: #fff;
+    cursor: pointer;
+}
+
+
+.ui-autocomplete {
+    max-height: 200px;
+    overflow: scroll;
+    width: 99% !important;
 }
 
 .custom.textarea {
