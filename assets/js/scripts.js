@@ -36,8 +36,14 @@ var faux = ['.net','accounting','acting','adobe creative suite','advertising','a
     });
 
     new Taggle($('.example5.textarea')[0], {
+        onBeforeTagAdd: function(event, tag) {
+            return confirm('You really wanna add ' + tag + '?');
+        },
         onTagAdd: function(event, tag) {
             $('.example5-event').text('You just added ' + tag);
+        },
+        onBeforeTagRemove: function(event, tag) {
+            return confirm('You really wanna remove ' + tag + '?');
         },
         onTagRemove: function(event, tag) {
             $('.example5-event').text('You just removed ' + tag);
@@ -51,10 +57,16 @@ var faux = ['.net','accounting','acting','adobe creative suite','advertising','a
     six.remove('five');
     six.remove('four', true);
 
-    new Taggle($('.example7.textarea')[0], {
+    new Taggle($('.example7a.textarea')[0], {
         placeholder: 'Type your favorite type of juice... (hint: orange)',
         allowDuplicates: true,
         allowedTags: ['orange']
+    });
+
+    new Taggle($('.example7b.textarea')[0], {
+        placeholder: 'Type your favorite type of juice... (hint: apple)',
+        allowDuplicates: true,
+        disallowedTags: ['apple']
     });
 
     new Taggle($('.delicious.textarea')[0], {
