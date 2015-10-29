@@ -145,8 +145,7 @@ module.exports = function(grunt) {
     });
 
     // register task
-    grunt.registerTask('build', ['test', 'uglify:main', 'ie9', 'ie8']);
-    grunt.registerTask('build:modern', ['test', 'css', 'uglify:main']);
+    grunt.registerTask('build', ['eslint', 'test', 'uglify:main']);
     grunt.registerTask('ie9', ['test', 'css', 'concat:ie9', 'uglify:ie9', 'clean']);
     grunt.registerTask('ie8', ['test', 'css', 'concat:ie8', 'uglify:ie8', 'clean']);
     grunt.registerTask('css', ['sass', 'postcss']);
