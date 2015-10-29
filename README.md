@@ -11,7 +11,7 @@ NPM:
 
 Bower:
 
-    bower install taggle.js --save
+    bower install taggle --save
 
 
 ## How it works
