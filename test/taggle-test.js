@@ -228,6 +228,31 @@ describe('Taggle', function() {
 
                 container.parentNode.removeChild(container);
             });
+
+            it('should be chainable', function() {
+                var tagsLength;
+                var container = createContainer(300, 400);
+                var tag = 'tag';
+                var tag2 = 'tag2';
+                var cbLength;
+                var taggle;
+
+                document.body.appendChild(container);
+
+                taggle = new Taggle(container, {
+                    onTagAdd: function() {
+                        cbLength = taggle.getTagElements().length;
+                    }
+                });
+
+                tagsLength = taggle.getTagElements().length;
+
+                taggle.add(tag).add(tag2);
+
+                expect(cbLength).to.eq(tagsLength + 2);
+
+                container.parentNode.removeChild(container);
+            });
         });
 
         describe('#onBeforeTagRemove', function() {
@@ -269,6 +294,28 @@ describe('Taggle', function() {
                 taggle.remove(tag);
 
                 expect(taggle.getTagValues().length).to.eq(length - 1);
+
+                container.parentNode.removeChild(container);
+            });
+
+            it('should be chainable', function() {
+                var container = createContainer(300, 400);
+                var tag = 'tag';
+                var tag2 = 'tag2';
+
+                document.body.appendChild(container);
+
+                var taggle = new Taggle(container, {
+                    tags: ['some', 'tags', tag, tag2],
+                    onBeforeTagRemove: function() {
+                        return 'ads';
+                    }
+                });
+
+                var length = taggle.getTagValues().length;
+                taggle.remove(tag).remove(tag2);
+
+                expect(taggle.getTagValues().length).to.eq(length - 2);
 
                 container.parentNode.removeChild(container);
             });
@@ -528,6 +575,13 @@ describe('Taggle', function() {
                 this.instance.removeAll();
                 expect(this.instance.getTagElements().length).to.equal(0);
                 expect(this.instance.getTagValues().length).to.equal(0);
+            });
+
+            it('should be chainable', function() {
+                expect(this.instance.getTagElements().length).to.equal(6);
+                this.instance.removeAll().add('tag');
+                expect(this.instance.getTagElements().length).to.equal(1);
+                expect(this.instance.getTagValues().length).to.equal(1);
             });
         });
     });

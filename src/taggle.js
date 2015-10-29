@@ -1,6 +1,6 @@
 /* !
  * @author Sean Coker <sean@seancoker.com>
- * @version 1.6.0
+ * @version 1.6.1
  * @url http://sean.is/poppin/tags
  * @license MIT
  * @description Taggle is a dependency-less tagging library
@@ -660,7 +660,7 @@
         }
 
         if (!(li instanceof HTMLElement) || li.tagName !== 'LI') {
-            throw Error('tagFormatter must return an li element');
+            throw new Error('tagFormatter must return an li element');
         }
 
         this.tag.values.push(text);
@@ -775,7 +775,7 @@
             len--;
         }
 
-        return self;
+        return this;
     };
 
     Taggle.prototype.removeAll = function() {
@@ -783,7 +783,7 @@
             this._remove(this.tag.elements[i]);
         }
 
-        return self;
+        return this;
     };
 
     /* global define, module */
