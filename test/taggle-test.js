@@ -74,6 +74,33 @@ describe('Taggle', function() {
             expect(taggle.getTags().values.length).to.equal(2);
         });
 
+        it('should only allow tags provided in allowedTags', function() {
+            var allowed = 'tag';
+            var taggle = new Taggle(this.container, {
+                allowedTags: [allowed]
+            });
+
+            taggle.add(allowed);
+            taggle.add('another');
+
+            expect(taggle.getTags().values).to.eql([allowed]);
+            expect(taggle.getTags().values.length).to.equal(1);
+        });
+
+        it('should only disallow tags provided in disallowedTags', function() {
+            var disallowed = 'tag';
+            var another = 'anothertag';
+            var taggle = new Taggle(this.container, {
+                disallowedTags: [disallowed]
+            });
+
+            taggle.add(disallowed);
+            taggle.add(another);
+
+            expect(taggle.getTags().values).to.eql([another]);
+            expect(taggle.getTags().values.length).to.equal(1);
+        });
+
         describe('#tagFormatter', function() {
             it('should throw if li element is not returned', function() {
                 var instance = new Taggle(this.container, {

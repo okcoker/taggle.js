@@ -39,6 +39,7 @@
         /**
          * Class name that will be added onto duplicate existant tag
          * @type {String}
+         * @todo
          * @deprecated
          */
         duplicateTagClass: '',
@@ -68,6 +69,12 @@
         allowedTags: [],
 
         /**
+         * Tags that the user will not be able to add
+         * @type {Array}
+         */
+        disallowedTags: [],
+
+        /**
          * If within a form, you can specify the tab index flow
          * @type {Number}
          */
@@ -86,7 +93,8 @@
         submitKeys: [],
 
         /**
-         * Preserve case of tags being added
+         * Preserve case of tags being added ie
+         * "tag" is different than "Tag"
          * @type {Boolean}
          */
         preserveCase: false,
@@ -345,11 +353,39 @@
             return false;
         }
 
-        if (this.settings.allowedTags.length && this.settings.allowedTags.indexOf(text) === -1) {
+        var sensitive = this.settings.preserveCase;
+        var allowed = this.settings.allowedTags;
+
+        if (allowed.length && !this._tagIsInArray(text, allowed, sensitive)) {
+            return false;
+        }
+
+        var disallowed = this.settings.disallowedTags;
+        if (disallowed.length && this._tagIsInArray(text, disallowed, sensitive)) {
             return false;
         }
 
         return true;
+    };
+
+    /**
+     * Returns whether a string is in an array based on case sensitivity
+     *
+     * @param  {String} text string to search for
+     * @param  {Array} arr array of strings to search through
+     * @param  {Boolean} caseSensitive
+     * @return {Boolean}
+     */
+    Taggle.prototype._tagIsInArray = function(text, arr, caseSensitive) {
+        if (caseSensitive) {
+            return arr.indexOf(text) !== -1;
+        }
+
+        var lowercased = [].slice.apply(arr).map(function(str) {
+            return str.toLowerCase();
+        });
+
+        return lowercased.indexOf(text) !== -1;
     };
 
     /**
@@ -685,11 +721,13 @@
         };
     };
 
+    // @todo
     // @deprecated
     Taggle.prototype.getTagElements = function() {
         return this.tag.elements;
     };
 
+    // @todo
     // @deprecated
     Taggle.prototype.getTagValues = function() {
         return [].slice.apply(this.tag.values);
