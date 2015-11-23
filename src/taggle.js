@@ -409,7 +409,7 @@
             }
 
             var li = self._createTag(val);
-            var lis = self.list.querySelectorAll('li');
+            var lis = self.list.children;
             var lastLi = lis[lis.length - 1];
             self.list.insertBefore(li, lastLi);
 
