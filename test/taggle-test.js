@@ -46,6 +46,14 @@ describe('Taggle', function() {
             this.instance = null;
         });
 
+        it('should limit tags if the limitTags option is passed', function() {
+            var taggle = new Taggle(this.container, {
+                maxTags: 1
+            });
+            taggle.add(['tag', 'tag1']);
+            expect(taggle.getTags().values.length).to.equal(1);
+        });
+
         it('should disallow duplicate tags to be added by default', function() {
             expect(this.instance.getTags().values.length).to.equal(0);
             this.instance.add(['tag', 'tag']);

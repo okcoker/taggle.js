@@ -75,6 +75,12 @@
         disallowedTags: [],
 
         /**
+         * Limit the number of tags that can be added
+         * @type {Number}
+         */
+        maxTags: null,
+
+        /**
          * If within a form, you can specify the tab index flow
          * @type {Number}
          */
@@ -342,6 +348,10 @@
      */
     Taggle.prototype._canAdd = function(e, text) {
         if (!text) {
+            return false;
+        }
+        var limit = this.settings.maxTags;
+        if (limit !== null && limit <= this.getTagValues().length) {
             return false;
         }
 
