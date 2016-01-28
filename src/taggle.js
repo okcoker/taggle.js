@@ -542,6 +542,14 @@
      * @param  {Event} e
      */
     Taggle.prototype._blurEvent = function(e) {
+        if (this.container.classList.contains(this.settings.containerFocusClass)) {
+            this.container.classList.remove(this.settings.containerFocusClass);
+        }
+
+        if (!this.tag.values.length && this.placeholder) {
+            this.placeholder.style.opacity = 1;
+        }
+
         if (this.settings.saveOnBlur) {
             e = e || window.event;
 
@@ -555,19 +563,10 @@
             if (this.tag.values.length) {
                 this._checkLastTag(e);
             }
-
         }
         else {
             this.input.value = '';
             this._setInputWidth();
-
-            if (this.container.classList.contains(this.settings.containerFocusClass)) {
-                this.container.classList.remove(this.settings.containerFocusClass);
-            }
-
-            if (!this.tag.values.length && this.placeholder) {
-                this.placeholder.style.opacity = 1;
-            }
         }
     };
 

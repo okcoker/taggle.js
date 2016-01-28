@@ -1,9 +1,6 @@
 var expect = chai.expect;
 
-// Patch since PhantomJS does not implement click() on HTMLElement. In some
-// cases we need to execute the native click on an element. However, jQuery's
-// $.fn.click() does not dispatch to the native function on <a> elements, so we
-// can't use it in our implementations: $el[0].click() to correctly dispatch.
+// Patch since PhantomJS does not implement click() on HTMLElement.
 if (!HTMLElement.prototype.click) {
     HTMLElement.prototype.click = function() {
         var ev = document.createEvent('MouseEvent');
@@ -607,6 +604,18 @@ describe('Taggle', function() {
 
                 expect(this.instance.getTagValues().length).to.equal(1);
                 expect(this.instance.getTagValues()[0]).to.equal(tag);
+            });
+
+            it('should not prevent the container from losing focus class when input is blurred', function() {
+                var input = this.instance.getInput();
+
+                input.focus();
+
+                expect(this.instance.getContainer().classList.contains(this.instance.settings.containerFocusClass)).to.be.true
+
+                input.blur();
+
+                expect(this.instance.getContainer().classList.contains(this.instance.settings.containerFocusClass)).to.be.false
             });
         });
 
