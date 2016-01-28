@@ -51,6 +51,12 @@
         containerFocusClass: 'active',
 
         /**
+         * Should the input be focused when the container is clicked?
+         * @type {Bool}
+         */
+        focusInputOnContainerClick: true,
+
+        /**
          * Name added to the hidden inputs within each tag
          * @type {String}
          */
@@ -302,9 +308,11 @@
     Taggle.prototype._attachEvents = function() {
         var self = this;
 
-        _on(this.container, 'click', function() {
-            self.input.focus();
-        });
+        if (this.settings.focusInputOnContainerClick) {
+            _on(this.container, 'click', function() {
+                self.input.focus();
+            });
+        }
 
         _on(this.input, 'focus', this._focusInput.bind(this));
         _on(this.input, 'blur', this._blurEvent.bind(this));

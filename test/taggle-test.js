@@ -1,5 +1,24 @@
 var expect = chai.expect;
 
+// Patch since PhantomJS does not implement click() on HTMLElement. In some
+// cases we need to execute the native click on an element. However, jQuery's
+// $.fn.click() does not dispatch to the native function on <a> elements, so we
+// can't use it in our implementations: $el[0].click() to correctly dispatch.
+if (!HTMLElement.prototype.click) {
+    HTMLElement.prototype.click = function() {
+        var ev = document.createEvent('MouseEvent');
+        ev.initMouseEvent(
+            'click',
+            /*bubble*/true, /*cancelable*/true,
+            window, null,
+            0, 0, 0, 0, /*coordinates*/
+            false, false, false, false, /*modifier keys*/
+            0/*button=left*/, null
+        );
+        this.dispatchEvent(ev);
+    };
+}
+
 function createContainer(width, height) {
     'use strict';
     var container = document.createElement('div');
@@ -107,6 +126,26 @@ describe('Taggle', function() {
 
             expect(taggle.getTags().values).to.eql([another]);
             expect(taggle.getTags().values.length).to.equal(1);
+        });
+
+        it('should focus the input on container click when focusInputOnContainerClick is true (default)', function() {
+            expect(document.activeElement).to.not.equal(this.instance.getInput())
+
+            this.container.click()
+
+            expect(document.activeElement).to.equal(this.instance.getInput())
+        });
+
+        it('should not focus the input on container click when focusInputOnContainerClick is false', function() {
+            var taggle = new Taggle(this.container, {
+                focusInputOnContainerClick: false
+            });
+
+            expect(document.activeElement).to.not.equal(taggle.getInput())
+
+            this.container.click()
+
+            expect(document.activeElement).to.not.equal(taggle.getInput())
         });
 
         describe('#tagFormatter', function() {
