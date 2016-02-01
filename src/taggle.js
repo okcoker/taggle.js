@@ -51,6 +51,12 @@
         containerFocusClass: 'active',
 
         /**
+         * Should the input be focused when the container is clicked?
+         * @type {Bool}
+         */
+        focusInputOnContainerClick: true,
+
+        /**
          * Name added to the hidden inputs within each tag
          * @type {String}
          */
@@ -302,9 +308,11 @@
     Taggle.prototype._attachEvents = function() {
         var self = this;
 
-        _on(this.container, 'click', function() {
-            self.input.focus();
-        });
+        if (this.settings.focusInputOnContainerClick) {
+            _on(this.container, 'click', function() {
+                self.input.focus();
+            });
+        }
 
         _on(this.input, 'focus', this._focusInput.bind(this));
         _on(this.input, 'blur', this._blurEvent.bind(this));
@@ -534,6 +542,14 @@
      * @param  {Event} e
      */
     Taggle.prototype._blurEvent = function(e) {
+        if (this.container.classList.contains(this.settings.containerFocusClass)) {
+            this.container.classList.remove(this.settings.containerFocusClass);
+        }
+
+        if (!this.tag.values.length && this.placeholder) {
+            this.placeholder.style.opacity = 1;
+        }
+
         if (this.settings.saveOnBlur) {
             e = e || window.event;
 
@@ -547,19 +563,10 @@
             if (this.tag.values.length) {
                 this._checkLastTag(e);
             }
-
         }
         else {
             this.input.value = '';
             this._setInputWidth();
-
-            if (this.container.classList.contains(this.settings.containerFocusClass)) {
-                this.container.classList.remove(this.settings.containerFocusClass);
-            }
-
-            if (!this.tag.values.length && this.placeholder) {
-                this.placeholder.style.opacity = 1;
-            }
         }
     };
 
