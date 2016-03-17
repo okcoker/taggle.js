@@ -145,7 +145,16 @@
          * @param  {Event} event Event triggered when tag was removed
          * @param  {String} tag The tag removed
          */
-        onTagRemove: noop
+        onTagRemove: noop,
+        
+        
+        
+        /**
+        * Use existing input if provided in options rather than creating one regardless if one already exists.
+        * By default, create one,
+        * @param {string} id the of the existing input
+        */
+        targetInput : null
     };
 
     var BACKSPACE = 8;
@@ -224,7 +233,13 @@
         };
         this.list = document.createElement('ul');
         this.inputLi = document.createElement('li');
-        this.input = document.createElement('input');
+        if(!this.settings.targetInput)
+        {
+            this.input = document.createElement('input');
+        }else{
+            this.input = document.getElementById(this.settings.targetInput);
+        }
+        
         this.sizer = document.createElement('div');
         this.pasting = false;
         this.placeholder = null;
