@@ -1,7 +1,5 @@
 /* eslint-env node */
 module.exports = function(grunt) {
-    'use strict';
-
     require('load-grunt-tasks')(grunt);
 
     var karmaReporter = grunt.option('reporters') || 'progress';
