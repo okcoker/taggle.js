@@ -655,6 +655,7 @@
 
         close.innerHTML = '&times;';
         close.className = 'close';
+        close.type = 'button';
         _on(close, 'click', this._remove.bind(this, close));
 
         _setText(span, text);

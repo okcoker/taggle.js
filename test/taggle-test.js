@@ -640,5 +640,21 @@ describe('Taggle', function() {
                 expect(this.instance.getTagValues().length).to.equal(1);
             });
         });
+
+        describe('#checkCloseButtonType', function() {
+            beforeEach(function() {
+                this.instance = new Taggle(this.container, {
+                    tags: ['zero', 'one', 'two']
+                });
+            });
+
+            it('should have type equal to button', function() {
+                var elements = this.instance.getTagElements();
+                for (var i = 0; i < elements.length; ++i) {
+                    var closeButton = elements[i].querySelector('button.close');
+                    expect(closeButton).to.have.property('type').and.equal('button');
+                }
+            });
+        });
     });
 });
