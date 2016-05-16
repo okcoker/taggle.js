@@ -9,7 +9,8 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0; }
 
 pre {
-  border-radius: 3px; }
+  border-radius: 3px;
+  overflow-x: scroll; }
 
 p {
   color: #000; }

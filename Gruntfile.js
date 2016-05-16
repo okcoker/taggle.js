@@ -60,7 +60,7 @@ module.exports = function(grunt) {
                     ],
 
                     // Add in complete bundle to example folder
-                    'assets/js/taggle.min.js': [
+                    'example/js/taggle.min.js': [
                         'tmp/taggle-ie8.concat.js'
                     ]
                 }
@@ -87,7 +87,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'assets/css/taggle.css': ['assets/scss/taggle.scss']
+                    'example/css/taggle.css': ['example/scss/taggle.scss']
                 }
             }
         },
@@ -104,7 +104,7 @@ module.exports = function(grunt) {
                 ]
             },
             main: {
-                src: 'assets/css/taggle.css'
+                src: 'example/css/taggle.css'
             },
             min: {
                 options: {
@@ -113,7 +113,7 @@ module.exports = function(grunt) {
                     ]
                 },
                 files: {
-                    'assets/css/taggle.min.css': 'assets/css/taggle.css'
+                    'example/css/taggle.min.css': 'example/css/taggle.css'
                 }
             }
         },
