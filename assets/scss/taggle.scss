@@ -441,13 +441,13 @@ textarea.input {
 }
 
 .custom.delicious {
-    background-image: linear-gradient(top,#eee 1%,#fff 15%);
+    background-image: linear-gradient(to bottom,#eee 1%,#fff 15%);
     border: 1px solid #AAA;
     min-height: 50px;
 
     &.active {
         border-color: #3274D1;
-        background-image: linear-gradient(top,#eee 1%,#fff 15%);
+        background-image: linear-gradient(to bottom,#eee 1%,#fff 15%);
     }
 
     .taggle {
