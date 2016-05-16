@@ -48,7 +48,7 @@ Taggle comes with optional polyfills in order to add support for IE8 and IE9. If
 After cloning the repo you can build minified versions of the library by:
 
 - npm install
-- grunt uglify
+- grunt build
 
 
 ## License

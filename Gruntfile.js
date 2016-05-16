@@ -57,6 +57,11 @@ module.exports = function(grunt) {
                 files: {
                     'dist/taggle-ie8.min.js': [
                         'tmp/taggle-ie8.concat.js'
+                    ],
+
+                    // Add in complete bundle to example folder
+                    'assets/js/taggle.min.js': [
+                        'tmp/taggle-ie8.concat.js'
                     ]
                 }
             },
@@ -143,12 +148,19 @@ module.exports = function(grunt) {
     });
 
     // register task
-    grunt.registerTask('build', ['test', 'uglify:main']);
-    grunt.registerTask('ie9', ['test', 'css', 'concat:ie9', 'uglify:ie9', 'clean']);
-    grunt.registerTask('ie8', ['test', 'css', 'concat:ie8', 'uglify:ie8', 'clean']);
-    grunt.registerTask('css', ['sass', 'postcss']);
+    grunt.registerTask('build', ['test', 'css', 'modern', 'ie9', 'ie8']);
+    grunt.registerTask('build-modern', ['test', 'css', 'uglify:main']);
+    grunt.registerTask('build-ie9', ['test', 'css', 'ie9']);
+    grunt.registerTask('build-ie8', ['test', 'css', 'ie8']);
     grunt.registerTask('test', ['eslint', 'karma']);
+    grunt.registerTask('css', ['sass', 'postcss']);
     grunt.registerTask('dev', ['watch']);
+
+    // Intermediate tasks
+    grunt.registerTask('modern', ['uglify:main']);
+    grunt.registerTask('ie9', ['concat:ie9', 'uglify:ie9', 'clean']);
+    grunt.registerTask('ie8', ['concat:ie8', 'uglify:ie8', 'clean']);
+
     grunt.registerTask('default', ['build']);
 
 };
