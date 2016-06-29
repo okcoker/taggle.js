@@ -1,6 +1,6 @@
 /* !
  * @author Sean Coker <sean@seancoker.com>
- * @version 1.7.1
+ * @version 1.8.0
  * @url http://sean.is/poppin/tags
  * @license MIT
  * @description Taggle is a dependency-less tagging library
@@ -40,7 +40,7 @@
          * Class name that will be added onto duplicate existant tag
          * @type {String}
          * @todo
-         * @deprecated
+         * @deprecated can be handled by onBeforeTagAdd
          */
         duplicateTagClass: '',
 
@@ -67,6 +67,14 @@
          * @type {Array}
          */
         tags: [],
+
+        /**
+         * Add an ID to each of the tags.
+         * @type {Boolean}
+         * @todo
+         * @deprecated make this the default in next version
+         */
+        attachTagId: false,
 
         /**
          * Tags that the user will be restricted to
@@ -241,6 +249,7 @@
             this.container = document.getElementById(el);
         }
 
+        this._id = 0;
         this._getMeasurements();
         this._setupTextarea();
         this._attachEvents();
@@ -430,6 +439,9 @@
             var lis = self.list.children;
             var lastLi = lis[lis.length - 1];
             self.list.insertBefore(li, lastLi);
+
+
+            val = self.tag.values[self.tag.values.length - 1];
 
             self.settings.onTagAdd(e, val);
 
@@ -681,6 +693,14 @@
             throw new Error('tagFormatter must return an li element');
         }
 
+        if (this.settings.attachTagId) {
+            this._id += 1;
+            text = {
+                text: text,
+                id: this._id
+            };
+        }
+
         this.tag.values.push(text);
         this.tag.elements.push(li);
 
@@ -693,7 +713,6 @@
      * @param  {Event} e
      */
     Taggle.prototype._remove = function(li, e) {
-        var span;
         var text;
         var elem;
         var index;
@@ -702,17 +721,16 @@
             li = li.parentNode;
         }
 
-        span = li.querySelector('.taggle_text');
-        text = span.innerText || span.textContent;
+        elem = (li.tagName.toLowerCase() === 'a') ? li.parentNode : li;
+        index = this.tag.elements.indexOf(elem);
+
+        text = this.tag.values[index];
 
         if (this.settings.onBeforeTagRemove(e, text) === false) {
             return;
         }
 
         li.parentNode.removeChild(li);
-
-        elem = (li.tagName.toLowerCase() === 'a') ? li.parentNode : li;
-        index = this.tag.elements.indexOf(elem);
 
         // Going to assume the indicies match for now
         this.tag.elements.splice(index, 1);
@@ -740,13 +758,13 @@
     };
 
     // @todo
-    // @deprecated
+    // @deprecated use getTags().elements
     Taggle.prototype.getTagElements = function() {
         return this.tag.elements;
     };
 
     // @todo
-    // @deprecated
+    // @deprecated use getTags().values
     Taggle.prototype.getTagValues = function() {
         return [].slice.apply(this.tag.values);
     };
@@ -781,7 +799,12 @@
         var found = false;
 
         while (len > -1) {
-            if (this.tag.values[len] === text) {
+            var tagText = this.tag.values[len];
+            if (this.settings.attachTagId) {
+                tagText = tagText.text;
+            }
+
+            if (tagText === text) {
                 found = true;
                 this._remove(this.tag.elements[len]);
             }

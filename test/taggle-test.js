@@ -126,11 +126,11 @@ describe('Taggle', function() {
         });
 
         it('should focus the input on container click when focusInputOnContainerClick is true (default)', function() {
-            expect(document.activeElement).to.not.equal(this.instance.getInput())
+            expect(document.activeElement).to.not.equal(this.instance.getInput());
 
-            this.container.click()
+            this.container.click();
 
-            expect(document.activeElement).to.equal(this.instance.getInput())
+            expect(document.activeElement).to.equal(this.instance.getInput());
         });
 
         it('should not focus the input on container click when focusInputOnContainerClick is false', function() {
@@ -138,11 +138,11 @@ describe('Taggle', function() {
                 focusInputOnContainerClick: false
             });
 
-            expect(document.activeElement).to.not.equal(taggle.getInput())
+            expect(document.activeElement).to.not.equal(taggle.getInput());
 
-            this.container.click()
+            this.container.click();
 
-            expect(document.activeElement).to.not.equal(taggle.getInput())
+            expect(document.activeElement).to.not.equal(taggle.getInput());
         });
 
         describe('#tagFormatter', function() {
@@ -297,6 +297,39 @@ describe('Taggle', function() {
 
                 container.parentNode.removeChild(container);
             });
+
+            it('should return the tag text and id when attachTagId is true', function() {
+                var spy = sinon.spy();
+                var instance = new Taggle(this.container, {
+                    onTagAdd: spy,
+                    attachTagId: true
+                });
+                var text = 'tag';
+                var tag2 = 'tag2';
+                var tag3 = 'tag3';
+
+                instance.add(text);
+
+                expect(spy.args[0][0]).to.eq(null);
+                expect(spy.args[0][1].text).to.eq(text);
+                expect(spy.args[0][1].id).to.eq(1);
+
+                spy.reset();
+
+                instance.add(tag2);
+
+                expect(spy.args[0][1].text).to.eq(tag2);
+                expect(spy.args[0][1].id).to.eq(2);
+                spy.reset();
+
+                instance.remove(tag2);
+
+                instance.add(tag3);
+
+                expect(spy.args[0][1].text).to.eq(tag3);
+                expect(spy.args[0][1].id).to.eq(3);
+                spy.reset();
+            });
         });
 
         describe('#onBeforeTagRemove', function() {
@@ -340,6 +373,21 @@ describe('Taggle', function() {
                 expect(taggle.getTagValues().length).to.eq(length - 1);
 
                 container.parentNode.removeChild(container);
+            });
+
+            it('should call callback with tag text and id when attachTagId is true', function() {
+                var spy = sinon.spy();
+                var tag = 'tag';
+                var instance = new Taggle(this.container, {
+                    tags: ['some', 'tags', tag],
+                    onBeforeTagRemove: spy,
+                    attachTagId: true
+                });
+
+                instance.remove(tag);
+
+                expect(spy.args[0][1].text).to.eq(tag);
+                expect(spy.args[0][1].id).to.eq(3);
             });
 
             it('should be chainable', function() {
@@ -388,6 +436,21 @@ describe('Taggle', function() {
 
                 expect(onTagRemoveSpy.args[0][0]).to.not.be.ok;
                 expect(onTagRemoveSpy.args[0][1]).to.eq(tag);
+            });
+
+            it('should be called with removed the tag text and id when attachTagId is true', function() {
+                var spy = sinon.spy();
+                var tag = 'tag';
+                var instance = new Taggle(this.container, {
+                    tags: ['some', 'tags', tag],
+                    onTagRemove: spy,
+                    attachTagId: true
+                });
+
+                instance.remove(tag);
+
+                expect(spy.args[0][1].text).to.eq(tag);
+                expect(spy.args[0][1].id).to.eq(3);
             });
 
             it('should reflect one less tag value when being called', function() {
@@ -491,6 +554,19 @@ describe('Taggle', function() {
                 tags.pop();
 
                 expect(this.instance.getTagValues().length).to.equal(tagsLength);
+            });
+
+            it('should return values with the tag text and id when attachTagId is true', function() {
+                var instance = new Taggle(this.container, {
+                    tags: ['zero', 'one', 'two', 'three'],
+                    attachTagId: true
+                });
+
+                expect(instance.getTagValues()[0].text).to.equal('zero');
+                expect(instance.getTagValues()[0].id).to.equal(1);
+
+                expect(instance.getTagValues()[3].text).to.equal('three');
+                expect(instance.getTagValues()[3].id).to.equal(4);
             });
         });
 
@@ -611,11 +687,11 @@ describe('Taggle', function() {
 
                 input.focus();
 
-                expect(this.instance.getContainer().classList.contains(this.instance.settings.containerFocusClass)).to.be.true
+                expect(this.instance.getContainer().classList.contains(this.instance.settings.containerFocusClass)).to.be.true;
 
                 input.blur();
 
-                expect(this.instance.getContainer().classList.contains(this.instance.settings.containerFocusClass)).to.be.false
+                expect(this.instance.getContainer().classList.contains(this.instance.settings.containerFocusClass)).to.be.false;
             });
         });
 
