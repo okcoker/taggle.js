@@ -145,6 +145,29 @@ describe('Taggle', function() {
             expect(document.activeElement).to.not.equal(taggle.getInput());
         });
 
+        describe('#inputFormatter', function() {
+            it('should let you format the input element', function() {
+                var instance = new Taggle(this.container, {
+                    inputFormatter: function(input) {
+                        input.type = 'email';
+                        return input;
+                    }
+                });
+
+                expect(instance.getInput().type).to.equal('email');
+            });
+
+            it('should use the default input if no input is returned', function() {
+                var instance = new Taggle(this.container, {
+                    inputFormatter: function(input) {
+
+                    }
+                });
+
+                expect(instance.getInput()).to.exist;
+            });
+        });
+
         describe('#tagFormatter', function() {
             it('should throw if li element is not returned', function() {
                 var instance = new Taggle(this.container, {

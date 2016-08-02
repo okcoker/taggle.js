@@ -123,6 +123,13 @@
         preserveCase: false,
 
         /**
+         * Function hook called with the to-be-added input DOM element.
+         *
+         * @param  {HTMLElement} li The list item to be added
+         */
+        inputFormatter: noop,
+
+        /**
          * Function hook called with the to-be-added tag DOM element.
          * Use this function to edit the list item before it is appended
          * to the DOM
@@ -304,6 +311,11 @@
             if (!this.settings.tags.length) {
                 this.placeholder.style.opacity = 1;
             }
+        }
+
+        var formattedInput = this.settings.inputFormatter(this.input);
+        if (formattedInput) {
+            this.input = formattedInput;
         }
 
         this.inputLi.appendChild(this.input);
