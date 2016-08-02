@@ -332,6 +332,14 @@ var taggle = new Taggle('example7b', {
             </div>
             <div class="option">
                 <p>
+                    inputFormatter(inputElement)
+                </p>
+                <p>
+                    Function hook called with the to-be-added input DOM element.
+                </p>
+            </div>
+            <div class="option">
+                <p>
                     tagFormatter(element)
                 </p>
                 <p>
@@ -348,10 +356,10 @@ var taggle = new Taggle('example7b', {
             </div>
             <div class="option">
                 <p>
-                    onBeforeTagRemove(event, tag)
+                    onBeforeTagRemove(event, tag [, callback])
                 </p>
                 <p>
-                    Hook fired before a tag is removed. Provides the event and tag text. Return false to prevent the tag from being removed.
+                    Hook fired before a tag is removed. Provides the event and tag text. Return a falsy value to prevent the tag from being removed. The callback argument can be called to remove the tag.
                 </p>
             </div>
             <div class="option">
