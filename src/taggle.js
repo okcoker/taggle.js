@@ -14,6 +14,9 @@
     /////////////////////
 
     var noop = function() {};
+    var retTrue = function() {
+        return true;
+    };
 
     var DEFAULTS = {
         /**
@@ -146,7 +149,7 @@
          * to prevent tag from being removed
          * @param  {String} tag The tag to be removed
          */
-        onBeforeTagRemove: noop,
+        onBeforeTagRemove: retTrue,
 
         /**
          * Function hook called when a tag is removed
@@ -713,6 +716,7 @@
      * @param  {Event} e
      */
     Taggle.prototype._remove = function(li, e) {
+        var self = this;
         var text;
         var elem;
         var index;
@@ -726,19 +730,29 @@
 
         text = this.tag.values[index];
 
-        if (this.settings.onBeforeTagRemove(e, text) === false) {
+        function done(error) {
+            if (error) {
+                return;
+            }
+
+            li.parentNode.removeChild(li);
+
+            // Going to assume the indicies match for now
+            self.tag.elements.splice(index, 1);
+            self.tag.values.splice(index, 1);
+
+            self.settings.onTagRemove(e, text);
+
+            self._focusInput();
+        }
+
+        var ret = this.settings.onBeforeTagRemove(e, text, done);
+
+        if (!ret) {
             return;
         }
 
-        li.parentNode.removeChild(li);
-
-        // Going to assume the indicies match for now
-        this.tag.elements.splice(index, 1);
-        this.tag.values.splice(index, 1);
-
-        this.settings.onTagRemove(e, text);
-
-        this._focusInput();
+        done();
     };
 
     /**

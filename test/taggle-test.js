@@ -354,6 +354,57 @@ describe('Taggle', function() {
                 container.parentNode.removeChild(container);
             });
 
+            it('should be async and remove the tag if using the callback with no truthy value', function(done) {
+                var container = createContainer(300, 400);
+                var tag = 'tag';
+                var tags = ['some', 'tags', tag];
+                var length = tags.length;
+
+                document.body.appendChild(container);
+
+                var taggle = new Taggle(container, {
+                    tags: tags,
+                    onBeforeTagRemove: function(e, text, callback) {
+                        setTimeout(function() {
+                            callback();
+
+                            expect(taggle.getTagValues().length).to.eq(length - 1);
+
+                            container.parentNode.removeChild(container);
+                            done();
+                        }, 200);
+                    }
+                });
+
+                taggle.remove(tag);
+            });
+
+            it('should be async and not remove the tag if using the callback a truthy value', function(done) {
+                var container = createContainer(300, 400);
+                var tag = 'tag';
+                var tags = ['some', 'tags', tag];
+                var length = tags.length;
+
+                document.body.appendChild(container);
+
+                var taggle = new Taggle(container, {
+                    tags: tags,
+                    onBeforeTagRemove: function(e, text, callback) {
+                        setTimeout(function() {
+                            var error = 'someTruthyValue';
+                            callback(error);
+
+                            expect(taggle.getTagValues().length).to.eq(length);
+
+                            container.parentNode.removeChild(container);
+                            done();
+                        }, 200);
+                    }
+                });
+
+                taggle.remove(tag);
+            });
+
             it('should remove the tag if the function returns something other than false', function() {
                 var container = createContainer(300, 400);
                 var tag = 'tag';
