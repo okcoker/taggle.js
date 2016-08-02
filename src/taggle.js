@@ -17,6 +17,10 @@
     var retTrue = function() {
         return true;
     };
+    var BACKSPACE = 8;
+    var COMMA = 188;
+    var TAB = 9;
+    var ENTER = 13;
 
     var DEFAULTS = {
         /**
@@ -113,7 +117,7 @@
          * Keycodes that will add a tag
          * @type {Array}
          */
-        submitKeys: [],
+        submitKeys: [COMMA, TAB, ENTER],
 
         /**
          * Preserve case of tags being added ie
@@ -165,11 +169,6 @@
          */
         onTagRemove: noop
     };
-
-    var BACKSPACE = 8;
-    var COMMA = 188;
-    var TAB = 9;
-    var ENTER = 13;
 
     //////////////////////
     // Helper functions //
@@ -249,10 +248,6 @@
 
         if (this.settings.placeholder) {
             this.placeholder = document.createElement('span');
-        }
-
-        if (!this.settings.submitKeys.length) {
-            this.settings.submitKeys = [COMMA, TAB, ENTER];
         }
 
         if (typeof el === 'string') {

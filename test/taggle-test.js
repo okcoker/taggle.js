@@ -145,6 +145,33 @@ describe('Taggle', function() {
             expect(document.activeElement).to.not.equal(taggle.getInput());
         });
 
+        describe('submitKeys', function() {
+            it('should have comma, tab, and enter as default keys', function() {
+                var COMMA = 188;
+                var TAB = 9;
+                var ENTER = 13;
+                var instance = new Taggle(this.container, {
+                    inputFormatter: function(input) {
+
+                    }
+                });
+
+                expect(instance.settings.submitKeys.indexOf(COMMA) !== -1).to.be.true;
+                expect(instance.settings.submitKeys.indexOf(TAB) !== -1).to.be.true;
+                expect(instance.settings.submitKeys.indexOf(ENTER) !== -1).to.be.true;
+            });
+
+            // Allows for programmatically adding and removing without
+            // relying on keyboards
+            it('should let you set an empty array', function() {
+                var instance = new Taggle(this.container, {
+                    submitKeys: []
+                });
+
+                expect(instance.settings.submitKeys.length).to.equal(0);
+            });
+        });
+
         describe('#inputFormatter', function() {
             it('should let you format the input element', function() {
                 var instance = new Taggle(this.container, {
