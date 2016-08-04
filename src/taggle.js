@@ -146,7 +146,7 @@
          * to prevent tag from being added
          * @param  {String} tag The tag to be added
          */
-        onBeforeTagAdd: noop,
+        onBeforeTagAdd: retTrue,
 
         /**
          * Function hook called when a tag is added
@@ -198,11 +198,9 @@
     function _on(element, eventName, handler) {
         if (element.addEventListener) {
             element.addEventListener(eventName, handler, false);
-        }
-        else if (element.attachEvent) {
+        } else if (element.attachEvent) {
             element.attachEvent('on' + eventName, handler);
-        }
-        else {
+        } else {
             element['on' + eventName] = handler;
         }
     }
@@ -214,8 +212,7 @@
     function _setText(el, text) {
         if (window.attachEvent && !window.addEventListener) { // <= IE8
             el.innerText = text;
-        }
-        else {
+        } else {
             el.textContent = text;
         }
     }
@@ -368,44 +365,6 @@
     };
 
     /**
-     * Returns whether or not the specified tag text can be added
-     * @param  {Event} e event causing the potentially added tag
-     * @param  {String} text tag value
-     * @return {Boolean}
-     */
-    Taggle.prototype._canAdd = function(e, text) {
-        if (!text) {
-            return false;
-        }
-        var limit = this.settings.maxTags;
-        if (limit !== null && limit <= this.getTagValues().length) {
-            return false;
-        }
-
-        if (this.settings.onBeforeTagAdd(e, text) === false) {
-            return false;
-        }
-
-        if (!this.settings.allowDuplicates && this._hasDupes(text)) {
-            return false;
-        }
-
-        var sensitive = this.settings.preserveCase;
-        var allowed = this.settings.allowedTags;
-
-        if (allowed.length && !this._tagIsInArray(text, allowed, sensitive)) {
-            return false;
-        }
-
-        var disallowed = this.settings.disallowedTags;
-        if (disallowed.length && this._tagIsInArray(text, disallowed, sensitive)) {
-            return false;
-        }
-
-        return true;
-    };
-
-    /**
      * Returns whether a string is in an array based on case sensitivity
      *
      * @param  {String} text string to search for
@@ -431,6 +390,7 @@
      * @param  {String} text
      */
     Taggle.prototype._add = function(e, text) {
+
         var self = this;
         var values = text || '';
 
@@ -441,24 +401,58 @@
         values.split(',').map(function(val) {
             return self._formatTag(val);
         }).forEach(function(val) {
-            if (!self._canAdd(e, val)) {
+
+            function done(error) {
+
+              if (error) {
+                return;
+              }
+
+              var limit = self.settings.maxTags;
+              if (limit !== null && limit <= self.getTagValues().length) {
+                  return;
+              }
+
+              if (!self.settings.allowDuplicates && self._hasDupes(text)) {
+                  return;
+              }
+
+              var sensitive = self.settings.preserveCase;
+              var allowed = self.settings.allowedTags;
+
+              if (allowed.length && !self._tagIsInArray(text, allowed, sensitive)) {
+                  return;
+              }
+
+              var disallowed = self.settings.disallowedTags;
+              if (disallowed.length && self._tagIsInArray(text, disallowed, sensitive)) {
+                  return;
+              }
+
+              var li = self._createTag(val);
+              var lis = self.list.children;
+              var lastLi = lis[lis.length - 1];
+              self.list.insertBefore(li, lastLi);
+
+              val = self.tag.values[self.tag.values.length - 1];
+
+              self.settings.onTagAdd(e, val);
+
+              self.input.value = '';
+              self._setInputWidth();
+              self._fixInputWidth();
+              self._focusInput();
+
+            }
+
+            var ret = self.settings.onBeforeTagAdd(e, text, done);
+
+            if (!ret) {
                 return;
             }
 
-            var li = self._createTag(val);
-            var lis = self.list.children;
-            var lastLi = lis[lis.length - 1];
-            self.list.insertBefore(li, lastLi);
+            done();
 
-
-            val = self.tag.values[self.tag.values.length - 1];
-
-            self.settings.onTagAdd(e, val);
-
-            self.input.value = '';
-            self._setInputWidth();
-            self._fixInputWidth();
-            self._focusInput();
         });
     };
 
@@ -481,12 +475,10 @@
                 this._remove(lastTaggle, e);
                 this._fixInputWidth();
                 this._focusInput();
-            }
-            else {
+            } else {
                 lastTaggle.classList.add(hotClass);
             }
-        }
-        else if (lastTaggle.classList.contains(hotClass)) {
+        } else if (lastTaggle.classList.contains(hotClass)) {
             lastTaggle.classList.remove(hotClass);
         }
     };
@@ -585,8 +577,7 @@
             if (this.tag.values.length) {
                 this._checkLastTag(e);
             }
-        }
-        else {
+        } else {
             this.input.value = '';
             this._setInputWidth();
         }
@@ -645,8 +636,7 @@
         // prevents from jumping out of textarea
         if (e.preventDefault) {
             e.preventDefault();
-        }
-        else {
+        } else {
             e.returnValue = false;
         }
 
@@ -675,7 +665,7 @@
 
         text = this._formatTag(text);
 
-        close.innerHTML = '&times;';
+        close.innerHTML = '×';
         close.className = 'close';
         close.type = 'button';
         _on(close, 'click', this._remove.bind(this, close));
@@ -807,8 +797,7 @@
                     this._add(null, text[i]);
                 }
             }
-        }
-        else {
+        } else {
             this._add(null, text);
         }
 
@@ -854,12 +843,10 @@
         define([], function() {
             return Taggle;
         });
-    }
-    else if (typeof exports === 'object') {
+    } else if (typeof exports === 'object') {
         // CommonJS
         module.exports = Taggle;
-    }
-    else {
+    } else {
         // Vanilla browser global
         window.Taggle = Taggle;
     }
