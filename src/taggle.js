@@ -798,6 +798,13 @@
         return this.container;
     };
 
+    /**
+     * Allows setting allowedTags during runtime
+     */
+    Taggle.prototype.allowedTags = function(tags) {
+        this.settings.allowedTags = tags;
+    };
+
     Taggle.prototype.add = function(text) {
         var isArr = _isArray(text);
 
