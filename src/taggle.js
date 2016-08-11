@@ -264,18 +264,16 @@
      * Gets all the layout measurements up front
      */
     Taggle.prototype._setMeasurements = function() {
-        var style;
-        var lpad;
-        var rpad;
-
         this.measurements.container.rect = this.container.getBoundingClientRect();
         this.measurements.container.style = window.getComputedStyle(this.container);
 
-        style = this.measurements.container.style;
-        lpad = parseInt(style['padding-left'] || style.paddingLeft, 10);
-        rpad = parseInt(style['padding-right'] || style.paddingRight, 10);
+        var style = this.measurements.container.style;
+        var lpad = parseInt(style['padding-left'] || style.paddingLeft, 10);
+        var rpad = parseInt(style['padding-right'] || style.paddingRight, 10);
+        var lborder = parseInt(style['border-left'] || style.borderLeft, 10);
+        var rborder = parseInt(style['border-right'] || style.borderRight, 10);
 
-        this.measurements.container.padding = lpad + rpad;
+        this.measurements.container.padding = lpad + rpad + lborder + rborder;
     };
 
     /**
