@@ -456,7 +456,6 @@
             self.settings.onTagAdd(e, val);
 
             self.input.value = '';
-            self._setInputWidth();
             self._fixInputWidth();
             self._focusInput();
         });
