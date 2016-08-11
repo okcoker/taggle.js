@@ -255,7 +255,7 @@
         }
 
         this._id = 0;
-        this._getMeasurements();
+        this._setMeasurements();
         this._setupTextarea();
         this._attachEvents();
     };
@@ -263,7 +263,7 @@
     /**
      * Gets all the layout measurements up front
      */
-    Taggle.prototype._getMeasurements = function() {
+    Taggle.prototype._setMeasurements = function() {
         var style;
         var lpad;
         var rpad;
@@ -286,6 +286,9 @@
 
         this.list.className = 'taggle_list';
         this.input.type = 'text';
+        // Make sure no left/right padding messes with the input sizing
+        this.input.style.paddingLeft = 0;
+        this.input.style.paddingRight = 0;
         this.input.className = 'taggle_input';
         this.input.tabIndex = this.settings.tabIndex;
         this.sizer.className = 'taggle_sizer';
@@ -349,6 +352,8 @@
         var rect;
         var leftPos;
         var padding;
+
+        this._setMeasurements();
 
         // Reset width incase we've broken to the next line on a backspace erase
         this._setInputWidth();

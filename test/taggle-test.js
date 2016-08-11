@@ -145,6 +145,23 @@ describe('Taggle', function() {
             expect(document.activeElement).to.not.equal(taggle.getInput());
         });
 
+        // When a container is display none or being resized from something
+        // small, we need to reset the internal measurements of the container
+        it('should remeasure container on focus', function() {
+            this.container.style.display = 'none';
+            var instance = new Taggle(this.container);
+            var input = instance.getInput();
+
+            this.container.style.display = 'block';
+            input.focus();
+
+            // Kind of a shitty magic number but without remeasuring the container
+            // within _fixInputWidth, the input stays at about ~14px. This makes
+            // sure we are correctly resizing the input to about the width of
+            // the container (assuming we have no tags added)
+            expect(input.clientWidth > 300).to.be.true;
+        });
+
         describe('submitKeys', function() {
             it('should have comma, tab, and enter as default keys', function() {
                 var COMMA = 188;
