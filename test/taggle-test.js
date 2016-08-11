@@ -813,6 +813,26 @@ describe('Taggle', function() {
             });
         });
 
+        describe('#setOptions', function() {
+            it('should be chainable', function() {
+                function chain() {
+                    this.instance.setOptions().add('tag');
+                }
+                expect(chain.bind(this)).to.not.throw();
+            });
+
+            it('should set options', function() {
+                var initial = this.instance.settings.allowDuplicates;
+                var opposite = !initial;
+
+                this.instance.setOptions({
+                    allowDuplicates: opposite
+                });
+
+                expect(this.instance.settings.allowDuplicates).to.equal(opposite);
+            });
+        });
+
         describe('#removeAll', function() {
             beforeEach(function() {
                 this.instance = new Taggle(this.container, {

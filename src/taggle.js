@@ -850,6 +850,12 @@
         return this;
     };
 
+    Taggle.prototype.setOptions = function(options) {
+        this.settings = _extend({}, this.settings, options || {});
+
+        return this;
+    };
+
     /* global define, module */
     if (typeof define === 'function' && define.amd) {
         // AMD
