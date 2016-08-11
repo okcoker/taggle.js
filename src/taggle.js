@@ -1,6 +1,6 @@
 /* !
  * @author Sean Coker <sean@seancoker.com>
- * @version 1.8.0
+ * @version 1.9.0
  * @url http://sean.is/poppin/tags
  * @license MIT
  * @description Taggle is a dependency-less tagging library
