@@ -746,6 +746,22 @@ describe('Taggle', function() {
                     expect(tag).to.equal(allTags[i]);
                 });
             });
+
+            it('should add new tags from a comma delimited list with specified delimeter', function() {
+                var delimeter = '|';
+                var instance = new Taggle(this.container, {
+                    delimeter: delimeter
+                });
+                var tags = 'four| five| six| seven';
+                var allTags = tags.split(delimeter);
+                instance.add(tags);
+                expect(instance.getTagElements().length).to.equal(allTags.length);
+
+                // Ensure added in same order
+                instance.getTagValues().forEach(function(tag, i) {
+                    expect(tag).to.equal(allTags[i]);
+                });
+            });
         });
 
         describe('#remove', function() {

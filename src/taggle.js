@@ -76,6 +76,12 @@
         tags: [],
 
         /**
+         * The default delimeter character to split tags on
+         * @type {String}
+         */
+        delimeter: ',',
+
+        /**
          * Add an ID to each of the tags.
          * @type {Boolean}
          * @todo
@@ -441,7 +447,7 @@
             values = _trim(this.input.value);
         }
 
-        values.split(',').map(function(val) {
+        values.split(this.settings.delimeter).map(function(val) {
             return self._formatTag(val);
         }).forEach(function(val) {
             if (!self._canAdd(e, val)) {
