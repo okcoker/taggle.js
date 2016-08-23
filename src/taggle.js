@@ -276,8 +276,8 @@
         var style = this.measurements.container.style;
         var lpad = parseInt(style['padding-left'] || style.paddingLeft, 10);
         var rpad = parseInt(style['padding-right'] || style.paddingRight, 10);
-        var lborder = parseInt(style['border-left'] || style.borderLeft, 10);
-        var rborder = parseInt(style['border-right'] || style.borderRight, 10);
+        var lborder = parseInt(style['border-left-width'] || style.borderLeftWidth, 10);
+        var rborder = parseInt(style['border-right-width'] || style.borderRightWidth, 10);
 
         this.measurements.container.padding = lpad + rpad + lborder + rborder;
     };
