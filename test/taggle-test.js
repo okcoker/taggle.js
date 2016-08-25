@@ -829,6 +829,54 @@ describe('Taggle', function() {
             });
         });
 
+        describe('#clearOnBlur', function() {
+            it('setting to false should not clear the remaining text when input is blurred', function() {
+                var instance = new Taggle(this.container, {
+                    clearOnBlur: false
+                });
+                var input = instance.getInput();
+                var tag = 'thing';
+
+                expect(instance.getTagValues().length).to.equal(0);
+
+                input.focus();
+                input.value = tag;
+                input.blur();
+
+                expect(input.value).to.equal(tag);
+            });
+
+            it('setting to true should clear the remaining text when input is blurred', function() {
+                var instance = new Taggle(this.container, {
+                    clearOnBlur: true
+                });
+                var input = instance.getInput();
+                var tag = 'thing';
+
+                expect(instance.getTagValues().length).to.equal(0);
+
+                input.focus();
+                input.value = tag;
+                input.blur();
+
+                expect(input.value).to.equal('');
+            });
+
+            it('default should clear the remaining text when input is blurred', function() {
+                var instance = new Taggle(this.container);
+                var input = instance.getInput();
+                var tag = 'thing';
+
+                expect(instance.getTagValues().length).to.equal(0);
+
+                input.focus();
+                input.value = tag;
+                input.blur();
+
+                expect(input.value).to.equal('');
+            });
+        });
+
         describe('#setOptions', function() {
             it('should be chainable', function() {
                 function chain() {

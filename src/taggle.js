@@ -61,6 +61,13 @@
         saveOnBlur: false,
 
         /**
+         * Clear the input value when blurring.
+         *
+         * @type {Boolean}
+         */
+        clearOnBlur: true,
+
+        /**
          * Class name that will be added onto duplicate existant tag
          * @type {String}
          * @todo
@@ -611,7 +618,7 @@
                 this._checkLastTag(e);
             }
         }
-        else {
+        else if (this.settings.clearOnBlur) {
             this.input.value = '';
             this._setInputWidth();
         }
