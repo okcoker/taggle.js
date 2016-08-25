@@ -189,6 +189,34 @@ describe('Taggle', function() {
             });
         });
 
+        describe('placeholder', function() {
+            it('should reappear if the input doesnt have a value', function() {
+                var instance = new Taggle(this.container);
+                var input = instance.getInput();
+                var tag = 'thing';
+
+                input.focus();
+                input.value = tag;
+                input.blur();
+
+                expect(instance.placeholder.style.opacity).to.equal('1');
+            });
+
+            it('should not reappear if the input has a value', function() {
+                var instance = new Taggle(this.container, {
+                    clearOnBlur: false
+                });
+                var input = instance.getInput();
+                var tag = 'thing';
+
+                input.focus();
+                input.value = tag;
+                input.blur();
+
+                expect(instance.placeholder.style.opacity).to.equal('0');
+            });
+        });
+
         describe('#inputFormatter', function() {
             it('should let you format the input element', function() {
                 var instance = new Taggle(this.container, {

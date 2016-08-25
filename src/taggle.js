@@ -600,10 +600,6 @@
             this.container.classList.remove(this.settings.containerFocusClass);
         }
 
-        if (!this.tag.values.length && this.placeholder) {
-            this.placeholder.style.opacity = 1;
-        }
-
         if (this.settings.saveOnBlur) {
             e = e || window.event;
 
@@ -621,6 +617,10 @@
         else if (this.settings.clearOnBlur) {
             this.input.value = '';
             this._setInputWidth();
+        }
+
+        if (!this.tag.values.length && this.placeholder && !this.input.value) {
+            this.placeholder.style.opacity = 1;
         }
     };
 
