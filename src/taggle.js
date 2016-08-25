@@ -6,9 +6,26 @@
  * @description Taggle is a dependency-less tagging library
  */
 
-(function(window, document) {
+(function(root, factory) {
     'use strict';
+    var libName = 'Taggle';
 
+    /* global define, module */
+    if (typeof define === 'function' && define.amd) {
+        define([], function() {
+            var module = factory();
+            root[libName] = module;
+            return module;
+        });
+    }
+    else if (typeof module === 'object' && module.exports) {
+        module.exports = root[libName] = factory();
+    }
+    else {
+        root[libName] = factory();
+    }
+}(this, function() {
+    'use strict';
     /////////////////////
     // Default options //
     /////////////////////
@@ -862,20 +879,5 @@
         return this;
     };
 
-    /* global define, module */
-    if (typeof define === 'function' && define.amd) {
-        // AMD
-        define([], function() {
-            return Taggle;
-        });
-    }
-    else if (typeof exports === 'object') {
-        // CommonJS
-        module.exports = Taggle;
-    }
-    else {
-        // Vanilla browser global
-        window.Taggle = Taggle;
-    }
-
-}(window, document));
+    return Taggle;
+}));
