@@ -911,12 +911,12 @@
      * Called when a Taggle adds/removes a tag from an instance,
      *  calls on the optional callback function with an object
      *  of the updated tags array and the Taggle instance id.
-     * @param {tagsArray} array of tags added removed
+     * @param {tagsArray} tagsArray array of tags added removed
      */
     Taggle.prototype.monitorForTagUpdates= function(tagsArray) {
         var tagInfoObject = {
-            'taggleInstanceId': this.taggleInstanceId,
-            'tags': tagsArray
+            'taggleInstanceId' : this.taggleInstanceId,
+            'tags' : tagsArray
         };
 
         if (this.callbackFunction) {
