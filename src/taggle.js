@@ -210,7 +210,6 @@
          * @type {Function}
          */
         callbackFunction: noop
-        
     };
 
     //////////////////////
@@ -302,7 +301,7 @@
         this._setupTextarea();
         this._attachEvents();
 
-        if(this.settings.callbackFunction){
+        if (this.settings.callbackFunction) {
             this.callbackFunction = this.settings.callbackFunction;
         }
         this.taggleId = this.settings.taggleId;
@@ -912,15 +911,15 @@
      * Called when a Taggle adds/removes a tag from an instance,
      *  calls on the optional callback function with an object
      *  of the updated tags array and the Taggle instance id.
-     * @param {Array}
+     * @param {tagsArray} array of tags added removed
      */
     Taggle.prototype.monitorForTagUpdates= function(tagsArray) {
         var tagInfoObject = {
             'taggleInstanceId': this.taggleInstanceId,
             'tags': tagsArray
-        }
-        
-        if(this.callbackFunction){
+        };
+
+        if (this.callbackFunction) {
             this.callbackFunction(tagInfoObject);
         }
     };
