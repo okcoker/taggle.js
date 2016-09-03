@@ -197,7 +197,19 @@
          * @param  {Event} event Event triggered when tag was removed
          * @param  {String} tag The tag removed
          */
-        onTagRemove: noop
+        onTagRemove: noop,
+
+        /**
+         * Custom identification attached to each taggle instance
+         * @type {Number}
+         */
+        taggleInstanceId: null,
+
+        /**
+         * Callback function: get contextual information from Taggle instances
+         * @type {Function}
+         */
+        callbackFunction: noop
     };
 
     //////////////////////
@@ -288,6 +300,11 @@
         this._setMeasurements();
         this._setupTextarea();
         this._attachEvents();
+
+        if (this.settings.callbackFunction) {
+            this.callbackFunction = this.settings.callbackFunction;
+        }
+        this.taggleId = this.settings.taggleId;
     };
 
     /**
@@ -318,6 +335,7 @@
         this.input.style.paddingLeft = 0;
         this.input.style.paddingRight = 0;
         this.input.className = 'taggle_input';
+        this.input.placeholder = "Add Tag"
         this.input.tabIndex = this.settings.tabIndex;
         this.sizer.className = 'taggle_sizer';
 
@@ -328,16 +346,17 @@
             }
         }
 
-        if (this.placeholder) {
-            this.placeholder.style.opacity = 0;
-            this.placeholder.classList.add('taggle_placeholder');
-            this.container.appendChild(this.placeholder);
-            _setText(this.placeholder, this.settings.placeholder);
 
-            if (!this.settings.tags.length) {
-                this.placeholder.style.opacity = 1;
-            }
-        }
+        // if (this.placeholder) {
+        //     this.placeholder.style.opacity = 1;
+        //     this.placeholder.classList.add('taggle_placeholder');
+        //     this.container.appendChild(this.placeholder);
+        //     _setText(this.placeholder, this.settings.placeholder);
+
+        //     if (!this.settings.tags.length) {
+        //         this.placeholder.style.opacity = 1;
+        //     }
+        // }
 
         var formattedInput = this.settings.inputFormatter(this.input);
         if (formattedInput) {
@@ -358,11 +377,11 @@
     Taggle.prototype._attachEvents = function() {
         var self = this;
 
-        if (this.settings.focusInputOnContainerClick) {
-            _on(this.container, 'click', function() {
-                self.input.focus();
-            });
-        }
+        // if (this.settings.focusInputOnContainerClick) {
+        _on(this.input, 'click', function() {
+            self.input.focus();
+        });
+        // }
 
         _on(this.input, 'focus', this._focusInput.bind(this));
         _on(this.input, 'blur', this._blurEvent.bind(this));
@@ -488,8 +507,9 @@
 
             self.settings.onTagAdd(e, val);
 
+            self.monitorForTagUpdates(self.tag.values);
             self.input.value = '';
-            self._fixInputWidth();
+            //  self._fixInputWidth();
             self._focusInput();
         });
     };
@@ -511,7 +531,7 @@
             if (lastTaggle.classList.contains(hotClass)) {
                 this.input.classList.add('taggle_back');
                 this._remove(lastTaggle, e);
-                this._fixInputWidth();
+                //  this._fixInputWidth();
                 this._focusInput();
             }
             else {
@@ -580,7 +600,7 @@
      * Handles focus state of div container.
      */
     Taggle.prototype._focusInput = function() {
-        this._fixInputWidth();
+        // this._fixInputWidth();
 
         if (!this.container.classList.contains(this.settings.containerFocusClass)) {
             this.container.classList.add(this.settings.containerFocusClass);
@@ -616,7 +636,7 @@
         }
         else if (this.settings.clearOnBlur) {
             this.input.value = '';
-            this._setInputWidth();
+            //    this._setInputWidth();
         }
 
         if (!this.tag.values.length && this.placeholder && !this.input.value) {
@@ -634,7 +654,7 @@
         var key = e.keyCode;
         this.pasting = false;
 
-        this._listenForEndOfContainer();
+        //  this._listenForEndOfContainer();
 
         if (key === 86 && e.metaKey) {
             this.pasting = true;
@@ -782,6 +802,7 @@
 
             self.settings.onTagRemove(e, text);
 
+            self.monitorForTagUpdates(self.tag.values);
             self._focusInput();
         }
 
@@ -884,6 +905,23 @@
         this.settings = _extend({}, this.settings, options || {});
 
         return this;
+    };
+
+    /**
+     * Called when a Taggle adds/removes a tag from an instance,
+     *  calls on the optional callback function with an object
+     *  of the updated tags array and the Taggle instance id.
+     * @param {tagsArray} tagsArray array of tags added removed
+     */
+    Taggle.prototype.monitorForTagUpdates= function(tagsArray) {
+        var tagInfoObject = {
+            'taggleInstanceId' : this.taggleInstanceId,
+            'tags' : tagsArray
+        };
+
+        if (this.callbackFunction) {
+            this.callbackFunction(tagInfoObject);
+        }
     };
 
     return Taggle;
