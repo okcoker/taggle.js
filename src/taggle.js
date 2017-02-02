@@ -335,7 +335,7 @@
             _setText(this.placeholder, this.settings.placeholder);
 
             if (!this.settings.tags.length) {
-                this.placeholder.style.opacity = 1;
+                this._showPlaceholder();
             }
         }
 
@@ -619,8 +619,8 @@
             this._setInputWidth();
         }
 
-        if (!this.tag.values.length && this.placeholder && !this.input.value) {
-            this.placeholder.style.opacity = 1;
+        if (!this.tag.values.length && !this.input.value) {
+            this._showPlaceholder();
         }
     };
 
@@ -747,6 +747,12 @@
         this.tag.elements.push(li);
 
         return li;
+    };
+
+    Taggle.prototype._showPlaceholder = function() {
+        if (this.placeholder) {
+            this.placeholder.style.opacity = 1;
+        }
     };
 
     /**
@@ -877,9 +883,7 @@
             this._remove(this.tag.elements[i]);
         }
 
-        if (this.placeholder) {
-            this.placeholder.style.opacity = 1;
-        }
+        this._showPlaceholder();
 
         return this;
     };
