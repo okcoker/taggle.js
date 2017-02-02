@@ -877,6 +877,10 @@
             this._remove(this.tag.elements[i]);
         }
 
+        if (this.placeholder) {
+            this.placeholder.style.opacity = 1;
+        }
+
         return this;
     };
 

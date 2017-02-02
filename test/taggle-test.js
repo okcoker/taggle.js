@@ -945,6 +945,12 @@ describe('Taggle', function() {
                 expect(this.instance.getTagElements().length).to.equal(1);
                 expect(this.instance.getTagValues().length).to.equal(1);
             });
+
+            it('should cause the placeholder to reappear', function() {
+                this.instance.removeAll();
+
+                expect(this.instance.placeholder.style.opacity).to.equal('1');
+            });
         });
 
         describe('#checkCloseButtonType', function() {
