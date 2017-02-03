@@ -34,10 +34,10 @@
     var retTrue = function() {
         return true;
     };
-    var BACKSPACE = 8;
-    var COMMA = 188;
-    var TAB = 9;
-    var ENTER = 13;
+    var BACKSPACE = 'Backspace';
+    var COMMA = ',';
+    var TAB = 'Tab';
+    var ENTER = 'Enter';
 
     var DEFAULTS = {
         /**
@@ -507,7 +507,7 @@
         var heldDown = this.input.classList.contains('taggle_back');
 
         // prevent holding backspace from deleting all tags
-        if (this.input.value === '' && e.keyCode === BACKSPACE && !heldDown) {
+        if (this.input.value === '' && e.key === BACKSPACE && !heldDown) {
             if (lastTaggle.classList.contains(hotClass)) {
                 this.input.classList.add('taggle_back');
                 this._remove(lastTaggle, e);
@@ -631,7 +631,7 @@
     Taggle.prototype._keydownEvents = function(e) {
         e = e || window.event;
 
-        var key = e.keyCode;
+        var key = e.key;
         this.pasting = false;
 
         this._listenForEndOfContainer();
