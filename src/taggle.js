@@ -24,7 +24,7 @@
     else {
         root[libName] = factory();
     }
-}(this, function() {
+}(window, function() {
     'use strict';
     /////////////////////
     // Default options //
