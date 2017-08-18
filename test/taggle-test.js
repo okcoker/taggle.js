@@ -44,12 +44,16 @@ describe('Taggle', function() {
 
     beforeEach(function() {
         this.container = createContainer(500, 300);
+        this.container2 = createContainer(500, 300);
         this.container.id = 'taggle';
+        this.container2.id = 'taggle2';
         document.body.appendChild(this.container);
+        document.body.appendChild(this.container2);
     });
 
     afterEach(function() {
         this.container.parentNode.removeChild(this.container);
+        this.container2.parentNode.removeChild(this.container2);
     });
 
     describe('Options', function() {
@@ -1034,20 +1038,27 @@ describe('Taggle', function() {
         describe('#setData/#getData', function() {
             beforeEach(function() {
                 this.instance = new Taggle(this.container);
+                this.instance2 = new Taggle(this.container2);
             });
 
             it('set and get abitrary data', function() {
                 var data = this.instance.getData();
+                var data2 = this.instance2.getData();
 
                 expect(data).to.equal(null);
+                expect(data2).to.equal(null);
 
                 var someData = { test: 1 };
+                var someMoreData = { test: 2 };
 
                 this.instance.setData(someData);
+                this.instance2.setData(someMoreData);
 
                 data = this.instance.getData();
+                data2 = this.instance2.getData();
 
                 expect(data.test).to.equal(1);
+                expect(data2.test).to.equal(2);
             });
         });
 
