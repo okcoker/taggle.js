@@ -284,6 +284,7 @@
         this.sizer = document.createElement('div');
         this.pasting = false;
         this.placeholder = null;
+        this.data = null;
 
         if (this.settings.placeholder) {
             this.placeholder = document.createElement('span');
@@ -925,6 +926,16 @@
         });
 
         return this;
+    };
+
+    Taggle.prototype.setData = function(data) {
+        this.data = data;
+
+        return this;
+    };
+
+    Taggle.prototype.getData = function() {
+        return this.data;
     };
 
     return Taggle;

@@ -1031,6 +1031,26 @@ describe('Taggle', function() {
             });
         });
 
+        describe('#setData/#getData', function() {
+            beforeEach(function() {
+                this.instance = new Taggle(this.container);
+            });
+
+            it('set and get abitrary data', function() {
+                var data = this.instance.getData();
+
+                expect(data).to.equal(null);
+
+                var someData = { test: 1 };
+
+                this.instance.setData(someData);
+
+                data = this.instance.getData();
+
+                expect(data.test).to.equal(1);
+            });
+        });
+
         describe('#checkCloseButtonType', function() {
             beforeEach(function() {
                 this.instance = new Taggle(this.container, {
