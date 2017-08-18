@@ -62,6 +62,18 @@ describe('Taggle', function() {
             this.instance = null;
         });
 
+        it.skip('should throw if an unknown option is passed', function() {
+            var self = this;
+
+            function willThrow() {
+                return new Taggle(self.container, {
+                    maxTagssss: 1
+                });
+            }
+
+            expect(willThrow).to.not.throw();
+        });
+
         it('should limit tags if the limitTags option is passed', function() {
             var taggle = new Taggle(this.container, {
                 maxTags: 1
@@ -775,13 +787,29 @@ describe('Taggle', function() {
                 });
             });
 
-            it('should add new tags from a comma delimited list with specified delimeter', function() {
-                var delimeter = '|';
+            it('should add new tags from a comma delimited list with specified delimiter', function() {
+                var delimiter = '|';
                 var instance = new Taggle(this.container, {
-                    delimeter: delimeter
+                    delimeter: delimiter
                 });
                 var tags = 'four| five| six| seven';
-                var allTags = tags.split(delimeter);
+                var allTags = tags.split(delimiter);
+                instance.add(tags);
+                expect(instance.getTagElements().length).to.equal(allTags.length);
+
+                // Ensure added in same order
+                instance.getTagValues().forEach(function(tag, i) {
+                    expect(tag).to.equal(allTags[i]);
+                });
+            });
+
+            it('should add new tags when spelling delimiter correctly :)', function() {
+                var delimiter = '|';
+                var instance = new Taggle(this.container, {
+                    delimiter: delimiter
+                });
+                var tags = 'four| five| six| seven';
+                var allTags = tags.split(delimiter);
                 instance.add(tags);
                 expect(instance.getTagElements().length).to.equal(allTags.length);
 

@@ -102,8 +102,10 @@
         /**
          * The default delimeter character to split tags on
          * @type {String}
+         * @todo Change this to just "delimiter: ','"
          */
         delimeter: ',',
+        delimiter: '',
 
         /**
          * Add an ID to each of the tags.
@@ -256,6 +258,13 @@
      * @param {Object} options
      */
     var Taggle = function(el, options) {
+        // @todo uncomment this in next major version
+        // for (var key in (options || {})) {
+        //     if (!DEFAULTS.hasOwnProperty(key)) {
+        //         throw new Error('"' + key + '" is not a valid option.');
+        //     }
+        // }
+
         this.settings = _extend({}, DEFAULTS, options);
         this.measurements = {
             container: {
@@ -471,7 +480,9 @@
             values = _trim(this.input.value);
         }
 
-        values.split(this.settings.delimeter).map(function(val) {
+        var delimiter = this.settings.delimiter || this.settings.delimeter;
+
+        values.split(delimiter).map(function(val) {
             return self._formatTag(val);
         }).forEach(function(val) {
             if (!self._canAdd(e, val)) {
