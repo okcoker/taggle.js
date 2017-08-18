@@ -28,7 +28,7 @@ Taggle also contains a simple API for you to easily hook in to your favorite aut
 
 
 [How-To Demo](http://sean.is/poppin/tags/)
-
+[Minimal Styling Example](https://jsfiddle.net/okcoker/eb3o47b3/5/)
 
 ## Support for older IE
 
