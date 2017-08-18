@@ -158,6 +158,8 @@
          */
         preserveCase: false,
 
+        // @todo bind callback hooks to instance
+
         /**
          * Function hook called with the to-be-added input DOM element.
          *
