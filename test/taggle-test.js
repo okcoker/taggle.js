@@ -953,6 +953,56 @@ describe('Taggle', function() {
             });
         });
 
+        describe('#disable', function() {
+            beforeEach(function() {
+                this.instance = new Taggle(this.container, {
+                    tags: ['zero', 'one', 'two', 'three', 'four', 'three']
+                });
+            });
+
+            it('should add a disabled attribute to any buttons or inputs', function() {
+                this.instance.disable();
+                var inputs = [].slice.call(this.container.querySelectorAll('input'));
+                var buttons = [].slice.call(this.container.querySelectorAll('button'));
+
+                inputs.concat(buttons).forEach(function(el) {
+                    expect(typeof el.getAttribute('disabled') !== 'undefined').to.be.true;
+                });
+            });
+
+            it('should be chainable', function() {
+                var container = this.instance.disable().getContainer();
+
+                expect(container).to.equal(this.container);
+            });
+
+        });
+
+        describe('#enable', function() {
+            beforeEach(function() {
+                this.instance = new Taggle(this.container, {
+                    tags: ['zero', 'one', 'two', 'three', 'four', 'three']
+                });
+            });
+
+            it('should remove the disabled attribute from any buttons or inputs', function() {
+                this.instance.disable();
+                this.instance.enable();
+                var inputs = [].slice.call(this.container.querySelectorAll('input'));
+                var buttons = [].slice.call(this.container.querySelectorAll('button'));
+
+                inputs.concat(buttons).forEach(function(el) {
+                    expect(el.getAttribute('disabled') === null).to.be.true;
+                });
+            });
+
+            it('should be chainable', function() {
+                var container = this.instance.enable().getContainer();
+
+                expect(container).to.equal(this.container);
+            });
+        });
+
         describe('#checkCloseButtonType', function() {
             beforeEach(function() {
                 this.instance = new Taggle(this.container, {

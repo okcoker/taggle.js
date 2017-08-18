@@ -894,5 +894,27 @@
         return this;
     };
 
+    Taggle.prototype.enable = function() {
+        var buttons = [].slice.call(this.container.querySelectorAll('button'));
+        var inputs = [].slice.call(this.container.querySelectorAll('input'));
+
+        buttons.concat(inputs).forEach(function(el) {
+            el.removeAttribute('disabled');
+        });
+
+        return this;
+    };
+
+    Taggle.prototype.disable = function() {
+        var buttons = [].slice.call(this.container.querySelectorAll('button'));
+        var inputs = [].slice.call(this.container.querySelectorAll('input'));
+
+        buttons.concat(inputs).forEach(function(el) {
+            el.setAttribute('disabled', '');
+        });
+
+        return this;
+    };
+
     return Taggle;
 }));
