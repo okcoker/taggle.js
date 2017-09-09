@@ -1,4 +1,6 @@
-Taggle [![Build Status](https://travis-ci.org/okcoker/taggle.js.svg?branch=master)](https://travis-ci.org/okcoker/taggle.js) [![Coverage Status](https://img.shields.io/coveralls/okcoker/taggle.js.svg)](https://coveralls.io/r/okcoker/taggle.js)
+<p align="center"><img src="https://user-images.githubusercontent.com/1030830/30234884-eb47ee0e-94cf-11e7-8972-c42662e105a5.png" /></p>
+
+[![Build Status](https://travis-ci.org/okcoker/taggle.js.svg?branch=master)](https://travis-ci.org/okcoker/taggle.js) [![Coverage Status](https://img.shields.io/coveralls/okcoker/taggle.js.svg)](https://coveralls.io/r/okcoker/taggle.js)
 =========
 
 Form-ready dependency-less tagging.
