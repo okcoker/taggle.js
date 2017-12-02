@@ -1,10 +1,12 @@
 /* !
  * @author Sean Coker <sean@seancoker.com>
- * @version 1.12.0
+ * @version 1.13.0
  * @url http://sean.is/poppin/tags
  * @license MIT
  * @description Taggle is a dependency-less tagging library
  */
+
+// @todo remove bower from next major version
 
 (function(root, factory) {
     'use strict';
