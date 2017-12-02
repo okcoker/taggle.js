@@ -241,6 +241,18 @@
         }
     }
 
+    function _off(element, eventName, handler) {
+        if (element.removeEventListener) {
+            element.removeEventListener(eventName, handler, false);
+        }
+        else if (element.detachEvent) {
+            element.detachEvent('on' + eventName, handler);
+        }
+        else {
+            element['on' + eventName] = null;
+        }
+    }
+
     function _trim(str) {
         return str.replace(/^\s+|\s+$/g, '');
     }
@@ -297,6 +309,8 @@
         }
 
         this._id = 0;
+        this._closeEvents = [];
+        this._closeButtons = [];
         this._setMeasurements();
         this._setupTextarea();
         this._attachEvents();
@@ -370,16 +384,56 @@
     Taggle.prototype._attachEvents = function() {
         var self = this;
 
-        if (this.settings.focusInputOnContainerClick) {
-            _on(this.container, 'click', function() {
-                self.input.focus();
-            });
+        if (this._eventsAttached) {
+            return false;
         }
 
-        _on(this.input, 'focus', this._focusInput.bind(this));
-        _on(this.input, 'blur', this._blurEvent.bind(this));
-        _on(this.input, 'keydown', this._keydownEvents.bind(this));
-        _on(this.input, 'keyup', this._keyupEvents.bind(this));
+        this._eventsAttached = true;
+
+        function containerClick() {
+            self.input.focus();
+        }
+
+        if (this.settings.focusInputOnContainerClick) {
+            this._handleContainerClick = containerClick.bind(this);
+            _on(this.container, 'click', this._handleContainerClick);
+        }
+
+        this._handleFocus = this._focusInput.bind(this);
+        this._handleBlur = this._blurEvent.bind(this);
+        this._handleKeydown = this._keydownEvents.bind(this);
+        this._handleKeyup = this._keyupEvents.bind(this);
+
+        _on(this.input, 'focus', this._handleFocus);
+        _on(this.input, 'blur', this._handleBlur);
+        _on(this.input, 'keydown', this._handleKeydown);
+        _on(this.input, 'keyup', this._handleKeyup);
+
+        return true;
+    };
+
+    Taggle.prototype._detachEvents = function() {
+        if (!this._eventsAttached) {
+            return false;
+        }
+
+        var self = this;
+
+        this._eventsAttached = false;
+
+        _off(this.container, 'click', this._handleContainerClick);
+        _off(this.input, 'focus', this._handleFocus);
+        _off(this.input, 'blur', this._handleBlur);
+        _off(this.input, 'keydown', this._handleKeydown);
+        _off(this.input, 'keyup', this._handleKeyup);
+
+        this._closeButtons.forEach(function(button, i) {
+            var eventFn = self._closeEvents[i];
+
+            _off(button, 'click', eventFn);
+        });
+
+        return true;
     };
 
     /**
@@ -724,7 +778,10 @@
         close.innerHTML = '&times;';
         close.className = 'close';
         close.type = 'button';
-        _on(close, 'click', this._remove.bind(this, close));
+
+        var eventFn = this._remove.bind(this, close);
+
+        _on(close, 'click', eventFn);
 
         _setText(span, text);
         span.className = 'taggle_text';
@@ -751,6 +808,7 @@
 
         if (this.settings.attachTagId) {
             this._id += 1;
+
             text = {
                 text: text,
                 id: this._id
@@ -759,6 +817,8 @@
 
         this.tag.values.push(text);
         this.tag.elements.push(li);
+        this._closeEvents.push(eventFn);
+        this._closeButtons.push(close);
 
         return li;
     };
@@ -793,6 +853,11 @@
             if (error) {
                 return;
             }
+
+            var eventFn = self._closeEvents[index];
+            var button = self._closeButtons[index];
+
+            _off(button, 'click', eventFn);
 
             li.parentNode.removeChild(li);
 
@@ -938,6 +1003,28 @@
 
     Taggle.prototype.getData = function() {
         return this.data;
+    };
+
+    Taggle.prototype.attachEvents = function() {
+        var self = this;
+
+        var attached = this._attachEvents();
+
+        if (attached) {
+            this._closeButtons.forEach(function(button, i) {
+                var eventFn = self._closeEvents[i];
+
+                _on(button, 'click', eventFn);
+            });
+        }
+
+        return this;
+    };
+
+    Taggle.prototype.removeEvents = function() {
+        this._detachEvents();
+
+        return this;
     };
 
     return Taggle;

@@ -702,7 +702,7 @@ describe('Taggle', function() {
 
             document.body.appendChild(container);
 
-            var instance = new Taggle(container, {
+            var instance = new Taggle('input-resize', {
                 tags: ['whale']
             });
             var input = instance.getInput();
@@ -742,6 +742,17 @@ describe('Taggle', function() {
             expect(inputWidth).to.equal(resize);
 
             container.parentNode.removeChild(container);
+        });
+
+        it('should remove tag when clicking on close button', function() {
+            this.instance.add(['Tag']);
+
+            var tag = this.instance.getTags().elements[0];
+            var removeButton = tag.querySelector('.close');
+
+            removeButton.click();
+
+            expect(this.instance.getTags().elements.length).to.equal(0);
         });
     });
 
@@ -1127,6 +1138,40 @@ describe('Taggle', function() {
                     var closeButton = elements[i].querySelector('button.close');
                     expect(closeButton).to.have.property('type').and.equal('button');
                 }
+            });
+        });
+
+        describe('#attachEvents/#removeEvents', function() {
+            beforeEach(function() {
+                this.instance = new Taggle(this.container, {
+                    tags: ['zero', 'one', 'two']
+                });
+            });
+
+            it('should remove and reattach events appropriately', function() {
+                var elements = this.instance.getTags().elements;
+                var length = elements.length;
+                var tag = elements[elements.length - 1];
+                var removeButton = tag.querySelector('.close');
+
+                this.instance.removeEvents();
+
+                removeButton.click();
+
+                expect(this.instance.getTags().elements.length).to.equal(length);
+
+
+                this.instance.attachEvents();
+
+                removeButton.click();
+
+                expect(this.instance.getTags().elements.length).to.equal(length - 1);
+            });
+
+            it('should be chainable', function() {
+                this.instance.removeEvents().attachEvents().removeEvents();
+
+                expect(true).to.be.true;
             });
         });
     });
