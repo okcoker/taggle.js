@@ -693,9 +693,12 @@ describe('Taggle', function() {
         });
 
         it('should resize the input to fill the remaining width of the container', function() {
-            var container = createContainer(302, 150);
+            var containerWidth = 302;
+            var container = createContainer(containerWidth, 150);
             container.id = 'input-resize';
-            container.style.padding = '5px 5px 0 5px';
+
+            var containerPadding = 5;
+            container.style.padding = containerPadding + 'px';
 
             document.body.appendChild(container);
 
@@ -703,6 +706,13 @@ describe('Taggle', function() {
                 tags: ['whale']
             });
             var input = instance.getInput();
+
+            var inputMargin = 5;
+            var inputPadding = 5;
+
+            input.style.margin = inputMargin + 'px';
+            input.style.padding = inputPadding + 'px';
+
             var tag = instance.getTagElements()[0];
 
             // Take into account margins of tags
@@ -716,13 +726,20 @@ describe('Taggle', function() {
                 li.style.display = 'inline-block';
             });
 
-            tag.style.marginRight = '8px';
+            var tagMarginRight = 8;
+            tag.style.marginRight = tagMarginRight + 'px';
             tag.style.display = 'inline-block';
             tag.style.verticalAlign = 'top';
 
+            var tagWidth = 61;
+            tag.style.width = tagWidth + 'px';
+
             input.focus();
 
-            expect(input.clientWidth).to.equal(229);
+            var inputWidth = input.clientWidth;
+            var resize = containerWidth - tagWidth - tagMarginRight;
+
+            expect(inputWidth).to.equal(resize);
 
             container.parentNode.removeChild(container);
         });
