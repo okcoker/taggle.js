@@ -6,11 +6,11 @@ if (!HTMLElement.prototype.click) {
         var ev = document.createEvent('MouseEvent');
         ev.initMouseEvent(
             'click',
-            /*bubble*/true, /*cancelable*/true,
+            /* bubble */true, /* cancelable */true,
             window, null,
-            0, 0, 0, 0, /*coordinates*/
-            false, false, false, false, /*modifier keys*/
-            0/*button=left*/, null
+            0, 0, 0, 0, /* coordinates */
+            false, false, false, false, /* modifier keys */
+            0/* button=left */, null
         );
         this.dispatchEvent(ev);
     };
@@ -690,6 +690,41 @@ describe('Taggle', function() {
             input.blur();
 
             expect(this.instance.getTagValues().length).to.equal(0);
+        });
+
+        it('should resize the input to fill the remaining width of the container', function() {
+            var container = createContainer(302, 150);
+            container.id = 'input-resize';
+            container.style.padding = '5px 5px 0 5px';
+
+            document.body.appendChild(container);
+
+            var instance = new Taggle(container, {
+                tags: ['whale']
+            });
+            var input = instance.getInput();
+            var tag = instance.getTagElements()[0];
+
+            // Take into account margins of tags
+            var ul = container.querySelector('ul');
+            ul.style.listStyle = 'none';
+            ul.style.padding = '0';
+            ul.style.margin = '0';
+            container.querySelector('.taggle_placeholder').style.position = 'absolute';
+            [].slice.call(container.querySelectorAll('li')).forEach(function(li) {
+                li.style.float = 'left';
+                li.style.display = 'inline-block';
+            });
+
+            tag.style.marginRight = '8px';
+            tag.style.display = 'inline-block';
+            tag.style.verticalAlign = 'top';
+
+            input.focus();
+
+            expect(input.clientWidth).to.equal(229);
+
+            container.parentNode.removeChild(container);
         });
     });
 

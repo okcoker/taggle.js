@@ -400,16 +400,16 @@
 
         inputRect = this.input.getBoundingClientRect();
         rect = this.measurements.container.rect;
-        width = ~~rect.width;
+        width = rect.width;
         // Could probably just use right - left all the time
         // but eh, this check is mostly for IE8
         if (!width) {
-            width = ~~rect.right - ~~rect.left;
+            width = rect.right - rect.left;
         }
-        leftPos = ~~inputRect.left - ~~rect.left;
+        leftPos = inputRect.left - rect.left;
         padding = this.measurements.container.padding;
 
-        this._setInputWidth(width - leftPos - padding);
+        this._setInputWidth(Math.floor(width - leftPos - padding));
     };
 
     /**
