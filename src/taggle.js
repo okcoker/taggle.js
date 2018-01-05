@@ -274,6 +274,7 @@
      * @param {Object} options
      */
     var Taggle = function(el, options) {
+        // @todo also check that option type is correct #106
         // @todo uncomment this in next major version
         // for (var key in (options || {})) {
         //     if (!DEFAULTS.hasOwnProperty(key)) {
