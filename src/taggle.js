@@ -8,24 +8,16 @@
 
 // @todo remove bower from next major version
 
-(function(root, factory) {
+(function(global, factory) {
     'use strict';
     var libName = 'Taggle';
 
     /* global define, module */
-    if (typeof define === 'function' && define.amd) {
-        define([], function() {
-            var module = factory();
-            root[libName] = module;
-            return module;
-        });
-    }
-    else if (typeof module === 'object' && module.exports) {
-        module.exports = root[libName] = factory();
-    }
-    else {
-        root[libName] = factory();
-    }
+    typeof exports === 'object' && typeof module !== 'undefined' 
+        ? module.exports = factory() 
+        : typeof define === 'function' && define.amd 
+        ? define(factory) 
+        : global[libName] = factory()
 }(this, function() {
     'use strict';
     /////////////////////
