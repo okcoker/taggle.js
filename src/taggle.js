@@ -780,7 +780,8 @@
 
         close.innerHTML = '&times;';
         close.className = 'close';
-        close.type = 'button';
+        // IE8 does not allow you to modify the `type` property directly.
+        close.setAttribute('type', 'button');
 
         var eventFn = this._remove.bind(this, close);
 

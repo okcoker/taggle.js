@@ -215,4 +215,9 @@ if (!Array.prototype.map) {
   };
 }
 
+// IE8 has no HTMLElement, but it does have Element.
+if (typeof window.HTMLElement === 'undefined' && window.Element) {
+    window.HTMLElement = window.Element;
+}
+
 })();
