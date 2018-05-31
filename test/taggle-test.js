@@ -945,6 +945,20 @@ describe('Taggle', function() {
                     expect(tag).to.equal(allTags[i]);
                 });
             });
+
+            it('should preserve spaces', function() {
+                var instance = new Taggle(this.container);
+                var tags = ['one ', '  two', '   three  '];
+
+                instance.add(tags);
+
+                expect(instance.getTagElements().length).to.equal(tags.length);
+
+                // Ensure added in same order
+                instance.getTagValues().forEach(function(tag, i) {
+                    expect(tag).to.equal(tags[i]);
+                });
+            });
         });
 
         describe('#remove', function() {
