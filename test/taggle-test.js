@@ -2,7 +2,7 @@ var expect = chai.expect;
 
 // Patch since PhantomJS does not implement click() on HTMLElement.
 if (!HTMLElement.prototype.click) {
-    HTMLElement.prototype.click = function() {
+    HTMLElement.prototype.click = function() { // eslint-disable-line
         var ev = document.createEvent('MouseEvent');
         ev.initMouseEvent(
             'click',
@@ -14,6 +14,29 @@ if (!HTMLElement.prototype.click) {
         );
         this.dispatchEvent(ev);
     };
+}
+
+function simulateKeyboardEvent(evt, el, key) { // eslint-disable-line
+    var e = new Event('keydown');
+
+    e.key = key || '';
+    e.altKey = false;
+    e.ctrlKey = true;
+    e.shiftKey = false;
+    e.metaKey = false;
+    e.bubbles = true;
+
+    if (typeof key === 'number') {
+        e.key = undefined;
+        e.keyCode = key;
+        e.which = key;
+    }
+    else {
+        e.keyCode = e.key.charCodeAt(0);
+        e.which = e.keyCode;
+    }
+
+    el.dispatchEvent(e);
 }
 
 function createContainer(width, height) {
@@ -176,6 +199,43 @@ describe('Taggle', function() {
             // sure we are correctly resizing the input to about the width of
             // the container (assuming we have no tags added)
             expect(input.clientWidth > 300).to.be.true;
+        });
+
+        it('should trim tags by default', function() {
+            var taggle = new Taggle(this.container);
+            var input = taggle.getInput();
+
+            input.value = '   tag';
+
+            simulateKeyboardEvent('keydown', input, 188);
+
+            expect(taggle.getTags().values).to.eql(['tag']);
+            expect(taggle.getTags().values.length).to.equal(1);
+        });
+
+        it('should not trim tags when `trimTags` is `false`', function() {
+            var taggle = new Taggle(this.container, {
+                trimTags: false
+            });
+            var input = taggle.getInput();
+            var tag = '   tag';
+            var tag2 = '   another   ';
+            var tag3 = '   one';
+
+            input.value = tag;
+
+            simulateKeyboardEvent('keydown', input, 188);
+
+            input.value = tag2;
+
+            simulateKeyboardEvent('keydown', input, 188);
+
+            input.value = tag3;
+
+            simulateKeyboardEvent('keydown', input, 188);
+
+            expect(taggle.getTags().values).to.eql([tag, tag2, tag3]);
+            expect(taggle.getTags().values.length).to.equal(3);
         });
 
         describe('submitKeys', function() {

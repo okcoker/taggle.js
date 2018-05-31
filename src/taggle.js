@@ -130,6 +130,12 @@
         disallowedTags: [],
 
         /**
+         * Spaces will be removed from the tags by default
+         * @type {Boolean}
+         */
+        trimTags: true,
+
+        /**
          * Limit the number of tags that can be added
          * @type {Number}
          */
@@ -537,7 +543,11 @@
         var values = text || '';
 
         if (typeof text !== 'string') {
-            values = _trim(this.input.value);
+            values = this.input.value;
+
+            if (this.settings.trimTags) {
+                values = _trim(this.input.value);
+            }
         }
 
         var delimiter = this.settings.delimiter || this.settings.delimeter;
