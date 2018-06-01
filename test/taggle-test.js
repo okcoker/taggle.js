@@ -859,6 +859,15 @@ describe('Taggle', function() {
             it('should match length of added tags', function() {
                 expect(this.instance.getTagElements().length).to.equal(4);
             });
+
+            it('should return a copy of the tag elements', function() {
+                var tags = this.instance.getTagElements();
+                var tagsLength = tags.length;
+
+                tags.pop();
+
+                expect(this.instance.getTagElements().length).to.equal(tagsLength);
+            });
         });
 
         describe('#getTags', function() {

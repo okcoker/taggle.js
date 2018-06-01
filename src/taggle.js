@@ -918,7 +918,7 @@
     // @todo
     // @deprecated use getTags().elements
     Taggle.prototype.getTagElements = function() {
-        return this.tag.elements;
+        return [].slice.apply(this.tag.elements);
     };
 
     // @todo
