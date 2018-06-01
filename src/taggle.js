@@ -274,6 +274,10 @@
         }
     }
 
+    function _clamp(val, min, max) {
+        return Math.min(Math.max(val, min), max);
+    }
+
     /**
      * Constructor
      * @param {Mixed} el ID of an element or the actual element
@@ -358,7 +362,7 @@
 
         if (this.settings.tags.length) {
             for (var i = 0, len = this.settings.tags.length; i < len; i++) {
-                var taggle = this._createTag(this.settings.tags[i]);
+                var taggle = this._createTag(this.settings.tags[i], this.tag.values.length);
                 this.list.appendChild(taggle);
             }
         }
@@ -538,7 +542,7 @@
      * @param  {Event} e
      * @param  {String} text
      */
-    Taggle.prototype._add = function(e, text) {
+    Taggle.prototype._add = function(e, text, index) {
         var self = this;
         var values = text || '';
 
@@ -559,13 +563,15 @@
                 return;
             }
 
-            var li = self._createTag(val);
+            var currentTagLength = self.tag.values.length;
+            var tagIndex = _clamp(index || currentTagLength, 0, currentTagLength);
+            var li = self._createTag(val, tagIndex);
             var lis = self.list.children;
-            var lastLi = lis[lis.length - 1];
+            var lastLi = lis[tagIndex];
             self.list.insertBefore(li, lastLi);
 
 
-            val = self.tag.values[self.tag.values.length - 1];
+            val = self.tag.values[tagIndex];
 
             self.settings.onTagAdd(e, val);
 
@@ -780,7 +786,7 @@
         }
     };
 
-    Taggle.prototype._createTag = function(text) {
+    Taggle.prototype._createTag = function(text, index) {
         var li = document.createElement('li');
         var close = document.createElement('button');
         var hidden = document.createElement('input');
@@ -829,10 +835,10 @@
             };
         }
 
-        this.tag.values.push(text);
-        this.tag.elements.push(li);
-        this._closeEvents.push(eventFn);
-        this._closeButtons.push(close);
+        this.tag.values.splice(index, 0, text);
+        this.tag.elements.splice(index, 0, li);
+        this._closeEvents.splice(index, 0, eventFn);
+        this._closeButtons.splice(index, 0, close);
 
         return li;
     };
@@ -929,19 +935,52 @@
         return this.container;
     };
 
-    Taggle.prototype.add = function(text) {
+    Taggle.prototype.add = function(text, index) {
         var isArr = _isArray(text);
 
         if (isArr) {
+            var startingIndex = index;
+
             for (var i = 0, len = text.length; i < len; i++) {
                 if (typeof text[i] === 'string') {
-                    this._add(null, text[i]);
+                    this._add(null, text[i], startingIndex);
+
+                    if (!isNaN(startingIndex)) {
+                        startingIndex += 1;
+                    }
                 }
             }
         }
         else {
-            this._add(null, text);
+            this._add(null, text, index);
         }
+
+        return this;
+    };
+
+    Taggle.prototype.edit = function(text, index) {
+        if (typeof text !== 'string') {
+            throw new Error('First edit argument must be of type string');
+        }
+
+        if (typeof index !== 'number') {
+            throw new Error('Second edit argument must be a number');
+        }
+
+        if (index > this.tag.values.length - 1 || index < 0) {
+            throw new Error('Edit index should be between 0 and ' + this.tag.values.length - 1);
+        }
+
+        var textValue = this.tag.values[index];
+
+        if (typeof textValue === 'string') {
+            this.tag.values[index] = text;
+        }
+        else {
+            this.tag.values[index].text = text;
+        }
+
+        _setText(this.tag.elements[index], text);
 
         return this;
     };

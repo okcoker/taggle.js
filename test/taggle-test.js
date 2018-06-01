@@ -959,6 +959,125 @@ describe('Taggle', function() {
                     expect(tag).to.equal(tags[i]);
                 });
             });
+
+            it('should add a tag at a specified index', function() {
+                var instance = new Taggle(this.container, {
+                    tags: ['one', 'two', 'four']
+                });
+                var three = 'three';
+
+                instance.add(three, 2);
+
+                expect(instance.getTagElements().length).to.equal(4);
+                expect(instance.getTagValues()).to.eql(['one', 'two', 'three', 'four']);
+            });
+
+            it('should add a tag mutliple tags starting at a specified index', function() {
+                var instance = new Taggle(this.container, {
+                    tags: ['one', 'two', 'five']
+                });
+                var tags = ['three', 'four'];
+
+                instance.add(tags, 2);
+
+                expect(instance.getTagElements().length).to.equal(5);
+                expect(instance.getTagValues()).to.eql(['one', 'two', 'three', 'four', 'five']);
+            });
+
+            it('should add a tag at the end if the index is higher than the tag length', function() {
+                var instance = new Taggle(this.container, {
+                    tags: ['one', 'two', 'three']
+                });
+                var tag = 'four';
+
+                instance.add(tag, 99);
+
+                expect(instance.getTagElements().length).to.equal(4);
+                expect(instance.getTagValues()).to.eql(['one', 'two', 'three', 'four']);
+            });
+
+            it('should add a tag at the end if the index is higher than the tag length', function() {
+                var instance = new Taggle(this.container, {
+                    tags: ['one', 'two', 'three']
+                });
+                var tags = ['four', 'five'];
+
+                instance.add(tags, 99);
+
+                expect(instance.getTagElements().length).to.equal(5);
+                expect(instance.getTagValues()).to.eql(['one', 'two', 'three', 'four', 'five']);
+            });
+
+            it('should be chainable', function() {
+                var instance = new Taggle(this.container);
+                var container = instance.add('text').getContainer();
+
+                expect(container).to.equal(this.container);
+            });
+        });
+
+        describe('#edit', function() {
+            it('should be chainable', function() {
+                var instance = new Taggle(this.container, {
+                    tags: ['test']
+                });
+                var container = instance.edit('text', 0).getContainer();
+
+                expect(container).to.equal(this.container);
+            });
+
+            it('should throw if first argument is not a string', function() {
+                var instance = new Taggle(this.container, {
+                    tags: ['one']
+                });
+
+                expect(instance.edit.bind(instance, null)).to.throw();
+            });
+
+            it('should throw if second argument is not a number', function() {
+                var instance = new Taggle(this.container, {
+                    tags: ['one']
+                });
+
+                expect(instance.edit.bind(instance, 'two', null)).to.throw();
+            });
+
+            it('should throw if second argument is greater than tag length', function() {
+                var instance = new Taggle(this.container, {
+                    tags: ['one']
+                });
+
+                expect(instance.edit.bind(instance, 'two', 3)).to.throw();
+            });
+
+            it('should throw if second argument is less than 0', function() {
+                var instance = new Taggle(this.container, {
+                    tags: ['one']
+                });
+
+                expect(instance.edit.bind(instance, 'two', -1)).to.throw();
+            });
+
+            it('should edit tag indicies appropriately', function() {
+                var instance = new Taggle(this.container, {
+                    tags: ['one', 'two']
+                });
+
+                instance.edit('three', 0).edit('four', 1);
+
+                expect(instance.getTagValues()).to.eql(['three', 'four']);
+            });
+
+            it('should edit leave tag ids intact', function() {
+                var instance = new Taggle(this.container, {
+                    tags: ['one', 'two'],
+                    attachTagId: true
+                });
+
+                instance.edit('three', 0).edit('four', 1);
+
+                expect(instance.getTagValues()).to.eql([{ text: 'three', id: 1 }, { text: 'four', id: 2 }]);
+            });
         });
 
         describe('#remove', function() {
