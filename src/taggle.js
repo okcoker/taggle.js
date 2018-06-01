@@ -908,6 +908,10 @@
         return this.settings.preserveCase ? text : text.toLowerCase();
     };
 
+    Taggle.prototype._isIndexInRange = function(index) {
+        return index >= 0 && index <= this.tag.values.length - 1;
+    };
+
     Taggle.prototype.getTags = function() {
         return {
             elements: this.getTagElements(),
@@ -967,7 +971,7 @@
             throw new Error('Second edit argument must be a number');
         }
 
-        if (index > this.tag.values.length - 1 || index < 0) {
+        if (!this._isIndexInRange(index)) {
             throw new Error('Edit index should be between 0 and ' + this.tag.values.length - 1);
         }
 
@@ -981,6 +985,44 @@
         }
 
         _setText(this.tag.elements[index], text);
+
+        return this;
+    };
+
+    Taggle.prototype.move = function(currentIndex, destinationIndex) {
+        if (typeof currentIndex !== 'number' || typeof destinationIndex !== 'number') {
+            throw new Error('Both arguments must be numbers');
+        }
+
+        if (!this._isIndexInRange(currentIndex)) {
+            throw new Error('First index should be between 0 and ' + this.tag.values.length - 1);
+        }
+
+        if (!this._isIndexInRange(destinationIndex)) {
+            throw new Error('Second index should be between 0 and ' + this.tag.values.length - 1);
+        }
+
+        if (currentIndex === destinationIndex) {
+            return this;
+        }
+
+        var value = this.tag.values[currentIndex];
+        var element = this.tag.elements[currentIndex];
+        var lastElement = this.tag.elements[destinationIndex];
+        var eventFn = this._closeEvents[currentIndex];
+        var closeButton = this._closeButtons[currentIndex];
+
+        this.tag.values.splice(currentIndex, 1);
+        this.tag.elements.splice(currentIndex, 1);
+        this._closeEvents.splice(currentIndex, 1);
+        this._closeButtons.splice(currentIndex, 1);
+
+        this.tag.values.splice(destinationIndex, 0, value);
+        this.tag.elements.splice(destinationIndex, 0, element);
+        this._closeEvents.splice(currentIndex, 0, eventFn);
+        this._closeButtons.splice(currentIndex, 0, closeButton);
+
+        this.list.insertBefore(element, lastElement.nextSibling);
 
         return this;
     };

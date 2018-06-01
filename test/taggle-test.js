@@ -1087,6 +1087,114 @@ describe('Taggle', function() {
 
                 expect(instance.getTagValues()).to.eql([{ text: 'three', id: 1 }, { text: 'four', id: 2 }]);
             });
+
+            it('should edit leave element references intact', function() {
+                var instance = new Taggle(this.container, {
+                    tags: ['one', 'two'],
+                    attachTagId: true
+                });
+                var elements = instance.getTagElements();
+
+                instance.edit('three', 0).edit('four', 1);
+
+                expect(instance.getTagElements()[0]).to.equal(elements[0]);
+                expect(instance.getTagElements()[1]).to.equal(elements[1]);
+            });
+        });
+
+        describe('#move', function() {
+            it('should be chainable', function() {
+                var instance = new Taggle(this.container, {
+                    tags: ['one', 'two']
+                });
+                var container = instance.move(0, 1).getContainer();
+
+                expect(container).to.equal(this.container);
+            });
+
+            it('should throw if first argument is not a number', function() {
+                var instance = new Taggle(this.container, {
+                    tags: ['one', 'two']
+                });
+
+                expect(instance.move.bind(instance, null)).to.throw();
+            });
+
+            it('should throw if second argument is not a number', function() {
+                var instance = new Taggle(this.container, {
+                    tags: ['one', 'two']
+                });
+
+                expect(instance.move.bind(instance, 0, null)).to.throw();
+            });
+
+            it('should throw if either argument is greater than tag length', function() {
+                var instance = new Taggle(this.container, {
+                    tags: ['one', 'two']
+                });
+
+                expect(instance.move.bind(instance, 0, 3)).to.throw();
+                expect(instance.move.bind(instance, 3, 0)).to.throw();
+            });
+
+            it('should throw if either argument is less than 0', function() {
+                var instance = new Taggle(this.container, {
+                    tags: ['one', 'two']
+                });
+
+                expect(instance.move.bind(instance, 0, -1)).to.throw();
+                expect(instance.move.bind(instance, -1, 1)).to.throw();
+            });
+
+            it('should move tags appropriately', function() {
+                var instance = new Taggle(this.container, {
+                    tags: ['one', 'two']
+                });
+
+                instance.move(0, 1);
+
+                expect(instance.getTagValues()).to.eql(['two', 'one']);
+            });
+
+            it('should edit leave tag ids intact', function() {
+                var instance = new Taggle(this.container, {
+                    tags: ['one', 'two'],
+                    attachTagId: true
+                });
+
+                instance.move(0, 1);
+
+                expect(instance.getTagValues()).to.eql([{ text: 'two', id: 2 }, { text: 'one', id: 1 }]);
+            });
+
+            it('should edit leave element references intact', function() {
+                var instance = new Taggle(this.container, {
+                    tags: ['one', 'two']
+                });
+                var elements = instance.getTagElements();
+                var fromIndex = 0;
+                var destinationIndex = 1;
+
+
+                instance.move(fromIndex, destinationIndex);
+
+                expect(instance.getTagElements()[destinationIndex]).to.equal(elements[fromIndex]);
+            });
+
+            it('should edit leave element references intact with attached tag ids', function() {
+                var instance = new Taggle(this.container, {
+                    tags: ['one', 'two'],
+                    attachTagId: true
+                });
+                var elements = instance.getTagElements();
+                var fromIndex = 0;
+                var destinationIndex = 1;
+
+
+                instance.move(fromIndex, destinationIndex);
+
+                expect(instance.getTagElements()[destinationIndex]).to.equal(elements[fromIndex]);
+            });
         });
 
         describe('#remove', function() {
