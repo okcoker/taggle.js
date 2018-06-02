@@ -401,8 +401,16 @@ var taggle = new Taggle('example7b', {
                 <p>Set options at runtime. This should be an object with the taggle options as keys</p>
             </div>
             <div class="option">
-                <p>add(tag(s))</p>
-                <p>Pass an array of strings or just one string to programatically add tags.</p>
+                <p>add(tag(s), [index])</p>
+                <p>Pass an array of strings or just one string to programatically add tags at an optional index.</p>
+            </div>
+            <div class="option">
+                <p>edit(text, index)</p>
+                <p>Edit tag text at a specified index.</p>
+            </div>
+            <div class="option">
+                <p>move(fromIndex, destinationIndex)</p>
+                <p>Move a tag from a certain index to a another index.</p>
             </div>
             <div class="option">
                 <p>remove(tag, remove_all=false)</p>
