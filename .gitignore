@@ -4,3 +4,4 @@ coverage/
 dist/
 *.css.map
 assets/css/taggle.min.css
+.sass-cache
