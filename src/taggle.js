@@ -787,6 +787,8 @@
     };
 
     Taggle.prototype._createTag = function(text, index) {
+        if (typeof text != 'string')
+            throw 'tags attribute should be an array of strings'
         var li = document.createElement('li');
         var close = document.createElement('button');
         var hidden = document.createElement('input');
