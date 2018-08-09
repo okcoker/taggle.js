@@ -4,23 +4,23 @@ var faux = ['.net','accounting','acting','adobe creative suite','advertising','a
 
     // The example code uses the real id so i'm selecting these elements
     // via jquery so we dont screw with the examples
-    window.example1 = new Taggle($('.example1.textarea')[0]);
+    var example1 = new Taggle($('.example1.textarea')[0]);
 
-    window.example2 = new Taggle($('.example2.textarea')[0], {
+    var example2 = new Taggle($('.example2.textarea')[0], {
         tags: ['These', 'are', 'prefilled', 'tags']
     });
 
-    window.example3 = new Taggle($('.example3.textarea')[0], {
+    var example3 = new Taggle($('.example3.textarea')[0], {
         tags: ['Try', 'entering', 'one', 'of', 'these', 'tags'],
         duplicateTagClass: 'bounce'
     });
 
-    window.example4 = new Taggle($('.example4.textarea')[0], {
+    var example4 = new Taggle($('.example4.textarea')[0], {
         duplicateTagClass: 'bounce'
     });
 
-    var container = window.example4.getContainer();
-    var input = window.example4.getInput();
+    var container = example4.getContainer();
+    var input = example4.getInput();
 
     $(input).autocomplete({
         source: faux,
@@ -29,13 +29,14 @@ var faux = ['.net','accounting','acting','adobe creative suite','advertising','a
         select: function(e, v) {
             e.preventDefault();
             // Add the tag if user clicks
+            // @ts-ignore: event.which is not included in the type definition
             if (e.which === 1) {
-                window.example4.add(v.item.value);
+                example4.add(v.item.value);
             }
         }
     });
 
-    window.example5 = new Taggle($('.example5.textarea')[0], {
+    var example5 = new Taggle($('.example5.textarea')[0], {
         onBeforeTagAdd: function(event, tag) {
             return confirm('You really wanna add ' + tag + '?');
         },
@@ -50,30 +51,30 @@ var faux = ['.net','accounting','acting','adobe creative suite','advertising','a
         }
     });
 
-    window.example6 = new Taggle($('.example6.textarea')[0]);
+    var example6 = new Taggle($('.example6.textarea')[0]);
 
-    window.example6.add('one');
-    window.example6.add(['two', 'three', 'four', 'four', 'five', 'five']);
-    window.example6.remove('five');
-    window.example6.remove('four', true);
+    example6.add('one');
+    example6.add(['two', 'three', 'four', 'four', 'five', 'five']);
+    example6.remove('five');
+    example6.remove('four', true);
 
-    window.example7a = new Taggle($('.example7a.textarea')[0], {
+    var example7a = new Taggle($('.example7a.textarea')[0], {
         placeholder: 'Type your favorite type of juice... (hint: orange)',
         allowDuplicates: true,
         allowedTags: ['orange']
     });
 
-    window.example7b = new Taggle($('.example7b.textarea')[0], {
+    var example7b = new Taggle($('.example7b.textarea')[0], {
         placeholder: 'Type your favorite type of juice... (hint: apple)',
         allowDuplicates: true,
         disallowedTags: ['apple']
     });
 
-    window.delicious = new Taggle($('.delicious.textarea')[0], {
+    var delicious = new Taggle($('.delicious.textarea')[0], {
         tags: ['tags', 'like', 'delicious']
     });
 
-    window.stackoverflow = new Taggle($('.stackoverflow.textarea')[0], {
+    var stackoverflow = new Taggle($('.stackoverflow.textarea')[0], {
         tags: ['or', 'like', 'stackoverflow']
     });
 }());
