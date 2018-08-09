@@ -52,7 +52,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "grunt test && test-ts",
+    "test": "grunt test && npm run test-ts",
     "test-ts": "tsc --project types/tsconfig.json --noEmit"
   },
   "keywords": [
