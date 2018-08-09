@@ -49,6 +49,7 @@
   },
   "homepage": "https://github.com/okcoker/taggle.js",
   "main": "src/taggle.js",
+  "types": "types/taggle.d.ts",
   "directories": {
     "test": "test"
   },
