@@ -4,7 +4,8 @@
         "strict": true,
         "allowJs": true,
         "checkJs": true,
-        "noImplicitReturns": true
+        "noImplicitReturns": true,
+        "noEmit": true
     },
     "files": [
         "../example/js/scripts.js"

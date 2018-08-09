@@ -144,15 +144,23 @@ module.exports = function(grunt) {
                     ]
                 }]
             }
+        },
+
+        ts: {
+            default: {
+                tsconfig: 'types/tsconfig.json'
+            }
         }
     });
+
+    grunt.loadNpmTasks('grunt-ts');
 
     // register task
     grunt.registerTask('build', ['test', 'css', 'modern', 'ie9', 'ie8']);
     grunt.registerTask('build-modern', ['test', 'css', 'uglify:main']);
     grunt.registerTask('build-ie9', ['test', 'css', 'ie9']);
     grunt.registerTask('build-ie8', ['test', 'css', 'ie8']);
-    grunt.registerTask('test', ['eslint', 'karma']);
+    grunt.registerTask('test', ['eslint', 'karma', 'ts']);
     grunt.registerTask('css', ['sass', 'postcss']);
     grunt.registerTask('dev', ['watch']);
 

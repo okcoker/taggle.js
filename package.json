@@ -27,6 +27,7 @@
     "grunt-mocha": "^0.4.15",
     "grunt-postcss": "^0.8.0",
     "grunt-sass": "^1.2.0",
+    "grunt-ts": "^6.0.0-beta.21",
     "karma": "^0.13.22",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^0.2.3",
@@ -52,8 +53,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "grunt test && npm run test-ts",
-    "test-ts": "tsc --project types/tsconfig.json --noEmit"
+    "test": "grunt test",
+    "test-ts": "tsc --project types/tsconfig.json"
   },
   "keywords": [
     "tags",
