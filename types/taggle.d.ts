@@ -94,3 +94,6 @@ declare class Taggle {
 
     removeEvents(): this;
 }
+
+export as namespace Taggle;
+export = Taggle;
