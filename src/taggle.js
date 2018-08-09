@@ -794,7 +794,7 @@
 
         text = this._formatTag(text);
 
-        close.innerHTML = '&times;';
+        _setText(close, '×');
         close.className = 'close';
         // IE8 does not allow you to modify the `type` property directly.
         close.setAttribute('type', 'button');
@@ -822,7 +822,7 @@
             li = formatted;
         }
 
-        if (!(li instanceof HTMLElement) || li.tagName !== 'LI') {
+        if (!(li instanceof HTMLElement) || !(li.localName === 'li' || li.tagName === 'LI')) {
             throw new Error('tagFormatter must return an li element');
         }
 
