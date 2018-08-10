@@ -2,15 +2,7 @@
     "compilerOptions": {
         "target": "es3",
         "strict": true,
-        "allowJs": true,
-        "checkJs": true,
         "noImplicitReturns": true,
         "noEmit": true
-    },
-    "files": [
-        "../example/js/scripts.js"
-    ],
-    "include": [
-        "*.ts"
-    ]
+    }
 }
