@@ -2,6 +2,7 @@
     "compilerOptions": {
         "target": "es3",
         "strict": true,
-        "noImplicitReturns": true
+        "noImplicitReturns": true,
+        "noEmit": true
     }
 }

@@ -148,7 +148,7 @@ module.exports = function(grunt) {
 
         ts: {
             testTypes: {
-                tsconfig: 'types/test/tsconfig.json'
+                tsconfig: 'types/tsconfig.json'
             }
         }
     });
