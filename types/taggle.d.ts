@@ -31,7 +31,7 @@ declare namespace Taggle {
 
         trimTags?: boolean;
 
-        maxTags?: number;
+        maxTags?: number | null;
 
         tabIndex?: number;
 

@@ -53,7 +53,7 @@
   },
   "scripts": {
     "test": "grunt test",
-    "test-ts": "tsc --project types/tsconfig.json"
+    "test:types": "tsc --project types/test/tsconfig.json"
   },
   "keywords": [
     "tags",

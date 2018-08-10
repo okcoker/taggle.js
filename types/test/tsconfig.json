@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "target": "es3",
+        "strict": true,
+        "noImplicitReturns": true,
+        "noEmit": true,
+        "baseUrl": ".",
+        "paths": {
+            "taggle": ["../taggle.d.ts"]
+        }
+    }
+}

@@ -147,8 +147,8 @@ module.exports = function(grunt) {
         },
 
         ts: {
-            default: {
-                tsconfig: 'types/tsconfig.json'
+            testTypes: {
+                tsconfig: 'types/test/tsconfig.json'
             }
         }
     });
@@ -160,7 +160,7 @@ module.exports = function(grunt) {
     grunt.registerTask('build-modern', ['test', 'css', 'uglify:main']);
     grunt.registerTask('build-ie9', ['test', 'css', 'ie9']);
     grunt.registerTask('build-ie8', ['test', 'css', 'ie8']);
-    grunt.registerTask('test', ['eslint', 'karma', 'ts']);
+    grunt.registerTask('test', ['eslint', 'karma', 'ts:testTypes']);
     grunt.registerTask('css', ['sass', 'postcss']);
     grunt.registerTask('dev', ['watch']);
 
