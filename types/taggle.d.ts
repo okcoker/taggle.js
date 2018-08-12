@@ -17,7 +17,7 @@ declare namespace Taggle {
 
         hiddenInputName?: string;
 
-        tags?: string[];
+        tags?: ReadonlyArray<string>;
 
         delimeter?: string;
         delimiter?: string;
@@ -25,9 +25,9 @@ declare namespace Taggle {
         /** @deprecated */
         attachTagId?: boolean;
 
-        allowedTags?: string[];
+        allowedTags?: ReadonlyArray<string>;
 
-        disallowedTags?: string[];
+        disallowedTags?: ReadonlyArray<string>;
 
         trimTags?: boolean;
 
@@ -37,7 +37,7 @@ declare namespace Taggle {
 
         placeholder?: string;
 
-        submitKeys?: number[];
+        submitKeys?: ReadonlyArray<number>;
 
         preserveCase?: boolean;
 
@@ -70,7 +70,7 @@ declare class Taggle {
 
     getContainer(): HTMLElement;
 
-    add(text: string | string[], index?: number): this;
+    add(text: string | ReadonlyArray<string>, index?: number): this;
 
     edit(text: string, index: number): this;
 
