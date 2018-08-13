@@ -1,8 +1,19 @@
 const x: Taggle.Options = {
     // all options are optional
 };
+const roaos: ReadonlyArray<string> = ["tag1", "tag2"];
+const roaon: ReadonlyArray<number> = [9, 13];
 const y: Taggle.Options = {
-    maxTags: null // maxTags may be null
+    // maxTags may be null
+    maxTags: null, 
+
+    // *tags may be ReadonlyArray<string>
+    tags: roaos,
+    allowedTags: roaos,
+    disallowedTags: roaos,
+
+    // submitKeys may be ReadonlyArray<number>
+    submitKeys: roaon
 };
 
 new Taggle(document.getElementById("eleId")!);
@@ -64,6 +75,7 @@ taggle.getData();
 taggle
     .add("str")
     .add(["a", "b"])
+    .add(roaos)
     .edit("x", 0)
     .move(0, 1)
     .remove("tag0")
