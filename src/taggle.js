@@ -171,7 +171,7 @@
         /**
          * Function hook called with the to-be-added input DOM element.
          *
-         * @param  {HTMLElement} li The list item to be added
+         * @param  {HTMLElement} input The input element to be added
          */
         inputFormatter: noop,
 
