@@ -1213,6 +1213,8 @@ describe('Taggle', function() {
                 this.instance.remove('');
                 expect(this.instance.getTagElements().length).to.equal(5);
                 expect(this.instance.getTagValues().length).to.equal(5);
+                expect(this.instance._closeEvents.length).to.equal(5);
+                expect(this.instance._closeButtons.length).to.equal(5);
                 expect(this.instance.getTagValues()[4]).to.equal(this.instance.getTagValues()[3]);
             });
 

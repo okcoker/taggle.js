@@ -885,6 +885,9 @@
             self.tag.elements.splice(index, 1);
             self.tag.values.splice(index, 1);
 
+            self._closeEvents.splice(index, 1);
+            self._closeButtons.splice(index, 1);
+
             self.settings.onTagRemove(e, text);
 
             self._focusInput();
