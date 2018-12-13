@@ -485,21 +485,17 @@ describe('Taggle', function() {
                 expect(spy.args[0][1].text).to.eq(text);
                 expect(spy.args[0][1].id).to.eq(1);
 
-                spy.reset();
-
                 instance.add(tag2);
 
-                expect(spy.args[0][1].text).to.eq(tag2);
-                expect(spy.args[0][1].id).to.eq(2);
-                spy.reset();
+                expect(spy.args[1][1].text).to.eq(tag2);
+                expect(spy.args[1][1].id).to.eq(2);
 
                 instance.remove(tag2);
 
                 instance.add(tag3);
 
-                expect(spy.args[0][1].text).to.eq(tag3);
-                expect(spy.args[0][1].id).to.eq(3);
-                spy.reset();
+                expect(spy.args[2][1].text).to.eq(tag3);
+                expect(spy.args[2][1].id).to.eq(3);
             });
         });
 

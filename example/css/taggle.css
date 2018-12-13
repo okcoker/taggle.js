@@ -18,12 +18,14 @@ p {
 p a {
   color: #990033;
   text-decoration: none;
+  -webkit-transition: all .25s;
   transition: all .25s;
   padding: 3px; }
 
 p a:hover {
   color: #fff;
   background: #990033;
+  -webkit-transition: all .25s;
   transition: all .25s; }
 
 .btn {
@@ -41,10 +43,6 @@ p a:hover {
     top: 1px; }
   .btn:last-child {
     margin-right: 0; }
-
-::-moz-selection {
-  background: #990033;
-  color: #fff; }
 
 ::selection {
   background: #990033;
@@ -114,6 +112,7 @@ p a:hover {
   border-radius: 3px;
   position: relative;
   cursor: pointer;
+  -webkit-transition: all .3s;
   transition: all .3s;
   -webkit-animation-duration: 1s;
           animation-duration: 1s;
@@ -144,6 +143,7 @@ p a:hover {
   padding: 5px;
   padding-right: 15px;
   background: #ccc;
+  -webkit-transition: all .3s;
   transition: all .3s; }
 
 .taggle_list .taggle:hover > .close {
@@ -157,6 +157,7 @@ p a:hover {
   color: #CCC;
   top: 12px;
   left: 8px;
+  -webkit-transition: opacity, .25s;
   transition: opacity, .25s;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -185,11 +186,13 @@ textarea.input,
 .textarea.input {
   border: 0;
   background: #FDFDFD;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2), 0 1px 1px rgba(255, 255, 255, 0.7);
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2), 0 1px 1px rgba(255, 255, 255, 0.7);
+          box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2), 0 1px 1px rgba(255, 255, 255, 0.7);
   min-height: 60px;
   padding: 8px;
   border-radius: 3px;
   color: #555;
+  -webkit-transition: all .25s;
   transition: all .25s;
   cursor: text;
   margin-bottom: 10px;
@@ -200,6 +203,7 @@ textarea.input,
 textarea.input:focus,
 textarea.input.active {
   background: #fff;
+  -webkit-transition: all .25s;
   transition: all .25s; }
 
 .textarea.input,
@@ -210,7 +214,8 @@ textarea.input {
   position: relative; }
 
 .textarea.tags * {
-  box-sizing: content-box; }
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box; }
 
 .placeholder_input {
   position: relative; }
@@ -321,7 +326,8 @@ textarea.input {
 
 .custom.textarea {
   border-radius: 0;
-  box-shadow: none; }
+  -webkit-box-shadow: none;
+          box-shadow: none; }
   .custom.textarea .taggle {
     border-radius: 0;
     padding: 5px;
@@ -331,11 +337,13 @@ textarea.input {
       right: 3px; }
 
 .custom.delicious {
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #eee), color-stop(15%, #fff));
   background-image: linear-gradient(to bottom, #eee 1%, #fff 15%);
   border: 1px solid #AAA;
   min-height: 50px; }
   .custom.delicious.active {
     border-color: #3274D1;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #eee), color-stop(15%, #fff));
     background-image: linear-gradient(to bottom, #eee 1%, #fff 15%); }
   .custom.delicious .taggle {
     color: #444;

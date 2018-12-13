@@ -1,3 +1,7 @@
+'use strict';
+
+var sass = require('node-sass');
+
 /* eslint-env node */
 module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);
@@ -83,7 +87,8 @@ module.exports = function(grunt) {
 
         sass: {
             options: {
-                style: 'expanded'
+                style: 'expanded',
+                implementation: sass
             },
             dist: {
                 files: {
