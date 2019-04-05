@@ -727,6 +727,11 @@
             this.pasting = true;
         }
 
+        if (this._isConfirmKey(key) && key === COMMA && this.input.value === '') {
+            e.preventDefault();
+            return;
+        }
+
         if (this._isConfirmKey(key) && this.input.value !== '') {
             this._confirmValidTagEvent(e);
             return;
