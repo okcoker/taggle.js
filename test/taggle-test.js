@@ -204,13 +204,19 @@ describe('Taggle', function() {
         it('should trim tags by default', function() {
             var taggle = new Taggle(this.container);
             var input = taggle.getInput();
+            var tag = '   tag';
+            var tag2 = ',   spaaace  ';
 
-            input.value = '   tag';
+            input.value = tag;
 
             simulateKeyboardEvent('keydown', input, 188);
 
-            expect(taggle.getTags().values).to.eql(['tag']);
-            expect(taggle.getTags().values.length).to.equal(1);
+            input.value = tag2;
+
+            simulateKeyboardEvent('keydown', input, 188);
+
+            expect(taggle.getTags().values).to.eql(['tag', 'spaaace']);
+            expect(taggle.getTags().values.length).to.equal(2);
         });
 
         it('should not trim tags when `trimTags` is `false`', function() {
