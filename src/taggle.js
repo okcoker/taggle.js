@@ -545,16 +545,18 @@
     Taggle.prototype._add = function(e, text, index) {
         var self = this;
         var values = text || '';
+        var delimiter = this.settings.delimiter || this.settings.delimeter;
 
         if (typeof text !== 'string') {
             values = this.input.value;
 
             if (this.settings.trimTags) {
-                values = _trim(this.input.value);
+                if (values[0] === delimiter) {
+                    values = values.replace(delimiter, '');
+                }
+                values = _trim(values);
             }
         }
-
-        var delimiter = this.settings.delimiter || this.settings.delimeter;
 
         values.split(delimiter).map(function(val) {
             return self._formatTag(val);
