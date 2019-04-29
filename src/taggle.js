@@ -559,6 +559,9 @@
         }
 
         values.split(delimiter).map(function(val) {
+            if (self.settings.trimTags) {
+                val = _trim(val);
+            }
             return self._formatTag(val);
         }).forEach(function(val) {
             if (!self._canAdd(e, val)) {

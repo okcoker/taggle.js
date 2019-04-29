@@ -930,10 +930,14 @@ describe('Taggle', function() {
                 expect(this.instance.getTagElements().length).to.equal(6);
             });
 
-            it('should add new tags from a comma delimited list', function() {
+            it('should add and trim new tags from a comma delimited list', function() {
                 expect(this.instance.getTagElements().length).to.equal(4);
                 var tags = 'four, five, six, seven';
-                var allTags = this.instance.getTagValues().concat(tags.split(','));
+                var allTags = this.instance.getTagValues()
+                    .concat(tags.split(','))
+                    .map(function(tag) {
+                        return tag.trim();
+                    });
                 this.instance.add(tags);
                 expect(this.instance.getTagElements().length).to.equal(8);
 
@@ -949,7 +953,9 @@ describe('Taggle', function() {
                     delimeter: delimiter
                 });
                 var tags = 'four| five| six| seven';
-                var allTags = tags.split(delimiter);
+                var allTags = tags.split(delimiter).map(function(tag) {
+                    return tag.trim();
+                });
                 instance.add(tags);
                 expect(instance.getTagElements().length).to.equal(allTags.length);
 
@@ -965,7 +971,9 @@ describe('Taggle', function() {
                     delimiter: delimiter
                 });
                 var tags = 'four| five| six| seven';
-                var allTags = tags.split(delimiter);
+                var allTags = tags.split(delimiter).map(function(tag) {
+                    return tag.trim();
+                });
                 instance.add(tags);
                 expect(instance.getTagElements().length).to.equal(allTags.length);
 
@@ -975,8 +983,10 @@ describe('Taggle', function() {
                 });
             });
 
-            it('should preserve spaces', function() {
-                var instance = new Taggle(this.container);
+            it('should preserve spaces when trim is false', function() {
+                var instance = new Taggle(this.container, {
+                    trimTags: false
+                });
                 var tags = ['one ', '  two', '   three  '];
 
                 instance.add(tags);
