@@ -1,18 +1,20 @@
 {
     "extends": "../.eslintrc",
     "env": {
-        "mocha": true
+        "node": true
     },
     "globals": {
-        "chai": true,
         "before": true,
         "after": true,
         "beforeEach": true,
         "afterEach": true,
         "describe": true,
+        "it": true,
+        "xit": true,
+        "jasmine": true,
         "sinon": true,
-        "expect": true,
-        "Taggle": true
+        "Taggle": true,
+        "expect": true
     },
     "rules": {
         "max-nested-callbacks": [1, 4],

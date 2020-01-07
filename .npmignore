@@ -1,10 +1,10 @@
 example
 coverage
-Gruntfile.js
+postcss.config.js
 karma.conf.js
 .editorconfig
 .eslintrc
 .travis.yml
 bower.json
 .sass-cache
-test
+__tests__

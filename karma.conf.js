@@ -1,11 +1,19 @@
 /* eslint-env node */
+'use strict';
+
 module.exports = function(config) {
     config.set({
         basePath: '',
-        frameworks: ['mocha', 'sinon-chai'],
+        frameworks: ['jasmine', 'sinon'],
         files: [
             'src/taggle.js',
-            'test/**/*-test.js'
+            '__tests__/**/*-test.js'
+        ],
+        plugins: [
+            require('karma-jasmine'),
+            require('karma-sinon'),
+            require('karma-coverage'),
+            require('karma-chrome-launcher')
         ],
         preprocessors: {
             'src/taggle.js': ['coverage']
@@ -25,7 +33,7 @@ module.exports = function(config) {
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: true,
-        browsers: ['PhantomJS'],
+        browsers: ['ChromeHeadless'],
         singleRun: false
     });
 };

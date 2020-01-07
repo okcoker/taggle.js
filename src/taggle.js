@@ -1,5 +1,5 @@
 /* !
- * @author Sean Coker <sean@seancoker.com>
+ * @author Sean Coker <hello@sean.is>
  * @version 1.14.4
  * @url http://sean.is/poppin/tags
  * @license MIT
@@ -144,6 +144,7 @@
         /**
          * If within a form, you can specify the tab index flow
          * @type {Number}
+         * @todo  make 0 in next update
          */
         tabIndex: 1,
 
