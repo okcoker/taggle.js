@@ -10,6 +10,7 @@
         "afterEach": true,
         "describe": true,
         "it": true,
+        "fit": true,
         "xit": true,
         "jasmine": true,
         "sinon": true,

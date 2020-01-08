@@ -11,6 +11,7 @@
   "browserDependencies": {},
   "devDependencies": {
     "autoprefixer": "9.7.3",
+    "browser-sync": "2.26.7",
     "coveralls": "3.0.9",
     "cssnano": "4.1.10",
     "eslint": "6.8.0",
@@ -53,9 +54,11 @@
     "postcss": "postcss --config postcss.config.js -o example/css/taggle.min.css example/css/taggle.css",
     "sass": "node-sass --output-style expanded example/scss/taggle.scss example/css/taggle.css",
     "build": "npm run lint && npm run test && npm run css && npm run min",
-    "lint": "eslint --quiet src/taggle.js",
+    "lint": "eslint --quiet src/taggle.js __tests__/taggle-test.js",
     "test": "karma start --single-run",
-    "test:types": "tsc --project types/tsconfig.json"
+    "test:types": "tsc --project types/tsconfig.json",
+    "test:watch": "karma start",
+    "dev": "browser-sync start --server '.' --files 'example' 'src' --port 9100 --startPath '/example'"
   },
   "keywords": [
     "tags",

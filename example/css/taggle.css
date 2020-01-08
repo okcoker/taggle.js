@@ -19,6 +19,11 @@ p {
   color: #000;
 }
 
+blockquote {
+  margin-bottom: 1em;
+}
+
+blockquote a,
 p a {
   color: #990033;
   text-decoration: none;
@@ -26,6 +31,7 @@ p a {
   padding: 3px;
 }
 
+blockquote a:hover,
 p a:hover {
   color: #fff;
   background: #990033;

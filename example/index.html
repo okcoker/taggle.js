@@ -30,7 +30,7 @@
             <h5>Example 1 - Creating a basic Taggle</h5>
             <div class="input textarea clearfix example1"></div>
             <p>
-                This example is as simple as it gets. Duplicate tags are prevented by default. You can also delete tags by pressing backspace or hovering and clicking with your mouse.
+                This example is as simple as it gets. Duplicate tags are prevented by default. Use your left and right arrows to navigate between tags. You can also delete tags by pressing backspace or hovering and clicking with your mouse.
             </p>
         </article>
         <article class="block">
@@ -151,7 +151,9 @@ new Taggle('example5', {
             </pre>
             <h6>JavaScript:</h6>
             <pre data-language="javascript">
-var taggle = new Taggle('example6');
+var taggle = new Taggle('example6', {
+    allowDuplicates: true
+});
 
 taggle.add('one');
 taggle.add(['two', 'three', 'four', 'four', 'five', 'five']);
@@ -511,7 +513,7 @@ var taggle = new Taggle('example7b', {
 <script src="js/jquery-1.10.1.js"></script>
 <script src="js/jquery-ui.js"></script>
 <script src="js/rainbow-custom.min.js"></script>
-<script src="js/taggle.min.js"></script>
+<script src="../src/taggle.js"></script>
 <script src="js/scripts.js"></script>
 </body>
 </html>

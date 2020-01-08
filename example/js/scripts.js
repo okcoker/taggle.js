@@ -50,7 +50,9 @@ var faux = ['.net','accounting','acting','adobe creative suite','advertising','a
         }
     });
 
-    window.example6 = new Taggle($('.example6.textarea')[0]);
+    window.example6 = new Taggle($('.example6.textarea')[0], {
+        allowDuplicates: true
+    });
 
     window.example6.add('one');
     window.example6.add(['two', 'three', 'four', 'four', 'five', 'five']);
