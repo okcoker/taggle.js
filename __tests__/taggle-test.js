@@ -1395,7 +1395,6 @@ describe('Taggle', function() {
                 input.value = tag;
                 input.blur();
 
-                console.log(localInst.getTagValues());
                 expect(localInst.getTagValues().length).toEqual(tags.length);
             });
         });

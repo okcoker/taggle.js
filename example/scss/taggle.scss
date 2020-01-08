@@ -23,6 +23,11 @@ p {
     color: #000;
 }
 
+blockquote {
+  margin-bottom: 1em;
+}
+
+blockquote a,
 p a {
     color: $project_color;
     text-decoration: none;
@@ -30,6 +35,7 @@ p a {
     padding: 3px;
 }
 
+blockquote a:hover,
 p a:hover {
     color: #fff;
     background: $project_color;
@@ -160,8 +166,11 @@ p a:hover {
 }
 
 .taggle_list {
-    float: left;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 2.5;
     width: 100%;
+    margin: 0;
 }
 
 .taggle_input {
@@ -172,8 +181,8 @@ p a:hover {
 }
 
 .taggle_list li {
-    float: left;
-    display: inline-block;
+    display: inline;
+    vertical-align: baseline;
     white-space: nowrap;
     font-weight: 500;
     margin-bottom: 5px;
@@ -181,6 +190,7 @@ p a:hover {
 
 .taggle_list .taggle {
     margin-right: 8px;
+    margin-bottom: 8px;
     background: #E2E1DF;
     padding: 5px 10px;
     border-radius: 3px;
@@ -203,11 +213,13 @@ p a:hover {
     text-decoration: none;
     padding-left: 2px;
     padding-top: 3px;
-    line-height: 0.5;
+    line-height: 1;
     color: #ccc;
     color: rgba(0, 0, 0, 0.2);
     padding-bottom: 4px;
-    display: none;
+    display: inline-block;
+    opacity: 0;
+    pointer-events: none;
     border: 0;
     background: none;
     cursor: pointer;
@@ -221,7 +233,9 @@ p a:hover {
 }
 
 .taggle_list .taggle:hover > .close {
-    display: block;
+    display: inline-block;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .taggle_list .taggle .close:hover {
@@ -240,10 +254,8 @@ p a:hover {
 .taggle_input {
     padding: 8px;
     padding-left: 0;
-    float: left;
     margin-top: -5px;
     background: none;
-    width: 100%;
     max-width: 100%;
 }
 
@@ -437,6 +449,8 @@ textarea.input {
         .close {
             display: inline-block;
             right: 3px;
+            opacity: 1;
+            pointer-events: auto;
         }
     }
 }
@@ -467,7 +481,7 @@ textarea.input {
             font-size: 0.9rem;
             height: 0.7rem;
             width: 0.7rem;
-            line-height: .1rem;
+            line-height: 0;
             margin-top: 3px;
             right: auto;
             left: 5px;
@@ -499,8 +513,9 @@ textarea.input {
             font-size: 0.9rem;
             height: 0.7rem;
             width: 0.7rem;
-            line-height: .1rem;
-            margin-top: 3px;
+            line-height: 0;
+            padding: 0;
+            top: 7px;
 
             &:hover {
                 background: #C03434;
