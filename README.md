@@ -37,7 +37,7 @@ Taggle also contains a simple API for you to easily hook in to your favorite aut
 
 ### CSS styling
 
-[Minimal Styling Example](https://jsfiddle.net/okcoker/aqnspdtr/8/)
+[Minimal Styling Example](https://jsfiddle.net/okcoker/aqnspdtr/510/)
 
 The project includes a starter CSS file as seen in the link above to get you started quickly with integrating things into your site. It is highly recommended that you customize this to the needs of your site. See the [example](https://github.com/okcoker/taggle.js/tree/master/example) folder for more styles.
 
