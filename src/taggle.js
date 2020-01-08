@@ -37,9 +37,12 @@
         return true;
     };
     var BACKSPACE = 8;
+    var DELETE = 46;
     var COMMA = 188;
     var TAB = 9;
     var ENTER = 13;
+    var ARROW_LEFT = 37;
+    var ARROW_RIGHT = 39;
 
     var DEFAULTS = {
         /**
@@ -323,6 +326,8 @@
         }
 
         this._id = 0;
+        this._backspacePressed = false;
+        this._inputPosition = 0;
         this._closeEvents = [];
         this._closeButtons = [];
         this._setMeasurements();
@@ -413,7 +418,7 @@
             _on(this.container, 'click', this._handleContainerClick);
         }
 
-        this._handleFocus = this._focusInput.bind(this);
+        this._handleFocus = this._setFocusStateForContainer.bind(this);
         this._handleBlur = this._blurEvent.bind(this);
         this._handleKeydown = this._keydownEvents.bind(this);
         this._handleKeyup = this._keyupEvents.bind(this);
@@ -455,29 +460,8 @@
      * width of the div
      */
     Taggle.prototype._fixInputWidth = function() {
-        var width;
-        var inputRect;
-        var rect;
-        var leftPos;
-        var padding;
-
         this._setMeasurements();
-
-        // Reset width incase we've broken to the next line on a backspace erase
         this._setInputWidth();
-
-        inputRect = this.input.getBoundingClientRect();
-        rect = this.measurements.container.rect;
-        width = rect.width;
-        // Could probably just use right - left all the time
-        // but eh, this check is mostly for IE8
-        if (!width) {
-            width = rect.right - rect.left;
-        }
-        leftPos = inputRect.left - rect.left;
-        padding = this.measurements.container.padding;
-
-        this._setInputWidth(Math.floor(width - leftPos - padding));
     };
 
     /**
@@ -542,6 +526,7 @@
      * Appends tag with its corresponding input to the list
      * @param  {Event} e
      * @param  {String} text
+     * @param  {Number} index
      */
     Taggle.prototype._add = function(e, text, index) {
         var self = this;
@@ -583,7 +568,7 @@
 
             self.input.value = '';
             self._fixInputWidth();
-            self._focusInput();
+            self._setFocusStateForContainer();
         });
     };
 
@@ -591,28 +576,36 @@
      * Removes last tag if it has already been probed
      * @param  {Event} e
      */
-    Taggle.prototype._checkLastTag = function(e) {
+    Taggle.prototype._checkPrevOrNextTag = function(e) {
         e = e || window.event;
 
         var taggles = this.container.querySelectorAll('.taggle');
-        var lastTaggle = taggles[taggles.length - 1];
+        var prevTagIndex = _clamp(this._inputPosition - 1, 0, taggles.length - 1);
+        var nextTagIndex = _clamp(this._inputPosition, 0, taggles.length - 1);
+        var index = prevTagIndex;
+
+        if (e.keyCode === DELETE) {
+            index = nextTagIndex;
+        }
+
+        var targetTaggle = taggles[index];
         var hotClass = 'taggle_hot';
-        var heldDown = this.input.classList.contains('taggle_back');
+        var isDeleteOrBackspace = [BACKSPACE, DELETE].indexOf(e.keyCode) !== -1;
 
         // prevent holding backspace from deleting all tags
-        if (this.input.value === '' && e.keyCode === BACKSPACE && !heldDown) {
-            if (lastTaggle.classList.contains(hotClass)) {
-                this.input.classList.add('taggle_back');
-                this._remove(lastTaggle, e);
+        if (this.input.value === '' && isDeleteOrBackspace && !this._backspacePressed) {
+            if (targetTaggle.classList.contains(hotClass)) {
+                this._backspacePressed = true;
+                this._remove(targetTaggle, e);
                 this._fixInputWidth();
-                this._focusInput();
+                this._setFocusStateForContainer();
             }
             else {
-                lastTaggle.classList.add(hotClass);
+                targetTaggle.classList.add(hotClass);
             }
         }
-        else if (lastTaggle.classList.contains(hotClass)) {
-            lastTaggle.classList.remove(hotClass);
+        else if (targetTaggle.classList.contains(hotClass)) {
+            targetTaggle.classList.remove(hotClass);
         }
     };
 
@@ -620,8 +613,15 @@
      * Setter for the hidden input.
      * @param {Number} width
      */
-    Taggle.prototype._setInputWidth = function(width) {
-        this.input.style.width = (width || 10) + 'px';
+    Taggle.prototype._setInputWidth = function() {
+        var width = this.sizer.getBoundingClientRect().width;
+        var max = this.measurements.container.rect.width - this.measurements.container.padding;
+        var size = parseInt(this.sizer.style.fontSize, 10);
+
+        // 1.5 just seems to be a good multiplier here
+        var newWidth = Math.round(_clamp(width + (size * 1.5), 10, max));
+
+        this.input.style.width = newWidth + 'px';
     };
 
     /**
@@ -672,7 +672,7 @@
     /**
      * Handles focus state of div container.
      */
-    Taggle.prototype._focusInput = function() {
+    Taggle.prototype._setFocusStateForContainer = function() {
         this._fixInputWidth();
 
         if (!this.container.classList.contains(this.settings.containerFocusClass)) {
@@ -696,7 +696,7 @@
         if (this.settings.saveOnBlur) {
             e = e || window.event;
 
-            this._listenForEndOfContainer();
+            this._setInputWidth();
 
             if (this.input.value !== '') {
                 this._confirmValidTagEvent(e);
@@ -704,7 +704,7 @@
             }
 
             if (this.tag.values.length) {
-                this._checkLastTag(e);
+                this._checkPrevOrNextTag(e);
             }
         }
         else if (this.settings.clearOnBlur) {
@@ -727,7 +727,7 @@
         var key = e.keyCode;
         this.pasting = false;
 
-        this._listenForEndOfContainer();
+        this._setInputWidth();
 
         if (key === 86 && e.metaKey) {
             this.pasting = true;
@@ -739,7 +739,7 @@
         }
 
         if (this.tag.values.length) {
-            this._checkLastTag(e);
+            this._checkPrevOrNextTag(e);
         }
     };
 
@@ -750,13 +750,60 @@
     Taggle.prototype._keyupEvents = function(e) {
         e = e || window.event;
 
-        this.input.classList.remove('taggle_back');
+        this._backspacePressed = false;
+
+        if ([ARROW_LEFT, ARROW_RIGHT].indexOf(e.keyCode) !== -1) {
+            this._moveInput(e.keyCode);
+            return;
+        }
 
         _setText(this.sizer, this.input.value);
+
+        // If we break to a new line because the text is too long
+        // and decide to delete everything, we should resize the input
+        // so it falls back inline
+        if (!this.input.value) {
+            this._setInputWidth();
+        }
 
         if (this.pasting && this.input.value !== '') {
             this._add(e);
             this.pasting = false;
+        }
+    };
+
+    Taggle.prototype._moveInput = function(direction) {
+        var currentIndex = this._inputPosition;
+
+        switch (direction) {
+            case ARROW_LEFT: {
+                var leftNewIndex = _clamp(this._inputPosition - 1, 0, this.tag.values.length);
+                var leftIndexChanged = currentIndex !== leftNewIndex;
+
+                this._inputPosition = leftNewIndex;
+
+                if (leftIndexChanged) {
+                    this.list.insertBefore(this.inputLi, this.list.childNodes[leftNewIndex] || null);
+                    this.input.focus();
+                }
+                break;
+            }
+
+            case ARROW_RIGHT: {
+                var rightNewIndex = _clamp(this._inputPosition + 1, 0, this.tag.values.length);
+                var rightIndexChanged = currentIndex !== rightNewIndex;
+
+                this._inputPosition = rightNewIndex;
+
+                if (rightIndexChanged) {
+                    this.list.insertBefore(this.inputLi, this.list.childNodes[rightNewIndex + 1] || null);
+                    this.input.focus();
+                }
+                break;
+            }
+
+            default:
+                break;
         }
     };
 
@@ -775,21 +822,7 @@
             e.returnValue = false;
         }
 
-        this._add(e);
-    };
-
-    /**
-     * Approximates when the hidden input should break to the next line
-     */
-    Taggle.prototype._listenForEndOfContainer = function() {
-        var width = this.sizer.getBoundingClientRect().width;
-        var max = this.measurements.container.rect.width - this.measurements.container.padding;
-        var size = parseInt(this.sizer.style.fontSize, 10);
-
-        // 1.5 just seems to be a good multiplier here
-        if (width + (size * 1.5) > parseInt(this.input.style.width, 10)) {
-            this.input.style.width = max + 'px';
-        }
+        this._add(e, null, this._inputPosition);
     };
 
     Taggle.prototype._createTag = function(text, index) {
@@ -845,6 +878,7 @@
         this.tag.elements.splice(index, 0, li);
         this._closeEvents.splice(index, 0, eventFn);
         this._closeButtons.splice(index, 0, close);
+        this._inputPosition = _clamp(this._inputPosition + 1, 0, this.tag.values.length);
 
         return li;
     };
@@ -896,7 +930,11 @@
 
             self.settings.onTagRemove(e, text);
 
-            self._focusInput();
+            if (index < self._inputPosition) {
+                self._inputPosition = _clamp(self._inputPosition - 1, 0, self.tag.values.length);
+            }
+
+            self._setFocusStateForContainer();
         }
 
         var ret = this.settings.onBeforeTagRemove(e, text, done);

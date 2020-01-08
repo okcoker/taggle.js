@@ -20,7 +20,7 @@ if (!HTMLElement.prototype.click) {
 }
 
 function simulateKeyboardEvent(evt, el, key) { // eslint-disable-line
-    var e = new Event('keydown');
+    var e = new Event(evt);
 
     e.key = key || '';
     e.altKey = false;
@@ -62,6 +62,14 @@ function getObjectLength(obj) {
     }
     return len;
 }
+
+var BACKSPACE = 8;
+var DELETE = 46;
+var COMMA = 188;
+var TAB = 9;
+var ENTER = 13;
+var ARROW_LEFT = 37;
+var ARROW_RIGHT = 39;
 
 describe('Taggle', function() {
     var container;
@@ -212,11 +220,11 @@ describe('Taggle', function() {
 
             input.value = tag;
 
-            simulateKeyboardEvent('keydown', input, 188);
+            simulateKeyboardEvent('keydown', input, COMMA);
 
             input.value = tag2;
 
-            simulateKeyboardEvent('keydown', input, 188);
+            simulateKeyboardEvent('keydown', input, COMMA);
 
             expect(taggle.getTags().values).toEqual(['tag', 'spaaace']);
             expect(taggle.getTags().values.length).toEqual(2);
@@ -230,11 +238,11 @@ describe('Taggle', function() {
 
             input.value = tag;
 
-            simulateKeyboardEvent('keydown', input, 188);
+            simulateKeyboardEvent('keydown', input, COMMA);
 
             input.value = tag2;
 
-            simulateKeyboardEvent('keydown', input, 188);
+            simulateKeyboardEvent('keydown', input, COMMA);
 
             expect(taggle.getTags().values).toEqual(['tag', 'spaaace']);
             expect(taggle.getTags().values.length).toEqual(2);
@@ -251,15 +259,15 @@ describe('Taggle', function() {
 
             input.value = tag;
 
-            simulateKeyboardEvent('keydown', input, 188);
+            simulateKeyboardEvent('keydown', input, COMMA);
 
             input.value = tag2;
 
-            simulateKeyboardEvent('keydown', input, 188);
+            simulateKeyboardEvent('keydown', input, COMMA);
 
             input.value = tag3;
 
-            simulateKeyboardEvent('keydown', input, 188);
+            simulateKeyboardEvent('keydown', input, COMMA);
 
             expect(taggle.getTags().values).toEqual([tag, tag2, tag3]);
             expect(taggle.getTags().values.length).toEqual(3);
@@ -267,9 +275,6 @@ describe('Taggle', function() {
 
         describe('submitKeys', function() {
             it('should have comma, tab, and enter as default keys', function() {
-                var COMMA = 188;
-                var TAB = 9;
-                var ENTER = 13;
                 var instance = new Taggle(container, {
                     inputFormatter: function(input) {
 
@@ -777,58 +782,6 @@ describe('Taggle', function() {
             expect(inst.getTagValues().length).toEqual(0);
         });
 
-        it('should resize the input to fill the remaining width of the container', function() {
-            var containerWidth = 302;
-            var localContainer = createContainer(containerWidth, 150);
-            localContainer.id = 'input-resize';
-
-            var containerPadding = 5;
-            localContainer.style.padding = containerPadding + 'px';
-
-            document.body.appendChild(localContainer);
-
-            var instance = new Taggle('input-resize', {
-                tags: ['whale']
-            });
-            var input = instance.getInput();
-
-            var inputMargin = 5;
-            var inputPadding = 5;
-
-            input.style.margin = inputMargin + 'px';
-            input.style.padding = inputPadding + 'px';
-
-            var tag = instance.getTagElements()[0];
-
-            // Take into account margins of tags
-            var ul = localContainer.querySelector('ul');
-            ul.style.listStyle = 'none';
-            ul.style.padding = '0';
-            ul.style.margin = '0';
-            localContainer.querySelector('.taggle_placeholder').style.position = 'absolute';
-            [].slice.call(localContainer.querySelectorAll('li')).forEach(function(li) {
-                li.style.float = 'left';
-                li.style.display = 'inline-block';
-            });
-
-            var tagMarginRight = 8;
-            tag.style.marginRight = tagMarginRight + 'px';
-            tag.style.display = 'inline-block';
-            tag.style.verticalAlign = 'top';
-
-            var tagWidth = 61;
-            tag.style.width = tagWidth + 'px';
-
-            input.focus();
-
-            var inputWidth = input.clientWidth;
-            var resize = containerWidth - tagWidth - tagMarginRight;
-
-            expect(inputWidth).toEqual(resize);
-
-            localContainer.parentNode.removeChild(localContainer);
-        });
-
         it('should remove tag when clicking on close button', function() {
             inst.add(['Tag']);
 
@@ -838,6 +791,127 @@ describe('Taggle', function() {
             removeButton.click();
 
             expect(inst.getTags().elements.length).toEqual(0);
+        });
+
+        it('should move the input when using arrow keys while there is no text in the input', function() {
+            var tags = ['one', 'two', 'three', 'four'];
+            var input = inst.getInput();
+            var el = inst.getContainer();
+
+            inst.add(tags);
+
+            input.focus();
+
+            // Go to beginning of list no matter how many times we press left
+            tags.concat(tags).forEach(function() {
+                simulateKeyboardEvent('keyup', input, ARROW_LEFT);
+            });
+
+            var expectedInput = el.querySelector('.taggle_list').children[0].firstChild;
+
+            expect(input).toEqual(expectedInput);
+        });
+
+        it('should not move the input when using arrow keys while there is text in the input', function() {
+            var tags = ['one', 'two', 'three', 'four'];
+            var input = inst.getInput();
+            var el = inst.getContainer();
+
+            inst.add(tags);
+
+            input.value = 'test';
+
+            simulateKeyboardEvent('keyup', input, ARROW_LEFT);
+
+            var children = el.querySelector('.taggle_list').children;
+            var expectedInput = children[children.length - 2].firstChild;
+
+            expect(input).toEqual(expectedInput);
+        });
+
+        it('should allow for inserting a tag lower in the stack after arrowing left', function() {
+            var tags = ['one', 'two', 'three', 'four'];
+            var input = inst.getInput();
+            var tagToInsert = 'test';
+
+            inst.add(tags);
+
+            input.focus();
+
+            simulateKeyboardEvent('keyup', input, ARROW_LEFT);
+
+            input.value = tagToInsert;
+
+            simulateKeyboardEvent('keydown', input, ENTER);
+
+            expect(inst.getTags().values).toEqual(['one', 'two', 'three', tagToInsert, 'four']);
+        });
+
+        it('should allow for inserting a tag higher in the stack after arrowing right', function() {
+            var tags = ['one', 'two', 'three', 'four'];
+            var input = inst.getInput();
+            var tagToInsert = 'test';
+
+            inst.add(tags);
+
+            input.focus();
+
+            simulateKeyboardEvent('keyup', input, ARROW_LEFT);
+            simulateKeyboardEvent('keyup', input, ARROW_LEFT);
+            simulateKeyboardEvent('keyup', input, ARROW_RIGHT);
+
+            input.value = tagToInsert;
+
+            simulateKeyboardEvent('keydown', input, ENTER);
+
+            expect(inst.getTags().values).toEqual(['one', 'two', 'three', tagToInsert, 'four']);
+        });
+
+        it('should increase the size of the input while typing', function() {
+            var input = inst.getInput();
+            var originalSize = parseInt(input.style.width, 10) || 0;
+
+            input.focus();
+
+            var text = '2';
+            var keyCode = text.charCodeAt(0);
+
+            input.value = text;
+            simulateKeyboardEvent('keyup', input, keyCode);
+
+            var newSize = parseInt(input.style.width, 10);
+
+            expect(newSize).toBeGreaterThan(originalSize);
+        });
+
+        it('should delete the previous tag based on input position', function() {
+            var tags = ['one', 'two', 'three', 'four'];
+            var input = inst.getInput();
+
+            inst.add(tags);
+
+            input.focus();
+
+            simulateKeyboardEvent('keyup', input, ARROW_LEFT);
+            simulateKeyboardEvent('keydown', input, BACKSPACE);
+            simulateKeyboardEvent('keydown', input, BACKSPACE);
+
+            expect(inst.getTags().values).toEqual(['one', 'two', 'four']);
+        });
+
+        it('should delete the next tag if the input position is before it and delete is pressed', function() {
+            var tags = ['one', 'two', 'three', 'four'];
+            var input = inst.getInput();
+
+            inst.add(tags);
+
+            input.focus();
+
+            simulateKeyboardEvent('keyup', input, ARROW_LEFT);
+            simulateKeyboardEvent('keydown', input, DELETE);
+            simulateKeyboardEvent('keydown', input, DELETE);
+
+            expect(inst.getTags().values).toEqual(['one', 'two', 'three']);
         });
     });
 
@@ -1240,7 +1314,8 @@ describe('Taggle', function() {
 
             beforeEach(function() {
                 localInst = new Taggle(container, {
-                    tags: ['zero', 'one', 'two', 'three', 'four', 'three']
+                    tags: ['zero', 'one', 'two', 'three', 'four', 'three'],
+                    allowDuplicates: true
                 });
             });
 
