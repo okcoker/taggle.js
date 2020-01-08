@@ -46,9 +46,9 @@
     "last 2 versions"
   ],
   "scripts": {
-    "ie8": "uglifyjs src/taggle-ie8.js src/taggle-ie9.js src/taggle.js -o dist/taggle-ie8.min.js --comments --ie8",
-    "ie9": "uglifyjs src/taggle-ie9.js src/taggle.js -o dist/taggle-ie9.min.js --comments",
-    "modern": "uglifyjs src/taggle.js -o dist/taggle.min.js --comments",
+    "ie8": "mkdir -p dist && uglifyjs src/taggle-ie8.js src/taggle-ie9.js src/taggle.js -o dist/taggle-ie8.min.js --comments --ie8",
+    "ie9": "mkdir -p dist && uglifyjs src/taggle-ie9.js src/taggle.js -o dist/taggle-ie9.min.js --comments",
+    "modern": "mkdir -p dist && uglifyjs src/taggle.js -o dist/taggle.min.js --comments",
     "min": "npm run ie8 && npm run ie9 && npm run modern",
     "css": "npm run sass && npm run postcss",
     "postcss": "postcss --config postcss.config.js -o example/css/taggle.min.css example/css/taggle.css",
