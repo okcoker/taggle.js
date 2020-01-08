@@ -1347,10 +1347,12 @@ describe('Taggle', function() {
 
         describe('#saveOnBlur', function() {
             var localInst;
+            var maxTags = 5;
 
             beforeEach(function() {
                 localInst = new Taggle(container, {
-                    saveOnBlur: true
+                    saveOnBlur: true,
+                    maxTags: maxTags
                 });
             });
 
@@ -1378,6 +1380,23 @@ describe('Taggle', function() {
                 input.blur();
 
                 expect(localInst.getContainer().classList.contains(localInst.settings.containerFocusClass)).toBe(false);
+            });
+
+            it('should not save remaining text as a tag when input is blurred and maxTags is satisfied', function() {
+                var input = localInst.getInput();
+                var tag = 'thing';
+                var tags = ['one', 'two', 'three', 'four', 'five'];
+
+                localInst.add(tags);
+
+                expect(localInst.getTagValues().length).toEqual(tags.length);
+
+                input.focus();
+                input.value = tag;
+                input.blur();
+
+                console.log(localInst.getTagValues());
+                expect(localInst.getTagValues().length).toEqual(tags.length);
             });
         });
 
