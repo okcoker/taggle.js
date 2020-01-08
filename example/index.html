@@ -28,7 +28,7 @@
     <section>
         <article class="block">
             <h5>Example 1 - Creating a basic Taggle</h5>
-            <div class="input textarea clearfix example1"></div>
+            <div class="input textarea example1"></div>
             <p>
                 This example is as simple as it gets. Duplicate tags are prevented by default. Use your left and right arrows to navigate between tags. You can also delete tags by pressing backspace or hovering and clicking with your mouse.
             </p>
@@ -44,7 +44,7 @@ new Taggle('example1');
             </pre>
         </article></section><section><article class="block">
             <h5>Example 2 - Prefilled tags</h5>
-            <div class="input textarea clearfix example2"></div>
+            <div class="input textarea example2"></div>
             <p>It's easy to prepopulate the text field as well. Just pass an array of tags as displayed below.</p>
         </article>
         <article class="block">
@@ -60,7 +60,7 @@ new Taggle('example2', {
             </pre>
         </article></section><section><article class="block">
             <h5>Example 3 - Duplicate tag alert</h5>
-            <div class="input textarea clearfix example3"></div>
+            <div class="input textarea example3"></div>
             <p>This example takes advantage of how much CSS control Taggle.js allows you to have. Specify your own duplicate CSS class by using the <code>duplicateTagClass</code> option. Try entering one of the already existing tags to see a subtle alert notifying you of the tag.</p>
             <blockquote>Note: the bounce animation happens as a result of the css class being added. Not javascript. Therefore you will not see the animation in IE9 and below.</blockquote>
         </article>
@@ -79,7 +79,7 @@ new Taggle('example3', {
         </article></section><section><article class="block">
             <h4>Example 4 - Autocomplete</h4>
             <p>Taggle.js just provides the basic functionality to add tags to a field but it also provides a basic API so you can wrap it for additional functionality with other libraries such as <a href="http://jqueryui.com/autocomplete/" target="_blank">jQueryUI Autocomplete</a>. Same HTML. Just a little bit more javascript code.</p>
-            <div class="input textarea clearfix example4"></div>
+            <div class="input textarea example4"></div>
             <h6>HTML:</h6>
             <pre data-language="html">
 <div id="example4"></div>
@@ -110,7 +110,7 @@ $(input).autocomplete({
             <h4>Example 5 - onBeforeTagAdd/onTagAdd &amp; onBeforeTagRemove/onTagRemove</h4>
             <p>Want to hook into before a tag is added or removed? Okay. Want to call a callback function after a tag has been added or removed? Fine.</p>
             <blockquote> I'm using innerHTML for simplicity however you should look into <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.textContent?redirectlocale=en-US&redirectslug=DOM%2FNode.textContent" rel="nofollow">innerText or textContent</a> depending on what browser you're supporting.</blockquote>
-            <div class="input textarea clearfix example5"></div>
+            <div class="input textarea example5"></div>
             <p class="example5-event" style="color: #990000"></p>
             <h6>HTML:</h6>
             <pre data-language="html">
@@ -144,7 +144,7 @@ new Taggle('example5', {
         <article class="block">
             <h4>Example 6 - add / remove</h4>
             <p>You can programatically add and remove tags as well.</p>
-            <div class="input textarea clearfix example6"></div>
+            <div class="input textarea example6"></div>
             <h6>HTML:</h6>
             <pre data-language="html">
 <div id="example6"></div>
@@ -167,7 +167,7 @@ taggle.remove('four', true);
         <article class="block">
             <h4>Example 7a - Allowed tags</h4>
             <p>Sometimes you'll want to restrict the users to adding only certain tags.</p>
-            <div class="input textarea clearfix example7a"></div>
+            <div class="input textarea example7a"></div>
             <h6>HTML:</h6>
             <pre data-language="html">
 <div id="example7a"></div>
@@ -184,7 +184,7 @@ var taggle = new Taggle('example7a', {
         <article class="block">
             <h4>Example 7b - Disallowed tags</h4>
             <p>Conversely, you'll want to restrict the users from adding certain tags.</p>
-            <div class="input textarea clearfix example7b"></div>
+            <div class="input textarea example7b"></div>
             <h6>HTML:</h6>
             <pre data-language="html">
 <div id="example7b"></div>
@@ -210,10 +210,10 @@ var taggle = new Taggle('example7b', {
         As you can see below, it's easy to style Taggle.js with just a little bit of css.
     </p>
     <h6>Delicious</h6>
-    <div class="input textarea clearfix custom delicious">
+    <div class="input textarea custom delicious">
     </div>
     <h6>Stack Overflow</h6>
-    <div class="input textarea clearfix custom stackoverflow">
+    <div class="input textarea custom stackoverflow">
     </div>
     </article>
     </section>
