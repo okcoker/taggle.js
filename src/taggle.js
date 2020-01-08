@@ -374,7 +374,7 @@
         }
 
         if (this.placeholder) {
-            this.placeholder.style.opacity = 0;
+            this._hidePlaceholder();
             this.placeholder.classList.add('taggle_placeholder');
             this.container.appendChild(this.placeholder);
             _setText(this.placeholder, this.settings.placeholder);
@@ -679,9 +679,7 @@
             this.container.classList.add(this.settings.containerFocusClass);
         }
 
-        if (this.placeholder) {
-            this.placeholder.style.opacity = 0;
-        }
+        this._hidePlaceholder();
     };
 
     /**
@@ -886,6 +884,14 @@
     Taggle.prototype._showPlaceholder = function() {
         if (this.placeholder) {
             this.placeholder.style.opacity = 1;
+            this.placeholder.setAttribute('aria-hidden', 'false');
+        }
+    };
+
+    Taggle.prototype._hidePlaceholder = function() {
+        if (this.placeholder) {
+            this.placeholder.style.opacity = 0;
+            this.placeholder.setAttribute('aria-hidden', 'true');
         }
     };
 
